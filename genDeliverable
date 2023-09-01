@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sh ./cleanAll
+tar --exclude='genDeliverable' --exclude='.git' -czf BELKHIR-ICARD.tar.gz *
