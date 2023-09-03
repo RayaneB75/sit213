@@ -1,4 +1,6 @@
 #!/bin/bash
-
+echo "Cleaning all..."
 sh ./cleanAll
+echo "Compiling..."
 tar --exclude='genDeliverable' --exclude='.git' -czf BELKHIR-ICARD.tar.gz *
+echo "Done!"

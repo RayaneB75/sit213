@@ -1,3 +1,4 @@
 #!/bin/bash
-
+echo "Generating javadoc..."
 javadoc -d docs src/*/*.java
+echo "Done!"
