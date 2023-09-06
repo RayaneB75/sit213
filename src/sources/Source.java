@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Classe Abstraite d'un composant source d'informations dont les
  * éléments sont de type T
- * 
+ *
  * @author prou
  */
 public abstract class Source<T> implements SourceInterface<T> {
@@ -39,7 +39,7 @@ public abstract class Source<T> implements SourceInterface<T> {
 
     /**
      * retourne la dernière information émise par la source
-     * 
+     *
      * @return une information
      */
     public Information<T> getInformationEmise() {
@@ -48,7 +48,7 @@ public abstract class Source<T> implements SourceInterface<T> {
 
     /**
      * connecte une destination à la source
-     * 
+     *
      * @param destination la destination à connecter
      */
     public void connecter(DestinationInterface<T> destination) {
@@ -57,7 +57,7 @@ public abstract class Source<T> implements SourceInterface<T> {
 
     /**
      * déconnecte une destination de la source
-     * 
+     *
      * @param destination la destination à déconnecter
      */
     public void deconnecter(DestinationInterface<T> destination) {

@@ -13,7 +13,7 @@ import visualisations.SondeLogique;
  * La classe Simulateur permet de construire et simuler une chaîne de
  * transmission composée d'une Source, d'un nombre variable de
  * Transmetteur(s) et d'une Destination.
- * 
+ *
  * @author cousin
  * @author prou
  *
@@ -63,7 +63,7 @@ public class Simulateur {
      * Les différents composants de la
      * chaîne de transmission (Source, Transmetteur(s), Destination,
      * Sonde(s) de visualisation) sont créés et connectés.
-     * 
+     *
      * @param args le tableau des différents arguments.
      *
      * @throws ArgumentsException si un des arguments est incorrect
@@ -201,7 +201,7 @@ public class Simulateur {
      * La fonction main instancie un Simulateur à l'aide des
      * arguments paramètres et affiche le résultat de l'exécution
      * d'une transmission.
-     * 
+     *
      * @param args les différents arguments qui serviront à l'instanciation du
      *             Simulateur.
      */

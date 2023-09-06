@@ -5,7 +5,7 @@ import information.Information;
 /**
  * Classe réalisant l'affichage d'information composée d'éléments
  * booléens
- * 
+ *
  * @author prou
  */
 public class SondeLogique extends Sonde<Boolean> {
@@ -18,7 +18,7 @@ public class SondeLogique extends Sonde<Boolean> {
 
     /**
      * pour construire une sonde logique
-     * 
+     *
      * @param nom      le nom de la fenêtre d'affichage
      * @param nbPixels le nombre pixels en largeur pour un élément d'information
      *                 Boolean à afficher dans la fenêtre

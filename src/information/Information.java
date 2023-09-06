@@ -3,7 +3,7 @@ package information;
 import java.util.*;
 
 /**
- * 
+ *
  * @author prou
  */
 public class Information<T> implements Iterable<T> {
@@ -19,7 +19,7 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour construire à partir d'un tableau de T une information
-     * 
+     *
      * @param content le tableau d'éléments pour initialiser l'information
      *                construite
      */
@@ -32,7 +32,7 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour connaître le nombre d'éléments d'une information
-     * 
+     *
      * @return le nombre d'éléments de l'information
      */
     public int nbElements() {
@@ -41,7 +41,7 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour renvoyer un élément d'une information
-     * 
+     *
      * @return le ieme élément de l'information
      */
     public T iemeElement(int i) {
@@ -57,7 +57,7 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour ajouter un élément à la fin de l'information
-     * 
+     *
      * @param valeur l'élément à rajouter
      */
     public void add(T valeur) {
@@ -66,7 +66,7 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour comparer l'information courante avec une autre information
-     * 
+     *
      * @param o l'information avec laquelle se comparer
      * @return "true" si les 2 informations contiennent les mêmes
      *         éléments aux mêmes places; "false" dans les autres cas

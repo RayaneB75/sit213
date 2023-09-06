@@ -12,7 +12,7 @@ import java.util.*;
  * l'entrée du transmetteur implémente l'interface
  * DestinationInterface, la sortie du transmetteur implémente
  * l'interface SourceInterface
- * 
+ *
  * @author prou
  */
 public abstract class Transmetteur<R, E> implements DestinationInterface<R>, SourceInterface<E> {
@@ -45,7 +45,7 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
     /**
      * retourne la dernière information reçue en entrée du
      * transmetteur
-     * 
+     *
      * @return une information
      */
     public Information<R> getInformationRecue() {
@@ -55,7 +55,7 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
     /**
      * retourne la dernière information émise en sortie du
      * transmetteur
-     * 
+     *
      * @return une information
      */
     public Information<E> getInformationEmise() {
@@ -64,7 +64,7 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
 
     /**
      * connecte une destination à la sortie du transmetteur
-     * 
+     *
      * @param destination la destination à connecter
      */
     public void connecter(DestinationInterface<E> destination) {
@@ -73,7 +73,7 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
 
     /**
      * déconnecte une destination de la la sortie du transmetteur
-     * 
+     *
      * @param destination la destination à déconnecter
      */
     public void deconnecter(DestinationInterface<E> destination) {
@@ -83,7 +83,7 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
     /**
      * reçoit une information. Cette méthode, en fin d'exécution,
      * appelle la méthode émettre.
-     * 
+     *
      * @param information l'information reçue
      */
     public abstract void recevoir(Information<R> information) throws InformationNonConformeException;
