@@ -1,3 +1,9 @@
 #!/bin/bash
 
-java -cp bin/Simulateur Simulateur
+java -cp bin/ simulateur.Simulateur -s
+
+java -cp bin/ simulateur.Simulateur -s -mess 101001101
+
+java -cp bin/ simulateur.Simulateur -s -mess 12
+
+java -cp bin/ simulateur.Simulateur -s -seed 1209
