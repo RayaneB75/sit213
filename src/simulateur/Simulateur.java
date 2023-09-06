@@ -4,7 +4,9 @@ import destinations.Destination;
 import sources.Source;
 import sources.SourceAleatoire;
 import sources.SourceFixe;
+import sources.SourceInterface;
 import destinations.DestinationFinale;
+import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
 import visualisations.SondeLogique;
@@ -188,13 +190,27 @@ public class Simulateur {
      * La méthode qui calcule le taux d'erreur binaire en comparant
      * les bits du message émis avec ceux du message reçu.
      *
-     * @return La valeur du Taux dErreur Binaire.
+     * @return La valeur du Taux d'Erreur Binaire.
      */
     public float calculTauxErreurBinaire() {
 
-        // TODO : A compléter
+        Information<Boolean> srcInformation = source.getInformationEmise();
+        Information<Boolean> destInformation = destination.getInformationRecue();
 
-        return 0.0f;
+        int correct = 0;
+        int error = 0;
+
+        for (Boolean src : srcInformation) {
+            for (Boolean dest : destInformation) {
+                if (src.equals(dest)) {
+                    correct++;
+                } else {
+                    error++;
+                }
+            }
+        }
+
+        return error / correct;
     }
 
     /**
