@@ -14,13 +14,11 @@ public class SourceAleatoireTest {
         SourceAleatoire s2 = new SourceAleatoire(10, 10);
 
         int diff = 0;
-        for (Boolean b1 : s1.informationGeneree) {
-            for (Boolean b2 : s2.informationGeneree) {
-                if (b1 != b2) {
-                    diff++;
-                }
+        for (int i = 0; i < s1.informationGeneree.nbElements(); i++) {
+            if (s1.informationGeneree.iemeElement(i) != s2.informationGeneree.iemeElement(i)) {
+                diff++;
             }
         }
-        assertTrue(diff > 0);
+        assertTrue(diff == 0);
     }
 }
