@@ -20,7 +20,7 @@ public class SourceAleatoire extends Source<Boolean> {
     public SourceAleatoire(int nbBitsMess) {
         super();
         this.informationGeneree = new Information<Boolean>();
-        Random rd = new Random(); // creating Random object
+        Random rd = new Random(System.currentTimeMillis()); // creating Random object
         for (int i = 0; i < nbBitsMess; i++) {
             this.informationGeneree.add(rd.nextBoolean());
         }
