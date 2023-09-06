@@ -9,11 +9,11 @@ public class SourceAleatoireTest {
     public void testSourceAleatoire() {
         SourceAleatoire s1 = new SourceAleatoire(10);
         assertTrue(s1.informationGeneree.nbElements() == 10);
-        s1 = new SourceAleatoire(10, 0);
+        s1 = new SourceAleatoire(10, 10);
         assertTrue(s1.informationGeneree.nbElements() == 10);
-        SourceAleatoire s2 = new SourceAleatoire(10, 0);
-        int diff = 0;
+        SourceAleatoire s2 = new SourceAleatoire(10, 10);
 
+        int diff = 0;
         for (Boolean b1 : s1.informationGeneree) {
             for (Boolean b2 : s2.informationGeneree) {
                 if (b1 != b2) {
