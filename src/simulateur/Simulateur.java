@@ -79,12 +79,12 @@ public class Simulateur {
             source = new SourceAleatoire(nbBitsMess, seed);
         } else {
             // Déclaration et instanciaction des composants
-            if (!messageAleatoire) {
+            if (messageAleatoire) {
                 System.out.println("Creation d'une source de bits aleatoires de " + nbBitsMess + " bits");
                 source = new SourceAleatoire(nbBitsMess);
             } else {
                 System.out.println("Creation d'une source fixe de bits");
-                source = new SourceFixe();
+                source = new SourceFixe(nbBitsMess, messageString);
             }
         }
         System.out.println("Creation d'un transmetteur parfait logique");

@@ -4,15 +4,16 @@ import information.Information;
 
 public class SourceFixe extends Source<Boolean> {
 
-    public SourceFixe() {
+    public SourceFixe(int nbBitsMess, String messageString) {
         super();
         informationGeneree = new Information<Boolean>();
-        informationGeneree.add(true);
-        informationGeneree.add(false);
-        informationGeneree.add(true);
-        informationGeneree.add(true);
-        informationGeneree.add(false);
-        informationGeneree.add(true);
+        for (int i = 0; i < nbBitsMess; i++) {
+            if (messageString.charAt(i) == '0') {
+                informationGeneree.add(false);
+            } else {
+                informationGeneree.add(true);
+            }
+        }
         informationEmise = informationGeneree;
     }
 
