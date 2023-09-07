@@ -8,7 +8,7 @@ import sources.SourceAleatoireTest;
 import sources.SourceFixeTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SourceAleatoireTest.class, SourceFixeTest.class })
+@SuiteClasses({ SourceFixeTest.class, SourceAleatoireTest.class })
 public class AllTests {
 
 }
