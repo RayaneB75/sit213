@@ -21,6 +21,4 @@ jobs:
         java-version: '20'
         distribution: oracle
     - name: Build with Ant
-      run: ant -noinput -buildfile build.xml
-      env:
-        CLASSPATH: "$PWD/lib/hamcrest-core-2.2.jar:$PWD/lib/junit-4.13.jar:$PWD/lib/junit-platform-launcher-1.10.0.jar:."
+      run: ant -lib lib/junit-platform-launcher-1.10.0.jar -noinput -buildfile build.xml

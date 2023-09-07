@@ -4,7 +4,6 @@
         <!-- The location where you have your compiled classes -->
         <pathelement location="bin" />
     </path>
-
     <!-- ... -->
 
     <junitlauncher>
