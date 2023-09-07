@@ -20,5 +20,7 @@ jobs:
       with:
         java-version: '20'
         distribution: oracle
+    - name: Get ant optional 
+      run: sudo apt install ant-optional
     - name: Build with Ant
-      run: ant -lib lib/junit-platform-launcher-1.10.0.jar -noinput -buildfile build.xml
+      run: ant -noinput -buildfile build.xml
