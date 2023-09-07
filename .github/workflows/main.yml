@@ -18,6 +18,6 @@ jobs:
         java-version: '20'
         distribution: oracle
     - name: Build with script
-      run: /bin/bash ./compile
+      run: ./compile
     - name: Test with script
-      run: /bin/bash ./runTests
+      run: ./runTests
