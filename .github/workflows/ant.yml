@@ -20,7 +20,7 @@ jobs:
       with:
         java-version: '20'
         distribution: oracle
-    - name: Get ant optional 
-      run: sudo apt install ant-optional
+    - name: Get junit.jar in classpath
+      run: cp lib/*.jar /home/runner/.ant/lib/
     - name: Build with Ant
-      run: ant -noinput -buildfile build.xml
+      run: ant -lib ./lib/ -noinput -buildfile build.xml
