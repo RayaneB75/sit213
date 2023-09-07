@@ -23,4 +23,4 @@ jobs:
     - name: Get junit.jar in classpath
       run: cp lib/*.jar /usr/share/ant/lib/
     - name: Build with Ant
-      run: ant -lib ./lib/ -noinput -buildfile build.xml
+      run: ant -noinput -buildfile build.xml
