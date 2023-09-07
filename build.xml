@@ -1,11 +1,14 @@
-<path id="test.classpath">
-    <!-- The location where you have your compiled classes -->
-    <pathelement location="bin" />
-</path>
+<project name="sit213" default="dist" basedir=".">
 
-<!-- ... -->
+    <path id="test.classpath">
+        <!-- The location where you have your compiled classes -->
+        <pathelement location="bin" />
+    </path>
 
-<junitlauncher>
-    <classpath refid="test.classpath" />
-    <test name="**/*Test*.class" />
-</junitlauncher>
+    <!-- ... -->
+
+    <junitlauncher>
+        <classpath refid="test.classpath" />
+        <test name="**/*Test*.class" />
+    </junitlauncher>
+</project>
