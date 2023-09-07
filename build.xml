@@ -1,10 +1,11 @@
-<target name="test" depends="compileTest">
-    <junit>
-        <formatter type="plain" usefile="false" /> <!-- to screen -->
-        <formatter type="plain" /> <!-- to file -->
+<path id="test.classpath">
+    <!-- The location where you have your compiled classes -->
+    <pathelement location="bin" />
+</path>
 
-        <batchtest>
-            <fileset dir="bin" includes="**/*Test*.class" />
-        </batchtest>
-    </junit>
-</target>
+<!-- ... -->
+
+<junitlauncher>
+    <classpath refid="test.classpath" />
+    <test name="**/*Test*.class" />
+</junitlauncher>
