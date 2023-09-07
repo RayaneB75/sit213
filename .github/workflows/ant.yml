@@ -20,5 +20,7 @@ jobs:
       with:
         java-version: '20'
         distribution: oracle
-    - name: Build with Ant
-      run: ant -noinput -buildfile build.xml
+    - name: Build with script
+      run: ./compile
+    - name: Test with script
+      run: ./runTests
