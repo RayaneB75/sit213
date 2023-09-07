@@ -21,7 +21,7 @@ public class TransmetteurParfaitTest {
         } catch (InformationNonConformeException e) {
             System.out.println(e.getMessage());
         }
-        assertTrue(t.getInformationEmise().equals(d.getInformationRecue()));
+        assertTrue("L'information émise ne correspond pas à l'information reçue", t.getInformationEmise().equals(d.getInformationRecue()));
     }
 
     @Test
@@ -33,6 +33,6 @@ public class TransmetteurParfaitTest {
         } catch (InformationNonConformeException e) {
             System.out.println(e.getMessage());
         }
-        assertTrue(s.getInformationEmise().equals(t.getInformationRecue()));
+        assertTrue("L'information émise ne correspond pas à l'information reçue", s.getInformationEmise().equals(t.getInformationRecue()));
     }
 }
