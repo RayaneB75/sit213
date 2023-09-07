@@ -1,4 +1,11 @@
 <project name="sit213" default="dist" basedir=".">
+    <!-- ... other configurations ... -->
+    <taskdef resource="org/apache/tools/ant/taskdefs/optional/junitlauncher/antlib.xml">
+        <classpath>
+            <pathelement location="lib"/>
+        </classpath>
+    </taskdef>
+    <!-- ... your tasks and targets ... -->
 
     <path id="test.classpath">
         <!-- The location where you have your compiled classes -->

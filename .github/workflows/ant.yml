@@ -20,7 +20,5 @@ jobs:
       with:
         java-version: '20'
         distribution: oracle
-    - name: Get junit.jar in classpath
-      run: cp lib/*.jar /usr/share/ant/lib/
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
