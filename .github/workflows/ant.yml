@@ -13,7 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Check out Java project
+      uses: actions/checkout@v3
     - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
@@ -21,3 +22,5 @@ jobs:
         distribution: oracle
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
+      env:
+        CLASSPATH: "$PWD/lib/hamcrest-core-2.2.jar:$PWD/lib/junit-4.13.jar:$PWD/lib/junit-platform-launcher-1.10.0.jar:."
