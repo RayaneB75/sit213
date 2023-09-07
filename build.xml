@@ -2,7 +2,7 @@
     <!-- ... other configurations ... -->
     <taskdef resource="org/apache/tools/ant/taskdefs/optional/junitlauncher/antlib.xml">
         <classpath>
-            <pathelement location="lib"/>
+            <pathelement location="lib/junit-platform-launcher.jar"/>
         </classpath>
     </taskdef>
     <!-- ... your tasks and targets ... -->
