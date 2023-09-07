@@ -4,7 +4,6 @@ import destinations.Destination;
 import sources.Source;
 import sources.SourceAleatoire;
 import sources.SourceFixe;
-import sources.SourceInterface;
 import destinations.DestinationFinale;
 import information.Information;
 import transmetteurs.Transmetteur;

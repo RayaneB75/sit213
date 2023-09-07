@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export CLASSPATH=$PWD/lib/hamcrest-core-2.2.jar:$PWD/lib/junit-4.13.jar:$PWD
+java org.junit.runner.JUnitCore AllTests
+

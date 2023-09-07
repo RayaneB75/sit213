@@ -1,0 +1,10 @@
+<target name="test" depends="compileTest">
+    <junit>
+        <formatter type="plain" usefile="false" /> <!-- to screen -->
+        <formatter type="plain" /> <!-- to file -->
+
+        <batchtest>
+            <fileset dir="bin" includes="**/*Test*.class" />
+        </batchtest>
+    </junit>
+</target>

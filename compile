@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Cleaning..."
+./cleanAll
+echo "Done!"
 echo "Compiling..."
-javac -d bin/ src/*/*.java
+export CLASSPATH=$PWD/lib/hamcrest-core-2.2.jar:$PWD/lib/junit-4.13.jar
+javac -d bin/ src/**/*.java
 echo "Done!"
