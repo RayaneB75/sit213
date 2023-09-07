@@ -5,7 +5,7 @@ import information.*;
 /**
  * Classe Abstraite d'un composant destination d'informations dont les
  * éléments sont de type T
- * 
+ *
  * @author prou
  */
 public abstract class Destination<T> implements DestinationInterface<T> {
@@ -25,7 +25,7 @@ public abstract class Destination<T> implements DestinationInterface<T> {
 
     /**
      * retourne la dernière information reçue par la destination
-     * 
+     *
      * @return une information
      */
     public Information<T> getInformationRecue() {
@@ -34,7 +34,7 @@ public abstract class Destination<T> implements DestinationInterface<T> {
 
     /**
      * reçoit une information
-     * 
+     *
      * @param information l'information à recevoir
      */
     public abstract void recevoir(Information<T> information) throws InformationNonConformeException;

@@ -4,7 +4,9 @@ import destinations.Destination;
 import sources.Source;
 import sources.SourceAleatoire;
 import sources.SourceFixe;
+import sources.SourceInterface;
 import destinations.DestinationFinale;
+import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
 import visualisations.SondeLogique;
@@ -13,7 +15,7 @@ import visualisations.SondeLogique;
  * La classe Simulateur permet de construire et simuler une chaîne de
  * transmission composée d'une Source, d'un nombre variable de
  * Transmetteur(s) et d'une Destination.
- * 
+ *
  * @author cousin
  * @author prou
  *
@@ -63,7 +65,7 @@ public class Simulateur {
      * Les différents composants de la
      * chaîne de transmission (Source, Transmetteur(s), Destination,
      * Sonde(s) de visualisation) sont créés et connectés.
-     * 
+     *
      * @param args le tableau des différents arguments.
      *
      * @throws ArgumentsException si un des arguments est incorrect
@@ -188,20 +190,34 @@ public class Simulateur {
      * La méthode qui calcule le taux d'erreur binaire en comparant
      * les bits du message émis avec ceux du message reçu.
      *
-     * @return La valeur du Taux dErreur Binaire.
+     * @return La valeur du Taux d'Erreur Binaire.
      */
     public float calculTauxErreurBinaire() {
 
-        // TODO : A compléter
+        Information<Boolean> srcInformation = source.getInformationEmise();
+        Information<Boolean> destInformation = destination.getInformationRecue();
 
-        return 0.0f;
+        int correct = 0;
+        int error = 0;
+
+        for (Boolean src : srcInformation) {
+            for (Boolean dest : destInformation) {
+                if (src.equals(dest)) {
+                    correct++;
+                } else {
+                    error++;
+                }
+            }
+        }
+
+        return error / correct;
     }
 
     /**
      * La fonction main instancie un Simulateur à l'aide des
      * arguments paramètres et affiche le résultat de l'exécution
      * d'une transmission.
-     * 
+     *
      * @param args les différents arguments qui serviront à l'instanciation du
      *             Simulateur.
      */
