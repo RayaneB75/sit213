@@ -199,13 +199,11 @@ public class Simulateur {
         int correct = 0;
         int error = 0;
 
-        for (Boolean src : srcInformation) {
-            for (Boolean dest : destInformation) {
-                if (src.equals(dest)) {
-                    correct++;
-                } else {
-                    error++;
-                }
+        for (int i = 0; i < srcInformation.nbElements(); i++) {
+            if (srcInformation.iemeElement(i).equals(destInformation.iemeElement(i))) {
+                correct++;
+            } else {
+                error++;
             }
         }
 
