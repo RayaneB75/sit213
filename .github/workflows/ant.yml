@@ -21,6 +21,6 @@ jobs:
         java-version: '20'
         distribution: oracle
     - name: Build with script
-      run: chmod u+x ./compile && ./compile
+      run: /bin/bash ./compile
     - name: Test with script
-      run: chmod u+x ./runTests && ./runTests
+      run: /bin/bash ./runTests
