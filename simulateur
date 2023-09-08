@@ -7,3 +7,9 @@ java -cp bin/ simulateur.Simulateur -s -mess 101001101
 java -cp bin/ simulateur.Simulateur -s -mess 12
 
 java -cp bin/ simulateur.Simulateur -s -seed 1209
+
+java -cp bin/ simulateur.Simulateur -s -mess 101001101 -form RZ
+
+java -cp bin/ simulateur.Simulateur -s -mess 101001101 -form NRZ
+
+java -cp bin/ simulateur.Simulateur -s -mess 101001101 -form NRZT
