@@ -1,10 +1,11 @@
-package destinations;
+package tests;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import information.InformationNonConformeException;
+import destinations.DestinationFinale;
 import sources.SourceAleatoire;
 
 public class DestinationFinaleTest {
@@ -17,6 +18,7 @@ public class DestinationFinaleTest {
         } catch (InformationNonConformeException e) {
             System.out.println(e.getMessage());
         }
-        assertTrue("L'information reçue ne correspond pas à l'information émise", s.getInformationEmise().equals(d.getInformationRecue()));
+        assertTrue("L'information reçue ne correspond pas à l'information émise",
+                s.getInformationEmise().equals(d.getInformationRecue()));
     }
 }

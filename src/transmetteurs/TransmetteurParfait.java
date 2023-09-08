@@ -20,6 +20,10 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
         super();
     }
 
+    public void setInformationRecue(Information<Boolean> informationRecue) {
+        this.informationRecue = informationRecue;
+    }
+
     /**
      * reçoit une information. Cette méthode, en fin d'exécution, appelle la
      * méthode emettre.

@@ -32,7 +32,7 @@ public class SourceAleatoire extends Source<Boolean> {
      * aléatoire, en fixant le seed du générateur aléatoire
      *
      * @param taille le nombre de bits du message généré
-     * @param seed la graine du générateur aléatoire
+     * @param seed   la graine du générateur aléatoire
      */
     public SourceAleatoire(int taille, int seed) {
         super();
@@ -42,6 +42,10 @@ public class SourceAleatoire extends Source<Boolean> {
             this.informationGeneree.add(rd.nextBoolean());
         }
         this.informationEmise = this.informationGeneree;
+    }
+
+    public Information<Boolean> getInformationGeneree() {
+        return this.informationGeneree;
     }
 
 }

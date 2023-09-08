@@ -14,7 +14,7 @@ public class SourceFixe extends Source<Boolean> {
     /**
      * constructeur permettant de pour construire une source fixe de Booléens
      *
-     * @param nbBitsMess le nombre de bits du message
+     * @param nbBitsMess    le nombre de bits du message
      * @param messageString le message à générer
      */
     public SourceFixe(int nbBitsMess, String messageString) {
@@ -28,6 +28,10 @@ public class SourceFixe extends Source<Boolean> {
             }
         }
         informationEmise = informationGeneree;
+    }
+
+    public Information<Boolean> getInformationGeneree() {
+        return this.informationGeneree;
     }
 
 }

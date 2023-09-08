@@ -8,6 +8,8 @@ import destinations.DestinationFinale;
 import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
+import visualisations.Sonde;
+import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 
 /**
@@ -56,6 +58,8 @@ public class Simulateur {
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
 
+    private String form = "";
+
     /**
      * Le constructeur de Simulateur construit une chaîne de
      * transmission composée d'une Source <Boolean>, d'une Destination
@@ -95,8 +99,13 @@ public class Simulateur {
         transmetteurLogique.connecter(destination);
 
         if (affichage) {
-            SondeLogique sondeS = new SondeLogique("Source", nbBitsMess);
-            SondeLogique sondeD = new SondeLogique("Destination", nbBitsMess);
+            Sonde sondeS = new SondeLogique("Source", nbBitsMess);
+            Sonde sondeD = new SondeLogique("Destination", nbBitsMess);
+            if (!form.equals("")) {
+                sondeS = new SondeAnalogique("Source");
+                sondeD = new SondeAnalogique("Destination");
+            }
+
             source.connecter(sondeS);
             transmetteurLogique.connecter(sondeD);
         }
@@ -162,8 +171,14 @@ public class Simulateur {
                         throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
                 } else
                     throw new ArgumentsException("Valeur du parametre -mess invalide : " + args[i]);
+            } else if (args[i].matches("-form")) {
+                i++;
+                if (args[i].matches("(NRZT)|(NRZ)|(RZ)")) {
+                    System.out.println("Forme du signal : " + args[i]);
+                    form = args[i];
+                } else
+                    throw new ArgumentsException("Forme invalide :" + args[i]);
             }
-
             // TODO : ajouter ci-après le traitement des nouvelles options
 
             else

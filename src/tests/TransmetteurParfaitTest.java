@@ -1,4 +1,4 @@
-package transmetteurs;
+package tests;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,6 +7,7 @@ import org.junit.Test;
 import destinations.DestinationFinale;
 import information.InformationNonConformeException;
 import sources.SourceAleatoire;
+import transmetteurs.TransmetteurParfait;
 
 public class TransmetteurParfaitTest {
     @Test
@@ -15,13 +16,14 @@ public class TransmetteurParfaitTest {
         TransmetteurParfait t = new TransmetteurParfait();
         DestinationFinale d = new DestinationFinale();
         t.connecter(d);
-        t.informationRecue = s.getInformationEmise();
+        t.setInformationRecue(s.getInformationEmise());
         try {
             t.emettre();
         } catch (InformationNonConformeException e) {
             System.out.println(e.getMessage());
         }
-        assertTrue("L'information émise ne correspond pas à l'information reçue", t.getInformationEmise().equals(d.getInformationRecue()));
+        assertTrue("L'information émise ne correspond pas à 'information reçue",
+                t.getInformationEmise().equals(d.getInformationRecue()));
     }
 
     @Test
@@ -33,6 +35,7 @@ public class TransmetteurParfaitTest {
         } catch (InformationNonConformeException e) {
             System.out.println(e.getMessage());
         }
-        assertTrue("L'information émise ne correspond pas à l'information reçue", s.getInformationEmise().equals(t.getInformationRecue()));
+        assertTrue("L'information émise ne correspond pas à l'information reçue",
+                s.getInformationEmise().equals(t.getInformationRecue()));
     }
 }
