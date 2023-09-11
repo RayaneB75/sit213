@@ -45,6 +45,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
-          path: livrable
+          path: ./
       - name: Test livrable
-        run: chmod u+x ./Deploiement && ./Deploiement livrable/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
+        run: ./Deploiement B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
