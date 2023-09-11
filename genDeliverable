@@ -3,5 +3,5 @@ echo "Cleaning all..."
 sh ./cleanAll
 echo "Archiving..."
 mkdir -p moodle
-tar --exclude='genDeliverable' --exclude='moodle' --exclude='.git' -czf moodle/BELKHIR.ICARD.SIT213.EtapeX.tar.gz *
+tar --exclude='genDeliverable' --exclude='rapport' --exclude='.git' -czf rapport/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz *
 echo "Done!"

@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  compileAndTest:
     runs-on: ubuntu-latest
     steps:
     - name: Check out Java project
@@ -18,6 +18,39 @@ jobs:
         java-version: '20'
         distribution: oracle
     - name: Build with script
+      id: build
       run: ./compile
     - name: Test with script
+      if: steps.build.outputs.exit_code == 0
       run: ./runTests
+  build_latex:
+    runs-on: ubuntu-latest
+    needs: compileAndTest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        id: compile
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: rapport
+          root_file: main.tex
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: steps.compile.outputs.exit_code == 0
+        with:
+          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etapeX.pdf
+          path: rapport/main.pdf
+  livrable:
+    runs-on: ubuntu-latest
+    needs: build_latex
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Generate livrable
+        run: ./genDeliverable.sh
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+          path: rapport/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
