@@ -47,4 +47,4 @@ jobs:
           name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
           path: livrable
       - name: Test livrable
-        run: chmod u+x ./Deploiement && ./Deploiement B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
+        run: chmod u+x ./Deploiement && ./Deploiement livrable/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
