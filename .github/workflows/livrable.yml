@@ -1,0 +1,38 @@
+name: Génération du livrable et du rapport
+
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Compile LaTeX document
+        id: compile
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: livrable
+          root_file: main.tex
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: steps.compile.outputs.exit_code == 0
+        with:
+          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etapeX.pdf
+          path: livrable/main.pdf    
+  livrable:
+    runs-on: ubuntu-latest
+    needs: build_latex
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Generate livrable
+        run: ./genDeliverable
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+          path: livrable/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
