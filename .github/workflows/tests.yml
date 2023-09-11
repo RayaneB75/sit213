@@ -1,13 +1,11 @@
-name: Java CI
+name: Java CI (compile and test)
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  compile_and_test:
     runs-on: ubuntu-latest
     steps:
     - name: Check out Java project
@@ -18,6 +16,8 @@ jobs:
         java-version: '20'
         distribution: oracle
     - name: Build with script
+      id: build
       run: ./compile
     - name: Test with script
+      if: steps.build.outputs.exit_code == 0
       run: ./runTests

@@ -1,0 +1,169 @@
+#!/bin/sh
+# Ce script effectue le déploiement du logiciel fourni sous forme d'archive
+# arg1 = nom de l'archive (sans le '.tar.gz' final)
+
+. ./Parametrage
+#
+if [ $# -lt 1 ] ; then echo "Vous devez expliciter le livrable à traiter" ; exit 1
+fi
+#
+NBERREURS=0	# nb d'erreurs rencontrées dans le script
+incNBERREURS ()	# incrementer le nb d'erreurs
+{
+NBERREURS=`expr $NBERREURS + 1`
+}
+
+
+echoTitre "=== Deploiement du logiciel $1 ===" 
+
+
+
+echoCategorie "Desarchivage du projet"
+
+if (test -d $1)
+then
+	echoQuestion "Le répertoire  $1  existe déjà : voulez-vous l'effacer (Y/N) ?";
+	read ouinon
+	if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
+    		echoMess "Effacement de $1" ; rm -R $1
+	elif [ "$ouinon" = "n" ] || [ "$ouinon" = "N" ]; then
+    		echoMess "Ok, on n'efface pas $1"
+	else
+    		echoQuestion "Merci d'entrer Y ou N!! (Pas $ouinon)"
+	fi
+fi
+   
+echoMess "--- Desarchivage : " 
+mkdir $1 ; echoPoint
+cd $1 ; echoPoint
+tar xfz ../$1.tar.gz ; echoPoint
+echoMess "done ! ---"
+#
+
+echoMess "--- Vérification du contenu du livrable : "
+#
+#verifier la présence des sous-répertoires src, bin et docs
+if !(test -d src) 
+then echoError "Le répertoire 'src' n'existe pas !"; incNBERREURS;
+else echoPoint ;
+fi
+if !(test -d bin) 
+then echoError "Le répertoire 'bin' n'existe pas !";  incNBERREURS;
+else echoPoint ;
+fi
+if !(test -d docs) 
+then echoError "Le répertoire 'docs' n'existe pas"; incNBERREURS;
+else echoPoint ;
+fi
+#
+# Les répertoires bin et docs doivent être vides
+#
+# 
+nbFichiers=$(ls -a bin| sed -e "/\.$/d" | wc -l)
+if [ $nbFichiers -eq 0 ]
+ then echoPoint
+ else echoError "Le répertoire 'bin' n'est pas vide !"; incNBERREURS;
+fi
+# 
+nbFichiers=$(ls -a docs| sed -e "/\.$/d" | wc -l)
+if [ $nbFichiers -eq 0 ]
+ then echoPoint
+ else echoError "Le répertoire 'docs' n'est pas vide !"; incNBERREURS;
+fi
+#
+
+#
+# vérifier la présence des scripts 'compile', 'genDoc', 'cleanAll', 'simulateur' et 'runTests'
+if !(test -e compile) 
+then echoError "Le script 'compile' n'existe pas !" ; incNBERREURS;
+else echoPoint ;
+fi
+
+if !(test -e genDoc) 
+then echoError "Le script 'genDoc' n'existe pas !"; incNBERREURS;
+else echoPoint ;
+fi
+
+if !(test -e cleanAll) 
+then echoError "Le script 'cleanAll' n'existe pas !"; incNBERREURS;
+else echoPoint;
+fi
+
+if !(test -e simulateur) 
+then echoError "Le script 'simulateur' n'existe pas !"; incNBERREURS;
+else echoPoint;
+fi
+
+if !(test -e runTests) 
+then echoError "Le script 'runTests' n'existe pas !"; incNBERREURS;
+else echoPoint;
+fi
+#
+# vérifier présence d'un 'readme', qui pourrait s'appeler 'readme', 'README', sans suffixe ou avec un suffixe '.txt'
+if (test -e readme*) || (test -e README*) || (test -e Readme*) 
+then echoPoint;
+else echoError "Il n'y a pas de (readme*|README*|Readme*) dans ce répertoire !"; 
+fi
+#	
+#
+# Récapitulatif du test de contenu
+echo
+if [ $NBERREURS -gt 0 ] 
+then echoError "La vérification du contenu du livrable a échoué - Nb erreur(s) spécifique(s) détectée(s) : $NBERREURS"
+else echoTitre "Contenu du livrable : OK"
+fi
+
+echoCategorie "Génération du livrable"
+# 
+#
+# Génération
+#
+TIMESTAMP='_xxxTimeStamp000xxx'	# nom d'un fichier temporaire utilisé spécifiquement dans ce script
+touch $TIMESTAMP 		# les dates de création des fichiers générés devront être ultérieures à celle de ce fichier
+#
+# Compilation du livrable
+echoMess "Compilation :" ; sh compile 
+#
+if [ $? -gt 0 ] # cas où le script de compilation signale un problème
+then echoError "Le script de compilation a signalé au moins une erreur"; incNBERREURS; 
+else echoPoint
+fi
+# des fichiers ont-ils été générés dans bin?
+nbFichiers=$(ls -a bin| sed -e "/\.$/d" | wc -l)
+if [ $nbFichiers -eq 0 ]
+ then echoError "La compilation semble avoir échoué : il n'y a pas de fichiers dans bin"; incNBERREURS; 
+ else echoPoint
+ # si il y a au moins un fichier, vérifier qu'il est récent
+ unFichier=$(ls bin |head -1) # le premier ficher listé dans bin
+ if (test $TIMESTAMP -ot bin/$unFichier)
+   then echoPoint #tout va bien
+   else echoError "bin/$unFichier ne semble pas à jour"
+ fi
+fi
+
+echo
+#
+# Génération de la javadoc
+echoMess "Génération de la javadoc :" ; sh genDoc
+#
+if [ $? -gt 0 ] # cas où le script de génération de la javadoc signale un problème
+then echoError "Le script de génération de la javadoc a signalé au moins une erreur"; incNBERREURS; 
+fi	
+if (test -e docs/index.html) 	# un fichier docs/index.html existe-t-il ?
+then echoPoint	#si oui, c'est OK
+else echoError "La génération de la javadoc semble avoir échoué : il n'y a pas de fichier docs/index.html"; incNBERREURS; 
+fi
+
+if (test $TIMESTAMP -ot docs/index.html)	# le fichier docs/index.html a-t-il bien été créé récemment ?
+then echoPoint
+else echoError "La génération de la javadoc semble avoir échoué : le fichier docs/index.html n'est pas à jour"; incNBERREURS; 
+fi
+echo
+#
+#
+echoMess "Lancement de l'autotest :"; sh runTests
+#
+/bin/rm $TIMESTAMP	# on n'a plus besoin de ce fichier temporaire
+echoTitre '--- Déploiement terminé ! ---'
+exit $NBERREURS
+
