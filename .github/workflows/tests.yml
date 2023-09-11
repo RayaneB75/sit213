@@ -1,9 +1,9 @@
 name: Java CI (compile and test)
 
 on:
-  release:
-    types: [created]
-    
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   compile_and_test:
     runs-on: ubuntu-latest
