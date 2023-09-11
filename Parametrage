@@ -1,0 +1,57 @@
+#!/bin/sh
+# Parametrage des scripts
+#
+
+#Définitions des styles d'affichage
+SNORMAL='\033[0m'		# 'normal'
+STITRE='\033[1;37;42m' 	# intitulés principaux des script : Gras, Blanc sur fond vert
+SSOUSTITRE='\033[0;31;47m' 	# intitule d'une categorie de test : Normal, Rouge sur fond blanc
+SMESS='\033[0;31;47m' 		# messages spécifiques du script : Normal, Rouge sur fond blanc
+SDESC='\033[0;32;47m' 		# notices explicatives de chaque test : Normal, Vert sur fond blanc
+SQUESTION='\033[0;31;47m'	# poser une question à l'utilisateur : Normal, Rouge sur fond blanc
+SRES='\033[1;31;47m' 		# descriptifs des résultats attendus (que l'utilisateur doit donc vérifier) : Gras, Rouge sur fond blanc
+SERROR='\033[1;33;41m' 	# messages d'erreur de ce script : Gras, jaune sur fond rouge
+
+echoTitre()	# pour afficher un message passé en argument en format $STITRE
+{
+#clear
+echo $STITRE"$*"$SNORMAL
+}
+#
+echoCategorie() 	# pour afficher un intitulé de categorie de test 
+{
+#clear
+echo $SSOUSTITRE"$*"$SNORMAL
+}
+#
+echoMess() # pour afficher un message en format $SMESS
+{
+echo $SMESS"$*"$SNORMAL
+}
+#
+echoError() # pour afficher un message en format $SERROR et attendre la validation de l'utilisateur
+{
+echo
+echo $SERROR"Erreur : $* - (enter pour continuer)"$SNORMAL
+read next
+}
+#
+echoQuestion() # pour afficher un message en format $SQUESTION
+{
+echo $SQUESTION"$*"$SNORMAL
+}
+#
+echoPoint() # pour afficher un point en format $SMESS sans retour à la ligne final
+{
+echo -n $SMESS'.'$SNORMAL
+}
+
+echoResAttendu() # Pour afficher un résultat attendu que l'utilisateur devra vérifier lui-même - Un premier paramètre à -n évitera un retour à la ligne final
+{
+echo $SRES"$*"$SNORMAL
+}
+
+echoComment() # Pour afficher une information non essentielle, typiquement une explication - Un premier paramètre à -n évitera un retour à la ligne final
+{
+echo $2 $SDESC"$1"$SNORMAL
+}

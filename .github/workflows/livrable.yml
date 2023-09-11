@@ -1,6 +1,5 @@
 name: Génération du livrable et du rapport
 
-
 on:
   release:
     types: [created]
@@ -36,3 +35,16 @@ jobs:
         with:
           name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
           path: livrable/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+  test_du_livrable:
+    runs-on: ubuntu-latest
+    needs: livrable
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+          path: livrable
+      - name: Test livrable
+        run: ./Deploiement B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
