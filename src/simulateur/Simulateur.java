@@ -79,35 +79,44 @@ public class Simulateur {
         analyseArguments(args);
 
         if (aleatoireAvecGerme) {
-            System.out
-                    .println("Creation d'une source de bits aleatoires de " + nbBitsMess + " bits avec seed = " + seed);
             source = new SourceAleatoire(nbBitsMess, seed);
         } else {
             // Déclaration et instanciaction des composants
             if (messageAleatoire) {
-                System.out.println("Creation d'une source de bits aleatoires de " + nbBitsMess + " bits");
                 source = new SourceAleatoire(nbBitsMess);
             } else {
-                System.out.println("Creation d'une source fixe de bits");
                 source = new SourceFixe(nbBitsMess, messageString);
             }
         }
-        System.out.println("Creation d'un transmetteur parfait logique");
         destination = new DestinationFinale();
-        transmetteurLogique = new TransmetteurParfait();
-        source.connecter(transmetteurLogique);
-        transmetteurLogique.connecter(destination);
 
+        if (!form.equals("")) {
+            TransmetteurParfait<Float> transmetteurAnalogique = new TransmetteurParfait<Float>();
+            source.connecter(transmetteurAnalogique);
+            transmetteurAnalogique.connecter(destination);
+        } else {
+            TransmetteurParfait<Boolean> transmetteurLogique = new TransmetteurParfait<Boolean>();
+            source.connecter(transmetteurLogique);
+            transmetteurLogique.connecter(destination);
+        }
         if (affichage) {
-            Sonde sondeS = new SondeLogique("Source", nbBitsMess);
-            Sonde sondeD = new SondeLogique("Destination", nbBitsMess);
+            SondeLogique sondeLS = null;
+            SondeLogique sondeLD = null;
+            SondeAnalogique sondeAS = null;
+            SondeAnalogique sondeAD = null;
+
             if (!form.equals("")) {
-                sondeS = new SondeAnalogique("Source");
-                sondeD = new SondeAnalogique("Destination");
+                sondeAS = new SondeAnalogique("Source");
+                sondeAD = new SondeAnalogique("Destination");
+                source.connecter(sondeAS);
+                transmetteurLogique.connecter(sondeAD);
+            } else {
+                sondeLS = new SondeLogique("Source", 10);
+                sondeLD = new SondeLogique("Destination", 10);
+                source.connecter(sondeLS);
+                transmetteurLogique.connecter(sondeLD);
             }
 
-            source.connecter(sondeS);
-            transmetteurLogique.connecter(sondeD);
         }
     }
 
@@ -174,7 +183,6 @@ public class Simulateur {
             } else if (args[i].matches("-form")) {
                 i++;
                 if (args[i].matches("(NRZT)|(NRZ)|(RZ)")) {
-                    System.out.println("Forme du signal : " + args[i]);
                     form = args[i];
                 } else
                     throw new ArgumentsException("Forme invalide :" + args[i]);
