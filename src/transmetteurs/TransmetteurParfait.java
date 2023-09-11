@@ -10,7 +10,7 @@ import information.InformationNonConformeException;
  *
  * @see Transmetteur
  */
-public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
+public class TransmetteurParfait<T> extends Transmetteur<T, T> {
 
     /**
      * un constructeur factorisant les initialisations communes aux
@@ -20,7 +20,7 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
         super();
     }
 
-    public void setInformationRecue(Information<Boolean> informationRecue) {
+    public void setInformationRecue(Information<T> informationRecue) {
         this.informationRecue = informationRecue;
     }
 
@@ -30,7 +30,7 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
      *
      * @param information l'information reçue
      */
-    public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
+    public void recevoir(Information<T> information) throws InformationNonConformeException {
         if (information == null)
             throw new InformationNonConformeException("Erreur : Information non conforme");
         this.informationRecue = information;
@@ -46,7 +46,7 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
             throw new InformationNonConformeException("Erreur : Information non conforme");
         } else {
             this.informationEmise = this.informationRecue;
-            for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
+            for (DestinationInterface<T> destinationConnectee : destinationsConnectees) {
                 destinationConnectee.recevoir(informationEmise);
             }
         }
