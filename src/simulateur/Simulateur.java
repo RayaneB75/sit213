@@ -11,6 +11,7 @@ import transmetteurs.TransmetteurParfait;
 import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
+import modulateur.Modulateur;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -58,7 +59,17 @@ public class Simulateur {
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
 
-    private String form = "";
+    private String form = "RZ";
+
+    private Modulateur modulateur = null;
+
+    private float amplitudeMin = 0.0f;
+
+    private float amplitudeMax = 1.0f;
+
+    private Boolean codage = false;
+
+    private Integer nbEch = 30;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -90,9 +101,24 @@ public class Simulateur {
         }
         destination = new DestinationFinale();
 
-        if (!form.equals("")) {
-            TransmetteurParfait<Float> transmetteurAnalogique = new TransmetteurParfait<Float>();
-            source.connecter(transmetteurAnalogique);
+        if (codage) {
+            switch (form) {
+                case "NRZT":
+                    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    break;
+                case "NRZ":
+                    modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    break;
+                default:
+                    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    break;
+            }
+            TransmetteurParfait<Float> transmetteurLogique = new TransmetteurParfait<Float>();
+            source.connecter(formeOnde);
+            modulateur.connecter(transmetteurAnalogique);
             transmetteurAnalogique.connecter(destination);
         } else {
             TransmetteurParfait<Boolean> transmetteurLogique = new TransmetteurParfait<Boolean>();
@@ -100,20 +126,20 @@ public class Simulateur {
             transmetteurLogique.connecter(destination);
         }
         if (affichage) {
-            SondeLogique sondeLS = null;
-            SondeLogique sondeLD = null;
-            SondeAnalogique sondeAS = null;
-            SondeAnalogique sondeAD = null;
+            SondeLogique sondeLogS = null;
+            SondeLogique sondeLogD = null;
+            SondeAnalogique sondeAnaS = null;
+            SondeAnalogique sondeAnaD = null;
 
-            if (!form.equals("")) {
-                sondeAS = new SondeAnalogique("Source");
-                sondeAD = new SondeAnalogique("Destination");
-                source.connecter(sondeAS);
-                transmetteurLogique.connecter(sondeAD);
+            if (codage) {
+                sondeAnaS = new SondeAnalogique("Source");
+                sondeAnaD = new SondeAnalogique("Destination");
+                modulateur.connecter(sondeAS);
+                transmetteurAnalogique.connecter(sondeAD);
             } else {
-                sondeLS = new SondeLogique("Source", 10);
-                sondeLD = new SondeLogique("Destination", 10);
-                source.connecter(sondeLS);
+                sondeLogS = new SondeLogique("Source", 10);
+                sondeLogD = new SondeLogique("Destination", 10);
+                source.connecter(sondeLogS);
                 transmetteurLogique.connecter(sondeLD);
             }
 
@@ -186,10 +212,29 @@ public class Simulateur {
                     form = args[i];
                 } else
                     throw new ArgumentsException("Forme invalide :" + args[i]);
-            }
-            // TODO : ajouter ci-après le traitement des nouvelles options
-
-            else
+            } else if (args[i].matches("-ampl")) {
+                i++;
+                try {
+                    amplitudeMin = Float.valueOf(args[i]);
+                } catch (Exception e) {
+                    throw new ArgumentsException("Valeur min du parametre -ampl invalide :" + args[i]);
+                }
+                i++;
+                try {
+                    amplitudeMax = Float.valueOf(args[i]);
+                } catch (Exception e) {
+                    throw new ArgumentsException("Valeur max du parametre -ampl invalide :" + args[i]);
+                }
+            } else if (args[i].matches("-nbEch")) {
+                i++;
+                try {
+                    nbEch = Integer.valueOf(args[i]);
+                } catch (Exception e) {
+                    throw new ArgumentsException("Valeur du parametre -nbEch invalide :" + args[i]);
+                }
+            } else if (args[i].matches("-codage")) {
+                codage = true;
+            } else
                 throw new ArgumentsException("Option invalide :" + args[i]);
         }
 
