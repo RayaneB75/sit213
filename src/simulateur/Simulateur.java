@@ -119,7 +119,8 @@ public class Simulateur {
             TransmetteurParfait<Float> transmetteurLogique = new TransmetteurParfait<Float>();
             source.connecter(formeOnde);
             modulateur.connecter(transmetteurAnalogique);
-            transmetteurAnalogique.connecter(destination);
+            transmetteurAnalogique.connecter(demodulateur);
+            demodulateur.connecter(destination);
         } else {
             TransmetteurParfait<Boolean> transmetteurLogique = new TransmetteurParfait<Boolean>();
             source.connecter(transmetteurLogique);
@@ -134,13 +135,13 @@ public class Simulateur {
             if (codage) {
                 sondeAnaS = new SondeAnalogique("Source");
                 sondeAnaD = new SondeAnalogique("Destination");
-                modulateur.connecter(sondeAS);
-                transmetteurAnalogique.connecter(sondeAD);
+                modulateur.connecter(sondeAnaS);
+                transmetteurAnalogique.connecter(sondeAnaD);
             } else {
                 sondeLogS = new SondeLogique("Source", 10);
                 sondeLogD = new SondeLogique("Destination", 10);
                 source.connecter(sondeLogS);
-                transmetteurLogique.connecter(sondeLD);
+                transmetteurLogique.connecter(sondeLogD);
             }
 
         }
