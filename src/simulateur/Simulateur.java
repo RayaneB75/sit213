@@ -11,7 +11,9 @@ import transmetteurs.TransmetteurParfait;
 import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
-import modulateur.Modulateur;
+import modulateurs.Modulateur;
+import modulateurs.ModulateurNRZ;
+import modulateurs.DemodulateurNRZ;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -55,6 +57,7 @@ public class Simulateur {
 
     /** le composant Transmetteur parfait logique de la chaine de transmission */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+    private Transmetteur<Float,Float> transmetteurAnalogique = null;
 
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
@@ -63,13 +66,15 @@ public class Simulateur {
 
     private Modulateur modulateur = null;
 
+    private Modulateur demodulateur = null;
+
     private float amplitudeMin = 0.0f;
 
     private float amplitudeMax = 1.0f;
 
-    private Boolean codage = false;
+    private boolean codage = false;
 
-    private Integer nbEch = 30;
+    private int nbEch = 30;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -103,26 +108,26 @@ public class Simulateur {
 
         if (codage) {
             switch (form) {
-                case "NRZT":
-                    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                    break;
+                //case "NRZT":
+                //    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                //    demodulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                //    break;
                 case "NRZ":
                     modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
-                default:
-                    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                    break;
+                //default:
+                //    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                //    demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                //    break;
             }
-            TransmetteurParfait<Float> transmetteurLogique = new TransmetteurParfait<Float>();
-            source.connecter(formeOnde);
+            transmetteurAnalogique = new TransmetteurParfait<Float>();
+            source.connecter(modulateur);
             modulateur.connecter(transmetteurAnalogique);
             transmetteurAnalogique.connecter(demodulateur);
             demodulateur.connecter(destination);
         } else {
-            TransmetteurParfait<Boolean> transmetteurLogique = new TransmetteurParfait<Boolean>();
+            transmetteurLogique = new TransmetteurParfait<Boolean>();
             source.connecter(transmetteurLogique);
             transmetteurLogique.connecter(destination);
         }
