@@ -63,6 +63,8 @@ public class Simulateur {
 
     private Modulateur modulateur = null;
 
+    private Modulateur demodulateur = null;
+
     private float amplitudeMin = 0.0f;
 
     private float amplitudeMax = 1.0f;
