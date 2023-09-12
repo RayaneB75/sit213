@@ -5,11 +5,53 @@ on:
     types: [created]
 
 jobs:
-  build_latex:
+  test_du_livrable:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
+      - name: Compile Java
+        run: ./compile
+      - name: Gen docs
+        run: ./genDoc
+      - name: Generate livrable
+        run: ./genDeliverable
+      - name: Test livrable
+        run: ./Deploiement B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
+  build_latex:
+    runs-on: ubuntu-latest
+    needs: test_du_livrable
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        shell: bash
+      - name: Cache
+        uses: actions/cache@v2.1.3
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: |
+            *.aux
+            *.lof
+            *.lot
+            *.fls
+            *.out
+            *.toc
+            *.fmt
+            *.fot
+            *.cb
+            *.cb2
+            .*.lb
+            *.bbl
+            *.bcf
+            *.blg
+            *-blx.aux
+            *-blx.bib
+            *.run.xml
+          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
       - name: Compile LaTeX document
         id: compile
         uses: dante-ev/latex-action@latest
@@ -34,17 +76,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
-          path: livrable/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
-  test_du_livrable:
-    runs-on: ubuntu-latest
-    needs: livrable
-    steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v3
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
-          path: ./
-      - name: Test livrable
-        run: ./Deploiement B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX
+          path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz

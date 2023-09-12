@@ -2,5 +2,5 @@
 echo "Cleaning all..."
 sh ./cleanAll
 echo "Archiving..."
-tar --exclude='genDeliverable' --exclude='livrable' --exclude='.git' -czf livrable/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz *
+tar --exclude='genDeliverable' --exclude='livrable' --exclude='.git' -czf B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz *
 echo "Done!"
