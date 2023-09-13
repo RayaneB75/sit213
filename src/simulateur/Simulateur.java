@@ -8,12 +8,13 @@ import destinations.DestinationFinale;
 import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
-import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 import modulateurs.Modulateur;
 import modulateurs.ModulateurNRZ;
 import modulateurs.DemodulateurNRZ;
+import modulateurs.ModulateurRZ;
+import modulateurs.DemodulateurRZ;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -116,10 +117,10 @@ public class Simulateur {
                     modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
-                // default:
-                // modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                // demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                // break;
+                default:
+                    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new DemodulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    break;
             }
             transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
