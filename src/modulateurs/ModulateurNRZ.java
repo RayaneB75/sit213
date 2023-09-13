@@ -14,11 +14,16 @@ public class ModulateurNRZ extends Modulateur<Boolean, Float> {
         super(nbEch, ampMin, ampMax);
     }
 
-    public void recevoir(Information<Boolean> information) {
+    public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
+        if (information == null)
+            throw new InformationNonConformeException("Erreur : Information non conforme");
         this.informationRecue = information;
+        this.emettre();
     }
 
     public void emettre() throws InformationNonConformeException {
+        if (this.informationRecue == null)
+            throw new InformationNonConformeException("Erreur : Information non conforme");
         moduler();
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationGeneree);
