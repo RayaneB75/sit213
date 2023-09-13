@@ -12,6 +12,6 @@ java -cp bin/ simulateur.Simulateur -s -mess 101001101 -codage
 
 java -cp bin/ simulateur.Simulateur -s -mess 101001101 -codage -form RZ
 
-java -cp bin/ simulateur.Simulateur -s -mess 101001101 -codage -form NRZ -1f 1f
+java -cp bin/ simulateur.Simulateur -s -mess 101001101 -codage -form NRZ -ampl -1f 1f
 
-java -cp bin/ simulateur.Simulateur -s -mess 101001101 -codage -form NRZT -1f 1f
+java -cp bin/ simulateur.Simulateur -s -mess 101001101 -codage -form NRZT -ampl -1f 1f
