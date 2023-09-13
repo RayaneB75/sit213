@@ -132,20 +132,16 @@ public class Simulateur {
             transmetteurLogique.connecter(destination);
         }
         if (affichage) {
-            SondeLogique sondeLogS = null;
-            SondeLogique sondeLogD = null;
+            SondeLogique sondeLogS = new SondeLogique("Source Logique", 10);
+            SondeLogique sondeLogD = new SondeLogique("Destination Logique", 10);
             SondeAnalogique sondeAnaS = null;
-            SondeAnalogique sondeAnaD = null;
+            source.connecter(sondeLogS);
 
             if (codage) {
                 sondeAnaS = new SondeAnalogique("Source Analogique");
-                sondeAnaD = new SondeAnalogique("Destination Analogique");
                 modulateur.connecter(sondeAnaS);
-                transmetteurAnalogique.connecter(sondeAnaD);
+                demodulateur.connecter(sondeLogD);
             } else {
-                sondeLogS = new SondeLogique("Source Logique", 10);
-                sondeLogD = new SondeLogique("Destination Logique", 10);
-                source.connecter(sondeLogS);
                 transmetteurLogique.connecter(sondeLogD);
             }
 
