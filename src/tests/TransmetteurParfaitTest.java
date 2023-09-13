@@ -13,7 +13,7 @@ public class TransmetteurParfaitTest {
     @Test
     public void testEmettre() {
         SourceAleatoire s = new SourceAleatoire(10);
-        TransmetteurParfait t = new TransmetteurParfait();
+        TransmetteurParfait<Boolean> t = new TransmetteurParfait<Boolean>();
         DestinationFinale d = new DestinationFinale();
         t.connecter(d);
         t.setInformationRecue(s.getInformationEmise());
@@ -29,7 +29,7 @@ public class TransmetteurParfaitTest {
     @Test
     public void testRecevoir() {
         SourceAleatoire s = new SourceAleatoire(10);
-        TransmetteurParfait t = new TransmetteurParfait();
+        TransmetteurParfait<Boolean> t = new TransmetteurParfait<Boolean>();
         try {
             t.recevoir(s.getInformationEmise());
         } catch (InformationNonConformeException e) {

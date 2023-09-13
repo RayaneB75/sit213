@@ -5,5 +5,5 @@ echo "Cleaning..."
 echo "Done!"
 echo "Compiling..."
 export CLASSPATH=$PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin:.
-javac -d bin/ src/**/*.java
+javac -d bin/ src/**/*.java -Xlint:unchecked
 echo "Done!"
