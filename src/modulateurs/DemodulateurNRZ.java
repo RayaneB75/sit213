@@ -14,8 +14,11 @@ public class DemodulateurNRZ extends Modulateur<Float, Boolean> {
         super(nbEch, ampMin, ampMax);
     }
 
-    public void recevoir(Information<Float> information) {
+    public void recevoir(Information<Float> information) throws InformationNonConformeException {
+        if (information == null)
+            throw new InformationNonConformeException("Erreur : Information non conforme");
         this.informationRecue = information;
+        this.emettre();
     }
 
     public void emettre() throws InformationNonConformeException {
