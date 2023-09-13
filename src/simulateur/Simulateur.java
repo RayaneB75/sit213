@@ -133,8 +133,8 @@ public class Simulateur {
             transmetteurLogique.connecter(destination);
         }
         if (affichage) {
-            SondeLogique sondeLogS = new SondeLogique("Source Logique", 10);
-            SondeLogique sondeLogD = new SondeLogique("Destination Logique", 10);
+            SondeLogique sondeLogS = new SondeLogique("Source Logique", 30);
+            SondeLogique sondeLogD = new SondeLogique("Destination Logique", 30);
             SondeAnalogique sondeAnaS = null;
             source.connecter(sondeLogS);
 
