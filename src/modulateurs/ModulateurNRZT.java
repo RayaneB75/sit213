@@ -56,23 +56,38 @@ public class ModulateurNRZT extends Modulateur<Boolean, Float> {
         for (int i = 0; i < informationRecue.nbElements(); i++) {
             if (informationRecue.iemeElement(i)) {
                 for (int j = 0; j < nbEch; j++) {
-                    if (j < nbEch/3)
-                        informationGeneree.add(j / (nbEch/3) * ampMax);
-                    else if (j < 2*nbEch/3)
+                    if (j < nbEch / 3) {
+                        if (i != 0 && informationRecue.iemeElement(i - 1))
+                            informationGeneree.add(ampMax);
+                        else
+                            informationGeneree.add((float) j / (nbEch / 3) * ampMax);
+                    } else if (j < 2 * nbEch / 3) {
                         informationGeneree.add(ampMax);
-                    else
-                        informationGeneree.add((nbEch-j) / (nbEch/3) * ampMax);
+                    } else {
+                        if (i + 1 < informationRecue.nbElements() && informationRecue.iemeElement(i + 1))
+                            informationGeneree.add(ampMax);
+                        else
+                            informationGeneree.add((float) (nbEch - j) / (nbEch / 3) * ampMax);
+                    }
                 }
             } else {
                 for (int j = 0; j < nbEch; j++) {
-                    if (j < nbEch/3)
-                        informationGeneree.add(j / (nbEch/3) * ampMin);
-                    else if (j < 2*nbEch/3)
+                    if (j < nbEch / 3) {
+                        if (i != 0 && !informationRecue.iemeElement(i - 1))
+                            informationGeneree.add(ampMin);
+                        else
+                            informationGeneree.add((float) j / (nbEch / 3) * ampMin);
+                    } else if (j < 2 * nbEch / 3) {
                         informationGeneree.add(ampMin);
-                    else
-                        informationGeneree.add((nbEch-j) / (nbEch/3) * ampMin);
+                    } else {
+                        if (i + 1 < informationRecue.nbElements() && !informationRecue.iemeElement(i + 1))
+                            informationGeneree.add(ampMin);
+                        else
+                            informationGeneree.add((float) (nbEch - j) / (nbEch / 3) * ampMin);
+                    }
                 }
             }
+
         }
     }
 
