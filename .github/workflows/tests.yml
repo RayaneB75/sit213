@@ -1,4 +1,4 @@
-name: Java CI (compile and test)
+name: \[Java\] Compilation et Tests
 
 on:
   pull_request:

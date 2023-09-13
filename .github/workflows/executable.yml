@@ -1,4 +1,4 @@
-name: Tests de vérification d'exécution
+name: \[Java\] Tests de vérification d'exécution
 
 on:
   push
