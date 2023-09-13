@@ -4,13 +4,9 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
-public class DemodulateurNRZ extends Modulateur<Float, Boolean> {
+public class DemodulateurRZ extends Modulateur<Float, Boolean> {
 
-    public DemodulateurNRZ() {
-        super();
-    }
-
-    public DemodulateurNRZ(int nbEch, float ampMin, float ampMax) {
+    public DemodulateurRZ(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
     }
 

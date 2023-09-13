@@ -6,10 +6,6 @@ import information.InformationNonConformeException;
 
 public class ModulateurNRZ extends Modulateur<Boolean, Float> {
 
-    public ModulateurNRZ() {
-        super();
-    }
-
     public ModulateurNRZ(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
     }

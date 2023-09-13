@@ -8,7 +8,6 @@ import destinations.DestinationFinale;
 import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
-import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 import modulateurs.Modulateur;
@@ -16,6 +15,7 @@ import modulateurs.ModulateurNRZ;
 import modulateurs.DemodulateurNRZ;
 import modulateurs.ModulateurRZ;
 import modulateurs.DemodulateurRZ;
+
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
  * transmission composée d'une Source, d'un nombre variable de
@@ -117,14 +117,10 @@ public class Simulateur {
                     modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
-                case "RZ":
+                default:
                     modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new DemodulateurRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
-                // default:
-                // modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                // demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                // break;
             }
             transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
@@ -137,20 +133,16 @@ public class Simulateur {
             transmetteurLogique.connecter(destination);
         }
         if (affichage) {
-            SondeLogique sondeLogS = null;
-            SondeLogique sondeLogD = null;
+            SondeLogique sondeLogS = new SondeLogique("Source Logique", 10);
+            SondeLogique sondeLogD = new SondeLogique("Destination Logique", 10);
             SondeAnalogique sondeAnaS = null;
-            SondeAnalogique sondeAnaD = null;
+            source.connecter(sondeLogS);
 
             if (codage) {
-                sondeAnaS = new SondeAnalogique("Source");
-                sondeAnaD = new SondeAnalogique("Destination");
+                sondeAnaS = new SondeAnalogique("Source Analogique");
                 modulateur.connecter(sondeAnaS);
-                transmetteurAnalogique.connecter(sondeAnaD);
+                demodulateur.connecter(sondeLogD);
             } else {
-                sondeLogS = new SondeLogique("Source", 10);
-                sondeLogD = new SondeLogique("Destination", 10);
-                source.connecter(sondeLogS);
                 transmetteurLogique.connecter(sondeLogD);
             }
 
