@@ -14,7 +14,8 @@ import visualisations.SondeLogique;
 import modulateurs.Modulateur;
 import modulateurs.ModulateurNRZ;
 import modulateurs.DemodulateurNRZ;
-
+import modulateurs.ModulateurRZ;
+import modulateurs.DemodulateurRZ;
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
  * transmission composée d'une Source, d'un nombre variable de
@@ -114,6 +115,10 @@ public class Simulateur {
                 // break;
                 case "NRZ":
                     modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    break;
+                case "RZ":
+                    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
                     demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 // default:
