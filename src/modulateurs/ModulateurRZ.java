@@ -30,8 +30,14 @@ public class ModulateurRZ extends Modulateur<Boolean, Float> {
         informationGeneree = new Information<Float>();
         for (int i = 0; i < informationRecue.nbElements(); i++) {
             if (informationRecue.iemeElement(i)) {
-                for (int j = 0; j < nbEch; j++) {
+                for (int j = 0; j < nbEch / 3; j++) {
+                    informationGeneree.add(ampMin);
+                }
+                for (int j = 0; j < nbEch / 3; j++) {
                     informationGeneree.add(ampMax);
+                }
+                for (int j = 0; j < nbEch / 3; j++) {
+                    informationGeneree.add(ampMin);
                 }
             } else {
                 for (int j = 0; j < nbEch; j++) {
@@ -49,3 +55,4 @@ public class ModulateurRZ extends Modulateur<Boolean, Float> {
         return informationGeneree;
     }
 }
+
