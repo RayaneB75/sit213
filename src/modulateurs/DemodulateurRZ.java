@@ -28,10 +28,10 @@ public class DemodulateurRZ extends Modulateur<Float, Boolean> {
         informationGeneree = new Information<Boolean>();
         for (int i = 0; i < informationRecue.nbElements(); i += nbEch) {
             float moyenne = 0;
-            for (int j = 0; j < nbEch; j++) {
+            for (int j = nbEch / 3; j < 2 * nbEch / 3; j++) {
                 moyenne += informationRecue.iemeElement(i + j);
             }
-            moyenne /= nbEch;
+            moyenne /= nbEch / 3;
             informationGeneree.add(moyenne > (ampMax + ampMin) / 2);
         }
     }
