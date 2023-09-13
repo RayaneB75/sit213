@@ -15,6 +15,8 @@ import modulateurs.ModulateurNRZ;
 import modulateurs.DemodulateurNRZ;
 import modulateurs.ModulateurRZ;
 import modulateurs.DemodulateurRZ;
+import modulateurs.ModulateurNRZT;
+import modulateurs.DemodulateurNRZT;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -109,10 +111,10 @@ public class Simulateur {
 
         if (codage) {
             switch (form) {
-                // case "NRZT":
-                // modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                // demodulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                // break;
+                case "NRZT":
+                    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    demodulateur = new DemodulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    break;
                 case "NRZ":
                     modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
