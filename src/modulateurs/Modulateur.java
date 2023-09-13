@@ -16,13 +16,8 @@ public abstract class Modulateur<R, E> implements DestinationInterface<R>, Sourc
     protected float ampMin = 0.0f;
     protected float ampMax = 1.0f;
 
-    public Modulateur() {
-        this.informationRecue = null;
-        this.informationGeneree = null;
-        this.destinationsConnectees = new LinkedList<DestinationInterface<E>>();
-    }
-
     public Modulateur(int nbEch, float ampMin, float ampMax) {
+        this.destinationsConnectees = new LinkedList<DestinationInterface<E>>();
         this.informationRecue = null;
         this.informationGeneree = null;
         this.nbEch = nbEch;
@@ -48,7 +43,7 @@ public abstract class Modulateur<R, E> implements DestinationInterface<R>, Sourc
         destinationsConnectees.remove(destination);
     }
 
-    public abstract void recevoir(Information<R> information);
+    public abstract void recevoir(Information<R> information) throws InformationNonConformeException;
 
     public abstract void emettre() throws InformationNonConformeException;
 }

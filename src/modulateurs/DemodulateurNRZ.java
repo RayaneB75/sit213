@@ -6,16 +6,15 @@ import information.InformationNonConformeException;
 
 public class DemodulateurNRZ extends Modulateur<Float, Boolean> {
 
-    public DemodulateurNRZ() {
-        super();
-    }
-
     public DemodulateurNRZ(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
     }
 
-    public void recevoir(Information<Float> information) {
+    public void recevoir(Information<Float> information) throws InformationNonConformeException {
+        if (information == null)
+            throw new InformationNonConformeException("Erreur : Information non conforme");
         this.informationRecue = information;
+        this.emettre();
     }
 
     public void emettre() throws InformationNonConformeException {

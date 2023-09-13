@@ -57,16 +57,16 @@ public class Simulateur {
 
     /** le composant Transmetteur parfait logique de la chaine de transmission */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
-    private Transmetteur<Float,Float> transmetteurAnalogique = null;
+    private Transmetteur<Float, Float> transmetteurAnalogique = null;
 
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
 
     private String form = "RZ";
 
-    private Modulateur modulateur = null;
+    private Modulateur<Boolean, Float> modulateur = null;
 
-    private Modulateur demodulateur = null;
+    private Modulateur<Float, Boolean> demodulateur = null;
 
     private float amplitudeMin = 0.0f;
 
@@ -108,18 +108,18 @@ public class Simulateur {
 
         if (codage) {
             switch (form) {
-                //case "NRZT":
-                //    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                //    demodulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                //    break;
+                // case "NRZT":
+                // modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                // demodulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                // break;
                 case "NRZ":
                     modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
-                //default:
-                //    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                //    demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                //    break;
+                // default:
+                // modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                // demodulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                // break;
             }
             transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
@@ -132,20 +132,16 @@ public class Simulateur {
             transmetteurLogique.connecter(destination);
         }
         if (affichage) {
-            SondeLogique sondeLogS = null;
-            SondeLogique sondeLogD = null;
+            SondeLogique sondeLogS = new SondeLogique("Source Logique", 10);
+            SondeLogique sondeLogD = new SondeLogique("Destination Logique", 10);
             SondeAnalogique sondeAnaS = null;
-            SondeAnalogique sondeAnaD = null;
+            source.connecter(sondeLogS);
 
             if (codage) {
-                sondeAnaS = new SondeAnalogique("Source");
-                sondeAnaD = new SondeAnalogique("Destination");
+                sondeAnaS = new SondeAnalogique("Source Analogique");
                 modulateur.connecter(sondeAnaS);
-                transmetteurAnalogique.connecter(sondeAnaD);
+                demodulateur.connecter(sondeLogD);
             } else {
-                sondeLogS = new SondeLogique("Source", 10);
-                sondeLogD = new SondeLogique("Destination", 10);
-                source.connecter(sondeLogS);
                 transmetteurLogique.connecter(sondeLogD);
             }
 
@@ -174,6 +170,11 @@ public class Simulateur {
      *             <dd>pour demander l'utilisation des sondes d'affichage</dd>
      *             <dt>-seed v</dt>
      *             <dd>v (int) d'initialisation pour les générateurs aléatoires</dd>
+     *             <dt>-form f</dt>
+     *             <dd>f (String) NRZT, NRZ ou RZ</dd>
+     *             <dt>-ampl min max</dt>
+     *             <dd>Amplitude maximum et minimum a utiliser</dd>
+     *             <dt>
      *             </dl>
      *
      * @throws ArgumentsException si un des arguments est incorrect.
