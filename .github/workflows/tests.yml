@@ -1,4 +1,4 @@
-name: \[Java\] Compilation et Tests
+name: '[Java] Compilation et Tests'
 
 on:
   pull_request:
