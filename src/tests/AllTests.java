@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ DestinationFinaleTest.class, SourceAleatoireTest.class, SourceFixeTest.class,
-                TransmetteurParfaitTest.class, ModulateurRZTest.class })
+                TransmetteurParfaitTest.class, ModulateurRZTest.class, ModulateurNRZTest.class })
 public class AllTests {
 
 }
