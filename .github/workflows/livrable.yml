@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: steps.compile.outputs.exit_code == 0
         with:
-          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf
+          name: rapport
           path: livrable/main.pdf
   livrable:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: logiciel.tar.gz
+          name: logiciel
           path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
 
 
@@ -88,7 +88,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf/main.pdf
+        asset_path: rapport/main.pdf
         asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf
         asset_content_type: application/pdf
     - name: Upload logiciel en tar
@@ -96,7 +96,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}   
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: logiciel/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
         asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etape${{ github.ref_name }}.tar.gz
         asset_content_type: application/gzip
