@@ -3,7 +3,10 @@ package tests;
 import static org.hamcrest.core.Is.is;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
@@ -15,7 +18,9 @@ import sources.SourceFixe;
 import transmetteurs.TransmetteurParfait;
 
 public class ModulateurNRZTest {
+    @Rule
     public ErrorCollector collector = new ErrorCollector();
+
     private static Information<Boolean> content = new Information<>(
             new Boolean[] { false, true, true, false, false, true });
     private SourceFixe source = null;
@@ -27,6 +32,14 @@ public class ModulateurNRZTest {
     public ModulateurNRZTest() {
     }
 
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
     @Before
     public void setUp() {
         source = new SourceFixe(6, "011001");
@@ -34,6 +47,7 @@ public class ModulateurNRZTest {
         transmetteurParfait = new TransmetteurParfait<Float>();
         demodulateur = new DemodulateurNRZ(30, -1f, 1f);
         destinationFinale = new DestinationFinale();
+        source.connecter(modulateur);
     }
 
     @After
@@ -42,7 +56,6 @@ public class ModulateurNRZTest {
 
     @Test
     public void testModulation() {
-        source.connecter(modulateur);
 
         try {
             source.emettre();
@@ -53,11 +66,15 @@ public class ModulateurNRZTest {
                 is(6));
         collector.checkThat("Vérification de l'information modulée",
                 modulateur.getInformationEmise().nbElements(), is(180));
+        collector.checkThat("Vérification d'un premier echantillon spécifique",
+                modulateur.getInformationEmise().iemeElement(36), is(1.0f));
+        collector.checkThat("Vérification d'un deuxième echantillon spécifique",
+                modulateur.getInformationEmise().iemeElement(143), is(-1.0f));
+
     }
 
     @Test
     public void testDemodulation() {
-        source.connecter(modulateur);
         modulateur.connecter(transmetteurParfait);
         transmetteurParfait.connecter(demodulateur);
         demodulateur.connecter(destinationFinale);
