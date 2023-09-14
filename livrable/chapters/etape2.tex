@@ -8,18 +8,18 @@ Dans la continuité de l'étape 1, nous étudierons le comportement du système 
     \centering
     \includegraphics[width=0.7\textwidth]{img/etape2_chaine_transmission.png}
     \caption{Chaîne de transmission}
-    \label{fig:teb1}
+    \label{fig:chaine_transmission}
 \end{figure}
 
 \subsection{Objectifs}
-Pour cette deuxième étape, nous maintenons la capacité d'envoyer un message binaire, mais avec un transmetteur analogique \textit{parfait} qui garantit un TEB de 0. Les nouveautés liées au transmetteur analogique incluent le choix de la forme d'onde et la spécification du nombre d'échantillons par bit ainsi que les amplitudes min et max.
+Pour cette deuxième étape, nous maintenons la capacité d'envoyer un message binaire, mais avec un transmetteur analogique \textit{parfait} qui garantira toujours un TEB de 0 (puisque pas de bruit). Les nouveautés liées au transmetteur analogique incluent le choix de la forme d'onde et la spécification du nombre d'échantillons par bit ainsi que les amplitudes min et max.
 
 \subsection{Paramètres du logiciel}
 Le paramètre \texttt{form f} permet de spécifier la forme d'onde pour la transmission analogique. Les options disponibles sont :
 
 \begin{enumerate}
     \item \textbf{NRZ} : Forme d'onde rectangulaire.
-    \item \textbf{NRZT} : Forme d'onde trapézoïdale (temps de montée et de descente, respectivement à 1/3 du temps bit).
+    \item \textbf{NRZT} : Forme d'onde trapézoïdale (temps de montée et de descente à 1/3 du temps bit).
     \item \textbf{RZ} : Forme d'onde impulsionnelle (amplitude minimale sur le premier et dernier tiers du temps bit, impulsionnelle sur le tiers central avec un maximum au milieu du temps bit égal à l'amplitude maximale).
 \end{enumerate}
 
@@ -29,8 +29,18 @@ Le paramètre \texttt{nbEch ne} permet de spécifier le nombre d'échantillons p
 
 Le paramètre \texttt{ampl min max} spécifie l'amplitude minimale et maximale du signal analogique. Ils doivent être des valeurs flottantes, avec min < max. Par défaut, le simulateur utilise 0.0f comme valeur minimale et 1.0f comme valeur maximale.
 
-\subsection{Réallisation}
-Pour la gestion de projet, nous avons opté pour l'outil Taiga. Cet outil nous permet de définir les tâches attribuées à chaque membre de l'équipe, d'organiser la planification et de prioriser lesdites tâches. En ce qui concerne le développement logiciel, nous utilisons un dépôt Git sur GitHub. Cette approche permet à tous les membres de l'équipe d'accéder facilement au code et assure une traçabilité de toutes les versions.
+\subsection{Réalisation}
+Pour la gestion de projet, nous avons opté pour l'outil Taiga. Cet outil nous permet de définir les tâches attribuées à chaque membre de l'équipe, d'organiser la planification et de prioriser lesdites tâches, ainsi que de suivre leurs avancements. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{img/etape2_taiga.png}
+    \caption{Liste des tâches (divisées en sous-tâches) dans Taiga}
+    \label{fig:etape2_taiga}
+\end{figure}
+
+En ce qui concerne le développement logiciel, nous utilisons un dépôt Git sur GitHub. Cette approche permet à tous les membres de l'équipe d'accéder facilement au code et assure une traçabilité de toutes les versions.
+
 
 \subsection{Émetteur analogique}
 Dans notre contexte de chaîne de transmission analogique, nous avons établit que nous devions faire la chaîne de transmission par l’adjonction de deux étages (logique → analogique et analogique → logique). Pour ce faire, nous allons tout d’abord nous intéresser à l’émission de notre signal. 
@@ -49,7 +59,7 @@ Le codage NRZ (Non Return to Zero) permet la transmission d’un signal via un s
     \centering
     \includegraphics[width=0.5\textwidth]{img/etape2_transmission_NRZ.png}
     \caption{Transmission NRZ}
-    \label{fig:teb1}
+    \label{fig:transmission_nrz}
 \end{figure}
 
 On observe bien au niveau de la source analogique que pour un bit un 1 en entrée on a une amplitude d’une valeur de 1. Alors que pour une bit à 0 en entrée, on a une amplitude de -1. La figure ci-dessus illustre bien la conversion du signal logique en signal analogique, étant donnée que l’amplitude pour les 0 logiques n’est plus de 0 mais bien de -1.
@@ -62,7 +72,7 @@ Le codage NRZT (NRZ Trapézoïdal) reprend le même principe que le codage NRZ. 
     \centering
     \includegraphics[width=0.33\textwidth]{img/etape2_temps_NRZT.png}
     \caption{Temps bit NRZT}
-    \label{fig:teb1}
+    \label{fig:emission_nrzt}
 \end{figure}
 
 D’après ce que l’on a dit précédemment, on peut en déduire que l’on va devoir utiliser des nombres flottant pour pouvoir coder la montée/descente. Cela va impacter la manière dont on code les symboles, chaque symbole pouvant être découper en 3 temps :
@@ -79,8 +89,12 @@ Si on rencontre le cas où il y a deux bits logiques successives de même valeur
     \centering
     \includegraphics[width=0.5\textwidth]{img/etape2_emission_NRZT.png}
     \caption{Émission NRZT}
-    \label{fig:teb1}
+    \label{fig:emission_nrzt}
 \end{figure}
+
+On observe bien au niveau de la sonde analogique que le symbole est monté progressivement, de même pour la descente. Le signal varie toujours entre les deux seuil et on obtient donc bien le résultat attendu, comme on la décrit précédemment.
+
+
 
 \subsubsection{Émission analogique RZ}
 
@@ -90,8 +104,10 @@ Le codage RZ (Return Zero), il s’agit aussi d’un codage à 2 niveaux. La dif
     \centering
     \includegraphics[width=0.5\textwidth]{img/etape2_emission_RZ.png}
     \caption{Émission RZ}
-    \label{fig:teb1}
+    \label{fig:emission_rz}
 \end{figure}
+
+On observe sur la figure ci-dessus, que la source analogique contient une suite de deux bit logique de valeur 1. Et une fois qu’on applique le codage RZ, on a bien deux symbole codant le bit logique 1 séparé par un seuil à 0. On a donc bien réussi à appliquer le codage RZ comme décrit précédemment.
 
 \subsection{Récepteur analogique}
 
@@ -119,7 +135,7 @@ La figure suivante représente le signal analogique NRZ en haut et sa version lo
     \centering
     \includegraphics[width=0.5\textwidth]{img/etape2_reception_NRZ.png}
     \caption{Réception NRZ}
-    \label{fig:teb1}
+    \label{fig:reception_nrz}
 \end{figure}
 
 Nous pouvons constater que le message analogique émis est converti correctement. Les 0 du message transmis possèdent bien l'amplitude minimale en analogique (-1) et sont bien à 0 en numérique. Les 1, quant à eux, possèdent bien l'amplitude maximale en analogique (1) et sont bien à 1 en numérique. Le principe est similaire au transmetteur parfait, puisque seules les amplitudes sont modifiées. Par ailleurs, aucune déformation n'a été induite sur le signal. La chaine de transmission respecte les contraintes imposées, avec un TEB de 0\%.
@@ -136,7 +152,7 @@ La figure ci-dessous illustre le processus de transmission de données utilisant
     \centering
     \includegraphics[width=0.5\textwidth]{img/etape2_reception_NRZT.png}
     \caption{Réception NRZT}
-    \label{fig:teb1}
+    \label{fig:reception_nrzt}
 \end{figure}
 
 On observe que les temps de montée et de descente correspondent bien à 1/3 du temps bit respectivement. Par ailleurs, signal n'est pas altéré, il s'agit bien d'un transmetteur analogique parfait. Le TEB est de 0\%.
@@ -153,7 +169,7 @@ La figure ci-dessous illustre la source analogique RZ en haut et le signal logiq
     \centering
     \includegraphics[width=0.5\textwidth]{img/etape2_reception_RZ.png}
     \caption{Réception RZ}
-    \label{fig:teb1}
+    \label{fig:reception_rz}
 \end{figure}
 
 La conversion analogique fonctionne correctement, puisque pour chaque bit à 1, le signal est à son amplitude maximale pendant $\alpha$T et à son amplitude minimale sur (1-$\alpha$)T. Le signal transmis n'étant pas altéré, il s'agit d'un transmetteur analogique parfait. Le TEB est de 0\%.
