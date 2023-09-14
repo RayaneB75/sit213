@@ -55,7 +55,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etape${{ github.ref_name }}.tar.gz
+          name: logiciel.tar.gz
           path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
 
 
@@ -88,7 +88,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf
+        asset_path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf/main.pdf
         asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf
         asset_content_type: application/pdf
     - name: Upload logiciel en tar
@@ -97,7 +97,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}   
-        asset_path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.tar.gz
-        asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.tar.gz
-        asset_content_type: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+        asset_path: logiciel/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+        asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etape${{ github.ref_name }}.tar.gz
+        asset_content_type: application/gzip
     
