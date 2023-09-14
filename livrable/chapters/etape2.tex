@@ -122,6 +122,8 @@ La figure suivante représente le signal analogique NRZ en haut et sa version lo
     \label{fig:teb1}
 \end{figure}
 
+Nous pouvons constater que le message analogique émis est converti correctement. Les 0 du message transmis possèdent bien l'amplitude minimale en analogique (-1) et sont bien à 0 en numérique. Les 1, quant à eux, possèdent bien l'amplitude maximale en analogique (1) et sont bien à 1 en numérique. Le principe est similaire au transmetteur parfait, puisque seules les amplitudes sont modifiées. Par ailleurs, aucune déformation n'a été induite sur le signal. La chaine de transmission respecte les contraintes imposées, avec un TEB de 0\%.
+
 \subsubsection{Réception analogique NRZT}
 
 La réception d'un signal de type NRZT (Non-Return-to-Zero with Trailing Zeros) repose sur la détection de seuil, une technique spécifique qui améliore la fiabilité de la réception des données. Pour ce faire, un indice est positionné au milieu de la durée d'émission d'un bit, ce qui permet une évaluation précise de sa valeur. Cette approche est particulièrement utile pour les signaux NRZT, car elle permet de distinguer efficacement entre les valeurs 0 et 1.
@@ -136,6 +138,8 @@ La figure ci-dessous illustre le processus de transmission de données utilisant
     \caption{Réception NRZT}
     \label{fig:teb1}
 \end{figure}
+
+On observe que les temps de montée et de descente correspondent bien à 1/3 du temps bit respectivement. Par ailleurs, signal n'est pas altéré, il s'agit bien d'un transmetteur analogique parfait. Le TEB est de 0\%.
 
 \subsubsection{Réception analogique RZ}
 
@@ -152,10 +156,12 @@ La figure ci-dessous illustre la source analogique RZ en haut et le signal logiq
     \label{fig:teb1}
 \end{figure}
 
-\subsubsection{Conclusion étape 2}
+La conversion analogique fonctionne correctement, puisque pour chaque bit à 1, le signal est à son amplitude maximale pendant $\alpha$T et à son amplitude minimale sur (1-$\alpha$)T. Le signal transmis n'étant pas altéré, il s'agit d'un transmetteur analogique parfait. Le TEB est de 0\%.
 
-L'étape 2 de notre projet de transmission a permis la mise en œuvre de différentes méthodes de codage, à savoir NRZ, NRZT et RZ. Contrairement à l'étape précédente, où seule une transmission logique était en place entre la source et la destination, cette étape a introduit une dimension analogique dans notre chaîne de transmission. 
+\subsection{Conclusion étape 2}
 
-Nous avons observé comment le codage NRZ maintient des niveaux stables pour les valeurs binaires 0 et 1, tandis que le NRZT utilise la détection de seuil pour distinguer efficacement ces valeurs au moyen de transitions au milieu de chaque bit. Enfin, le codage RZ présente la particularité de revenir à zéro au milieu de chaque période de bit (à 1), améliorant ainsi la synchronisation entre l'émetteur et le récepteur.
+Dans cette deuxième étape de notre projet de transmission, nous avons exploré trois méthodes de codage : NRZ, NRZT et RZ, introduisant ainsi une dimension analogique dans notre chaîne de transmission. Nos conclusions montrent que ces méthodes de codage fonctionnent de manière optimale dans des conditions idéales, sans la présence de bruit. 
 
-Il est important de noter que, pour le moment, nous n'avons pas pris en compte la présence de bruit dans notre système, ce qui signifie que le TEB (Taux d'Erreur Binaire) est de 0\%, garantissant une transmission parfaitement fiable. 
+Le codage NRZ maintient des niveaux stables pour les valeurs binaires 0 et 1, tandis que le NRZT utilise des transitions au milieu de chaque bit pour distinguer efficacement ces valeurs. Enfin, le codage RZ revient à zéro au milieu de chaque période de bit, améliorant la synchronisation entre l'émetteur et le récepteur.
+
+Les tests réalisés montrent que la spécification de chacun de ces trois codages est respectée et nous obtenons des formes de signal conformes aux attentes. Il convient de souligner que, pour l'instant, notre évaluation ne tient pas compte du bruit dans le système, ce qui garantit un taux d'erreur binaire (TEB) de 0\% et une transmission parfaitement fiable. 
