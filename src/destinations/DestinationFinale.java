@@ -30,4 +30,13 @@ public class DestinationFinale extends Destination<Boolean> {
     public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
         this.informationRecue = information;
     }
+
+    /**
+     * Getter de l'attribut "informationRecue"
+     * 
+     * @return Information reçue par la destination finale
+     */
+    public Information<Boolean> getInformationRecue() {
+        return this.informationRecue;
+    }
 }

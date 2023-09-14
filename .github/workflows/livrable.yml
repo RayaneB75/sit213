@@ -1,4 +1,4 @@
-name: Génération du livrable et du rapport
+name: '[Moodle] Génération du livrable et du rapport'
 
 on:
   release:
