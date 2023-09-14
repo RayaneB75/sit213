@@ -1,4 +1,39 @@
-# TP2 Transmission non bruitée analogique
+# TP2 : Transmission non bruitée analogique
+
+## Scripts mis à jour
+
+- `simulateur` : script de lancement du simulateur (avec les différents paramètres possibles)
+    - Ajout de l'option `codage` pour l'utilisation d'un codage de ligne
+    - Ajout des paramètres `amplitude` et `form` pour les modulateurs
+- .github/workflows/livrable.yml : script "Github Actions" (CI/CD) de génération de l'archive et du rapport à déposer sur Moodle
+- .github/workflows/tests.yml : script "Github Actions" (CI/CD) de lancement des tests JUnit
+
+## Arborescence du projet mise à jour
+
+```
+.
+├── bin                                 # fichiers compilés (doit être vide au départ)
+├── src
+│   ├── destinations                    # classes de destinations finales (récepteurs)
+│   ├── information                     # classes utilitaires pour manipuler les informations
+|   |── modulateurs                     
+|   |   |── Modulateur                  # classe de abstraite pour les modulateurs et demodulateurs
+|   |   |── ModulateurRZ                # classe de modulateur RZ
+|   |   |── ModulateurNRZ               # classe de modulateur NRZ
+|   |   |── ModulateurNRZT              # classe de modulateur NRZT
+|   |   |── DemodulateurRZ              # classe de demodulateur RZ
+|   |   |── DemodulateurNRZ             # classe de demodulateur NRZ
+|   |   |── DemodulateurNRZT            # classe de demodulateur NRZT
+│   ├── sources                         # classes de sources (émetteurs)
+│   |── simulateur                      # classes principale pour simuler les échanges
+│   ├── transmetteurs                   # classes utilitaires pour manipuler les transmetteurs (parfait ou non)
+|   |── visulations                     # classes utilitaires pour visualiser les informations (sondes)
+|   |── tests
+|   |   |── ModulateurRZTest            # classe des tests Junit pour le modulateur RZ et de son démodulateur
+|   |   |── ModulateurNRZTest           # classe des tests Junit pour le modulateur NRZ et de son démodulateur
+|   |   |── ModulateurNRZTTest          # classe des tests Junit pour le modulateur NRZT et de son démodulateur
+|__ doc                                 # documentation (générée par javadoc)
+```
 
 # TP1 : Transmission "back-to-back" - Mise en place de l'infrastructure
 
@@ -22,17 +57,18 @@ Les fichiers sources sont dans le répertoire `src` et les fichiers compilés da
 ├── src
 │   ├── destinations
 │   |   ├── DestinationFinale           # classe de destinations finales (récepteurs)
-│   |   ├── DestinationFianleTest       # classe de test de DestinationFinale
 │   ├── sources                      
 │   |   ├── SourceFixe                  # classe de sources fixes (émetteurs)
 │   |   ├── SourceAleatoire             # classe de sources aléatoires (émetteurs)
-│   |   ├── SourceFixeTest              # classe de test de SourceFixe
-│   |   ├── SourceAleatoireTest         # classe de test de SourceAleatoire
 │   ├── information                     # classes utilitaires pour manipuler les informations
 │   |── simulateur                      # classes principale pour simuler les échanges
 │   ├── transmetteurs                   # classes utilitaires pour manipuler les transmetteurs (parfait ou non)
 |   |── visulations                     # classes utilitaires pour visualiser les informations (sondes)
 |   |── test                            # classes de tests JUnit
 |   |   |── AllTests                    # classe de lancement de tous les tests
+|   |   |── DestinationFinaleTest       # classe de test de Sonde
+|   |   |── SourceFixeTest              # classe de test de SourceFixe
+|   |   |── SourceAleatoireTest         # classe de test de SourceAleatoire
+|   |   |── TransmetteurParfaitTest     # classe de test de TransmetteurParfait
 |__ doc                                 # documentation (générée par javadoc)
 ```

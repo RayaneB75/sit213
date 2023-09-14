@@ -40,6 +40,16 @@ public class ModulateurNRZTest {
     public static void tearDownClass() throws Exception {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * - Une source fixe avec un message de 6 bits "011001"
+     * - Un modulateur NRZ de 30 échantillons par symboles (180 échantillons en
+     * tout)
+     * avec une plage d'amplitude allant de 0 à 1
+     * - Un transmetteur parfait (TEB attendu = 0)
+     * - Un demodulateur NRZ de même caractérisitiques que le modulateur
+     * - Une destination finale booléenne
+     */
     @Before
     public void setUp() {
         source = new SourceFixe(6, "011001");
@@ -54,6 +64,12 @@ public class ModulateurNRZTest {
     public void tearDown() {
     }
 
+    /**
+     * Ici on testes la modulation avec 3 vérifications :
+     * - L'information modulée contient bien 180 échantillons
+     * - Le 36eme élément est bien à 1.0f
+     * - Le 143eme élément est bien à -1.0f
+     */
     @Test
     public void testModulation() {
 
@@ -73,6 +89,12 @@ public class ModulateurNRZTest {
 
     }
 
+    /**
+     * Ici on teste que la démodulation (après modulation et transmission) s'est
+     * bien déroulée, avec 2 vérifications :
+     * - Le nombre d'élément dans l'information finale est bien de 6 bits
+     * - L'information reçue est bien "011001"
+     */
     @Test
     public void testDemodulation() {
         modulateur.connecter(transmetteurParfait);
