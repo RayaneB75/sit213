@@ -74,6 +74,8 @@ jobs:
         release_name: ${{ github.ref_name }}
         tag_name: ${{ github.ref }}
         body_path: README.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Upload rapport
       uses: actions/upload-release-asset@v1
       env:
