@@ -63,6 +63,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: livrable
     steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v3
     - name: Get all artifacts
       uses: actions/download-artifact@v3
     - name: release
@@ -93,5 +95,5 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}   
         asset_path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.tar.gz
         asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.tar.gz
-        asset_content_type: application/pdf
+        asset_content_type: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     
