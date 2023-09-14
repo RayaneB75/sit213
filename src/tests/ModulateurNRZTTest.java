@@ -40,6 +40,16 @@ public class ModulateurNRZTTest {
     public static void tearDownClass() throws Exception {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * - Une source fixe avec un message de 6 bits "011001"
+     * - Un modulateur NRZT de 30 échantillons par symboles (180 échantillons en
+     * tout)
+     * avec une plage d'amplitude allant de 0 à 1
+     * - Un transmetteur parfait (TEB attendu = 0)
+     * - Un demodulateur NRZT de même caractérisitiques que le modulateur
+     * - Une destination finale booléenne
+     */
     @Before
     public void setUp() {
         source = new SourceFixe(6, "011001");
@@ -53,6 +63,12 @@ public class ModulateurNRZTTest {
     public void tearDown() {
     }
 
+    /**
+     * Ici on testes la modulation avec 3 vérifications :
+     * - L'information modulée contient bien 180 échantillons
+     * - Le 36eme élément est bien à 0.6f
+     * - Le 143eme élément est bien à -0.7f
+     */
     @Test
     public void testModulation() {
         source.connecter(modulateur);
@@ -67,11 +83,17 @@ public class ModulateurNRZTTest {
         collector.checkThat("Vérification de l'information modulée",
                 modulateur.getInformationEmise().nbElements(), is(180));
         collector.checkThat("Vérification d'un premier echantillon spécifique",
-                (float) modulateur.getInformationEmise().iemeElement(36), is((float) 0.6));
+                modulateur.getInformationEmise().iemeElement(36), is(0.6f));
         collector.checkThat("Vérification d'un deuxième echantillon spécifique",
-                (float) modulateur.getInformationEmise().iemeElement(143), is((float) -0.7));
+                modulateur.getInformationEmise().iemeElement(143), is(-0.7f));
     }
 
+    /**
+     * Ici on teste que la démodulation (après modulation et transmission) s'est
+     * bien déroulée, avec 2 vérifications :
+     * - Le nombre d'élément dans l'information finale est bien de 6 bits
+     * - L'information reçue est bien "011001"
+     */
     @Test
     public void testDemodulation() {
         source.connecter(modulateur);

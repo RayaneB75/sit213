@@ -28,7 +28,10 @@
 │   |── simulateur                      # classes principale pour simuler les échanges
 │   ├── transmetteurs                   # classes utilitaires pour manipuler les transmetteurs (parfait ou non)
 |   |── visulations                     # classes utilitaires pour visualiser les informations (sondes)
-|   |── tests                           # classes de tests JUnit
+|   |── tests
+|   |   |── ModulateurRZTest            # classe des tests Junit pour le modulateur RZ et de son démodulateur
+|   |   |── ModulateurNRZTest           # classe des tests Junit pour le modulateur NRZ et de son démodulateur
+|   |   |── ModulateurNRZTTest          # classe des tests Junit pour le modulateur NRZT et de son démodulateur
 |__ doc                                 # documentation (générée par javadoc)
 ```
 
