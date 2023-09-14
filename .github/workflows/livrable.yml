@@ -69,8 +69,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         path: ./
-    - name: Ls -r
-      run: ls -R
     - name: release
       uses: actions/create-release@v1
       id: create_release
