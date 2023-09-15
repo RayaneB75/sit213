@@ -136,6 +136,7 @@ public class Simulateur {
             SondeLogique sondeLogS = new SondeLogique("Source Logique", 30);
             SondeLogique sondeLogD = new SondeLogique("Destination Logique", 30);
             SondeAnalogique sondeAnaS = null;
+            SondeAnalogique sondeAnaD = null;
 
             // Dans tous les cas on connecte une sonde logique à la source logique
             source.connecter(sondeLogS);
@@ -144,8 +145,10 @@ public class Simulateur {
                 // Si on utilise une forme de signal, on connecte une sonde analogique à la
                 // sortie du modulateur (float) et une sonde logique à la sortie du démodulateur
                 // (bool)
-                sondeAnaS = new SondeAnalogique("Source Analogique");
+                sondeAnaS = new SondeAnalogique("Source analogique");
+                sondeAnaD = new SondeAnalogique("Sortie transmetteur analogique");
                 modulateur.connecter(sondeAnaS);
+                transmetteurAnalogique.connecter(sondeAnaD);
                 demodulateur.connecter(sondeLogD);
             } else {
                 // Sinon on connecte uniquement une sonde logique à la sortie du transmetteur
