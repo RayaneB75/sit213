@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "Cleaning all..."
 sh ./cleanAll
+mkdir -p docs/ bin/
 echo "Archiving..."
 tar --exclude='genDeliverable' --exclude='livrable' --exclude='.git' -czf B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz *
 echo "Done!"

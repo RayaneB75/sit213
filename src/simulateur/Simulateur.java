@@ -75,8 +75,6 @@ public class Simulateur {
 
     private float amplitudeMax = 1.0f;
 
-    private boolean codage = false;
-
     private int nbEch = 30;
 
     /**
@@ -109,7 +107,7 @@ public class Simulateur {
         }
         destination = new DestinationFinale();
 
-        if (codage) {
+        if (form != "") {
             switch (form) {
                 case "NRZT":
                     modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
@@ -138,15 +136,19 @@ public class Simulateur {
             SondeLogique sondeLogS = new SondeLogique("Source Logique", 30);
             SondeLogique sondeLogD = new SondeLogique("Destination Logique", 30);
             SondeAnalogique sondeAnaS = null;
+            SondeAnalogique sondeAnaD = null;
 
             // Dans tous les cas on connecte une sonde logique à la source logique
             source.connecter(sondeLogS);
 
-            if (codage) {
-                // Si on utilise un codage, on connecte une sonde analogique à la sortie
-                // du modulateur (float) et une sonde logique à la sortie du démodulateur (bool)
-                sondeAnaS = new SondeAnalogique("Source Analogique");
+            if (form != "") {
+                // Si on utilise une forme de signal, on connecte une sonde analogique à la
+                // sortie du modulateur (float) et une sonde logique à la sortie du démodulateur
+                // (bool)
+                sondeAnaS = new SondeAnalogique("Source analogique");
+                sondeAnaD = new SondeAnalogique("Sortie transmetteur analogique");
                 modulateur.connecter(sondeAnaS);
+                transmetteurAnalogique.connecter(sondeAnaD);
                 demodulateur.connecter(sondeLogD);
             } else {
                 // Sinon on connecte uniquement une sonde logique à la sortie du transmetteur
@@ -248,8 +250,6 @@ public class Simulateur {
                 } catch (Exception e) {
                     throw new ArgumentsException("Valeur du parametre -nbEch invalide :" + args[i]);
                 }
-            } else if (args[i].matches("-codage")) {
-                codage = true;
             } else
                 throw new ArgumentsException("Option invalide :" + args[i]);
         }

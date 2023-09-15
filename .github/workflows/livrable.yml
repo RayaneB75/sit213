@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
-      - name: Compile Java
-        run: ./compile
-      - name: Gen docs
-        run: ./genDoc
       - name: Generate livrable
         run: ./genDeliverable
       - name: Test livrable
@@ -43,11 +39,6 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
-      - name: Compile Java
-        run: ./compile
-        id: compile
-      - name: Gen docs
-        run: ./genDoc
       - name: Generate livrable
         id: gen_deliverable
         if: steps.compile.outputs.exit_code == 0
