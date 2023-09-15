@@ -1,8 +1,9 @@
 name: '[Moodle] Génération du livrable et du rapport'
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - '*'
 
 jobs:
   test_du_livrable:
@@ -30,20 +31,62 @@ jobs:
         uses: actions/upload-artifact@v3
         if: steps.compile.outputs.exit_code == 0
         with:
-          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etapeX.pdf
-          path: livrable/main.pdf    
+          name: rapport
+          path: livrable/main.pdf
   livrable:
     runs-on: ubuntu-latest
     needs: build_latex
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
-      - name: Create needed directories
-        run: mkdir -p bin/ docs/
       - name: Generate livrable
+        id: gen_deliverable
+        if: steps.compile.outputs.exit_code == 0
         run: ./genDeliverable
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+          name: logiciel
           path: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+
+
+  release:
+    runs-on: ubuntu-latest
+    needs: livrable
+    steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v3
+    - name: Get all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: ./
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ github.ref_name }}
+        tag_name: ${{ github.ref }}
+        body_path: README.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Upload rapport
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: rapport/main.pdf
+        asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.rapport.etape${{ github.ref_name }}.pdf
+        asset_content_type: application/pdf
+    - name: Upload logiciel en tar
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: logiciel/B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etapeX.tar.gz
+        asset_name: B1.Belkhir.Icard.Fuchs.Alegre.Achille.logiciel.etape${{ github.ref_name }}.tar.gz
+        asset_content_type: application/gzip
+    
