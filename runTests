@@ -2,22 +2,22 @@
 
 export CLASSPATH=$PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin:.
 
-java -cp bin/ simulateur.Simulateur -mess 101001101
+./simulateur -mess 101001101
 
-java -cp bin/ simulateur.Simulateur -mess 12
+./simulateur -mess 12
 
-java -cp bin/ simulateur.Simulateur -seed 1209
+./simulateur -seed 1209
 
-java -cp bin/ simulateur.Simulateur -mess 101001101
+./simulateur -mess 101001101
 
-java -cp bin/ simulateur.Simulateur -mess 101001101 -form RZ
+./simulateur -mess 101001101 -form RZ
 
-java -cp bin/ simulateur.Simulateur -mess 101001101 -form RZ -nbEch 10000
+./simulateur -mess 101001101 -form RZ -nbEch 10000
 
-java -cp bin/ simulateur.Simulateur -mess 101001101 -form NRZ -ampl -1f 1f
+./simulateur -mess 101001101 -form NRZ -ampl -1f 1f
 
-java -cp bin/ simulateur.Simulateur -mess 101001101 -form NRZT -ampl -1f 1f
+./simulateur -mess 101001101 -form NRZT -ampl -1f 1f
 
-java -cp bin/ simulateur.Simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000
+./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000
 
 java org.junit.runner.JUnitCore tests.AllTests
