@@ -1,17 +1,3 @@
 #!/bin/bash
 
-java -cp bin/ simulateur.Simulateur
-
-java -cp bin/ simulateur.Simulateur -mess 101001101
-
-java -cp bin/ simulateur.Simulateur -mess 12
-
-java -cp bin/ simulateur.Simulateur -seed 1209
-
-java -cp bin/ simulateur.Simulateur -mess 101001101 -codage 
-
-java -cp bin/ simulateur.Simulateur -mess 101001101 -codage -form RZ
-
-java -cp bin/ simulateur.Simulateur -mess 101001101 -codage -form NRZ -ampl -1f 1f
-
-java -cp bin/ simulateur.Simulateur -mess 101001101 -codage -form NRZT -ampl -1f 1f
+java -cp bin/ simulateur.Simulateur $@
