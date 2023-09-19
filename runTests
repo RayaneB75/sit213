@@ -20,4 +20,10 @@ export CLASSPATH=$PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/b
 
 ./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000
 
+./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000 -snrpb 0.4f
+
+./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000 -snrpb 0.8f
+
+./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000 -snrpb 0.1f
+
 java org.junit.runner.JUnitCore tests.AllTests
