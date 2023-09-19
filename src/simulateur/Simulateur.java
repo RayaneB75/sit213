@@ -8,6 +8,7 @@ import destinations.DestinationFinale;
 import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
+import transmetteurs.TransmetteurBruite;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 import modulateurs.Modulateur;
@@ -65,17 +66,26 @@ public class Simulateur {
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
 
+    /** la forme du signal */
     private String form = "RZ";
 
+    /** le modulateur */
     private Modulateur<Boolean, Float> modulateur = null;
 
+    /** le demodulateur */
     private Modulateur<Float, Boolean> demodulateur = null;
 
+    /** l'amplitude minimale */
     private float amplitudeMin = 0.0f;
 
+    /** l'amplitude maximale */
     private float amplitudeMax = 1.0f;
 
+    /** le nombre d'échantillons par bit */
     private int nbEch = 30;
+
+    /** le rapport signal sur bruit par bit <em> Eb/N0 </em> */
+    private float snrpb = 0.0f;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -122,7 +132,10 @@ public class Simulateur {
                     demodulateur = new DemodulateurRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
             }
-            transmetteurAnalogique = new TransmetteurParfait<Float>();
+            if (snrpb != 0.0f)
+                transmetteurAnalogique = new TransmetteurBruite<Float>(snrpb);
+            else
+                transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
             modulateur.connecter(transmetteurAnalogique);
             transmetteurAnalogique.connecter(demodulateur);
@@ -249,6 +262,13 @@ public class Simulateur {
                     nbEch = Integer.valueOf(args[i]);
                 } catch (Exception e) {
                     throw new ArgumentsException("Valeur du parametre -nbEch invalide :" + args[i]);
+                }
+            } else if (args[i].matches("-snrpb")) {
+                i++;
+                try {
+                    snrpb = Float.valueOf(args[i]);
+                } catch (Exception e) {
+                    throw new ArgumentsException("Valeur du parametre -snrpb invalide :" + args[i]);
                 }
             } else
                 throw new ArgumentsException("Option invalide :" + args[i]);

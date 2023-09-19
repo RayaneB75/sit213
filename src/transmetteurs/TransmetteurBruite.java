@@ -4,12 +4,15 @@ import information.Information;
 import information.InformationNonConformeException;
 
 public class TransmetteurBruite<T> extends Transmetteur<T, T> {
+    private float snrdb;
+
     /**
      * un constructeur factorisant les initialisations communes aux
      * réalisations de la classe abstraite Transmetteur
      */
-    public TransmetteurBruite() {
+    public TransmetteurBruite(float snrdb) {
         super();
+        this.snrdb = snrdb;
     }
 
     public void setInformationRecue(Information<T> informationRecue) {
@@ -35,4 +38,14 @@ public class TransmetteurBruite<T> extends Transmetteur<T, T> {
      */
     public void emettre() throws InformationNonConformeException {
     }
+
+    /**
+     * retourne le rapport signal a bruit en décibel (originelement)
+     * 
+     * @return
+     */
+    public float getSNRdb() {
+        return snrdb;
+    }
+
 }
