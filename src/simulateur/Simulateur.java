@@ -133,7 +133,7 @@ public class Simulateur {
                     break;
             }
             if (snrpb != 0.0f)
-                transmetteurAnalogique = new TransmetteurGaussien<Float>(snrpb);
+                transmetteurAnalogique = new TransmetteurGaussien<Float>(snrpb, nbEch);
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
