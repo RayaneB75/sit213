@@ -85,7 +85,7 @@ public class Simulateur {
     private int nbEch = 30;
 
     /** le rapport signal sur bruit par bit <em> Eb/N0 </em> */
-    private float snrpb = 0.0f;
+    private float snrpb = -1000;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -132,8 +132,9 @@ public class Simulateur {
                     demodulateur = new DemodulateurRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
             }
-            if (snrpb != 0.0f)
-                transmetteurAnalogique = new TransmetteurGaussien<Float>(snrpb, nbEch);
+            // On vérifie que le paramètre snrpb est bien défini
+            if (snrpb != -1000)
+                transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
@@ -299,19 +300,19 @@ public class Simulateur {
 
         Information<Boolean> srcInformation = source.getInformationEmise();
         Information<Boolean> destInformation = destination.getInformationRecue();
-
-        int correct = 0;
+        int nbElements = srcInformation.nbElements();
         int error = 0;
+        // if (nbElements != destInformation.nbElements()) {
+        // System.out.println("Erreur : les messages n'ont pas la même longueur");
 
-        for (int i = 0; i < srcInformation.nbElements(); i++) {
-            if (srcInformation.iemeElement(i).equals(destInformation.iemeElement(i))) {
-                correct++;
-            } else {
+        // }
+        for (int i = 0; i < nbElements; i++) {
+            if (!(srcInformation.iemeElement(i) == destInformation.iemeElement(i))) {
                 error++;
             }
         }
 
-        return error / correct;
+        return (float) error / nbElements;
     }
 
     /**

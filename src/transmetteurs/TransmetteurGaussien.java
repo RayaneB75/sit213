@@ -53,7 +53,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
 
     private void calculerVariance() {
         calculerPuissanceMoyenneSignal();
-        this.variance = this.puissanceMoyenneSignal * nbEch / 2 * (float) Math.pow(10, snrdB / 10);
+        this.variance = (this.puissanceMoyenneSignal * nbEch) / (2 * (float) Math.pow(10, snrdB / 10));
     }
 
     private void genererBruitBlancGaussien() {
