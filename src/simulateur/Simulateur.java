@@ -8,7 +8,7 @@ import destinations.DestinationFinale;
 import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
-import transmetteurs.TransmetteurBruite;
+import transmetteurs.TransmetteurGaussien;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 import modulateurs.Modulateur;
@@ -133,7 +133,7 @@ public class Simulateur {
                     break;
             }
             if (snrpb != 0.0f)
-                transmetteurAnalogique = new TransmetteurBruite<Float>(snrpb);
+                transmetteurAnalogique = new TransmetteurGaussien<Float>(snrpb);
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(modulateur);
