@@ -46,9 +46,9 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     private void calculerPuissanceMoyenneSignal() {
         float somme = 0;
         for (int i = 0; i < this.informationRecue.nbElements(); i++) {
-            somme += this.informationRecue.iemeElement(i);
+            somme += Math.pow(2, this.informationRecue.iemeElement(i));
         }
-        this.puissanceMoyenneSignal = somme / this.informationRecue.nbElements();
+        this.puissanceMoyenneSignal = (float) somme / this.informationRecue.nbElements();
     }
 
     private void calculerVariance() {
