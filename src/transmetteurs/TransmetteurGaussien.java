@@ -18,7 +18,6 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected int nbEch;
     protected float variance;
     protected float puissanceMoyenneSignal;
-    protected Information<Float> bruitBlancGaussien;
 
     public TransmetteurGaussien(float snrdB, int nbEch) {
         super();
@@ -45,9 +44,8 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
 
     private void calculerPuissanceMoyenneSignal() {
         float somme = 0;
-        for (int i = 0; i < this.informationRecue.nbElements(); i++) {
-            somme += Math.pow(2, this.informationRecue.iemeElement(i));
-        }
+        for (float i : this.informationRecue)
+            somme += Math.pow(2, i);
         this.puissanceMoyenneSignal = (float) somme / this.informationRecue.nbElements();
     }
 
@@ -56,21 +54,12 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         this.variance = (this.puissanceMoyenneSignal * nbEch) / (2 * (float) Math.pow(10, snrdB / 10));
     }
 
-    private void genererBruitBlancGaussien() {
-        this.bruitBlancGaussien = new Information<Float>();
+    private void genererSignalBruite() {
+        this.informationEmise = new Information<Float>();
         calculerVariance();
         Random random = new Random();
-        for (int i = 0; i < this.informationRecue.nbElements(); i++) {
-            this.bruitBlancGaussien.add((float) (random.nextGaussian() * Math.sqrt(variance)));
-        }
-    }
-
-    private void genererSignalBruite() throws InformationNonConformeException {
-        this.informationEmise = new Information<Float>();
-        if (this.informationRecue == null)
-            throw new InformationNonConformeException("Erreur : Information non conforme");
-        for (int i = 0; i < this.informationRecue.nbElements(); i++) {
-            this.informationEmise.add(this.informationRecue.iemeElement(i) + this.bruitBlancGaussien.iemeElement(i));
+        for (float i : this.informationRecue) {
+            this.informationEmise.add(i + (float) (random.nextGaussian() * Math.sqrt(variance)));
         }
     }
 
@@ -81,7 +70,6 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     public void emettre() throws InformationNonConformeException {
         if (this.informationRecue == null)
             throw new InformationNonConformeException("Erreur : Information non conforme");
-        genererBruitBlancGaussien();
         genererSignalBruite();
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationEmise);
