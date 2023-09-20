@@ -53,8 +53,8 @@ public class ModulateurNRZ extends Modulateur<Boolean, Float> {
      */
     protected void moduler() {
         informationGeneree = new Information<Float>();
-        for (int i = 0; i < informationRecue.nbElements(); i++) {
-            if (informationRecue.iemeElement(i)) {
+        for (boolean i : informationRecue) {
+            if (i) {
                 for (int j = 0; j < nbEch; j++) {
                     informationGeneree.add(ampMax);
                 }
