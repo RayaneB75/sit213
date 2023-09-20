@@ -11,13 +11,11 @@ import transmetteurs.TransmetteurParfait;
 import transmetteurs.TransmetteurGaussien;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
-import modulateurs.Modulateur;
-import modulateurs.ModulateurNRZ;
-import modulateurs.DemodulateurNRZ;
-import modulateurs.ModulateurRZ;
-import modulateurs.DemodulateurRZ;
-import modulateurs.ModulateurNRZT;
-import modulateurs.DemodulateurNRZT;
+import codages.Codeur;
+import codages.Decodeur;
+import codages.CodeurRZ;
+import codages.CodeurNRZ;
+import codages.CodeurNRZT;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -69,11 +67,11 @@ public class Simulateur {
     /** la forme du signal */
     private String form = "RZ";
 
-    /** le modulateur */
-    private Modulateur<Boolean, Float> modulateur = null;
+    /** le codeur */
+    private Codeur<Boolean, Float> codeur = null;
 
-    /** le demodulateur */
-    private Modulateur<Float, Boolean> demodulateur = null;
+    /** le decodeur */
+    private Codeur<Float, Boolean> decodeur = null;
 
     /** l'amplitude minimale */
     private float amplitudeMin = 0.0f;
@@ -120,16 +118,16 @@ public class Simulateur {
         if (form != "") {
             switch (form) {
                 case "NRZT":
-                    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    codeur = new CodeurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 case "NRZ":
-                    modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    codeur = new CodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 default:
-                    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    codeur = new CodeurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
                     break;
             }
             // On vérifie que le paramètre snrpb est bien défini
@@ -137,10 +135,10 @@ public class Simulateur {
                 transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
-            source.connecter(modulateur);
-            modulateur.connecter(transmetteurAnalogique);
-            transmetteurAnalogique.connecter(demodulateur);
-            demodulateur.connecter(destination);
+            source.connecter(codeur);
+            codeur.connecter(transmetteurAnalogique);
+            transmetteurAnalogique.connecter(decodeur);
+            decodeur.connecter(destination);
         } else {
             transmetteurLogique = new TransmetteurParfait<Boolean>();
             source.connecter(transmetteurLogique);
@@ -161,9 +159,9 @@ public class Simulateur {
                 // (bool)
                 sondeAnaS = new SondeAnalogique("Source analogique");
                 sondeAnaD = new SondeAnalogique("Sortie transmetteur analogique");
-                modulateur.connecter(sondeAnaS);
+                codeur.connecter(sondeAnaS);
                 transmetteurAnalogique.connecter(sondeAnaD);
-                demodulateur.connecter(sondeLogD);
+                decodeur.connecter(sondeLogD);
             } else {
                 // Sinon on connecte uniquement une sonde logique à la sortie du transmetteur
                 // logique

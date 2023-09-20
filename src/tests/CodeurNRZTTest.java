@@ -12,24 +12,24 @@ import org.junit.rules.ErrorCollector;
 
 import destinations.DestinationFinale;
 import information.Information;
-import modulateurs.ModulateurNRZT;
-import modulateurs.DemodulateurNRZT;
+import codages.CodeurNRZT;
+import codages.Decodeur;
 import sources.SourceFixe;
 import transmetteurs.TransmetteurParfait;
 
-public class ModulateurNRZTTest {
+public class CodeurNRZTTest {
     @Rule
     public ErrorCollector collector = new ErrorCollector();
 
     private static Information<Boolean> content = new Information<>(
             new Boolean[] { false, true, true, false, false, true });
     private SourceFixe source = null;
-    private ModulateurNRZT modulateur = null;
-    private DemodulateurNRZT demodulateur = null;
+    private CodeurNRZT codeur = null;
+    private Decodeur decodeur = null;
     private TransmetteurParfait<Float> transmetteurParfait = null;
     private DestinationFinale destinationFinale = null;
 
-    public ModulateurNRZTTest() {
+    public CodeurNRZTTest() {
     }
 
     @BeforeClass
@@ -43,19 +43,19 @@ public class ModulateurNRZTTest {
     /**
      * Instanciation des attributs utilisés par les tests
      * - Une source fixe avec un message de 6 bits "011001"
-     * - Un modulateur NRZT de 30 échantillons par symboles (180 échantillons en
+     * - Un codeur NRZT de 30 échantillons par symboles (180 échantillons en
      * tout)
      * avec une plage d'amplitude allant de 0 à 1
      * - Un transmetteur parfait (TEB attendu = 0)
-     * - Un demodulateur NRZT de même caractérisitiques que le modulateur
+     * - Un decodeur NRZT de même caractérisitiques que le codeur
      * - Une destination finale booléenne
      */
     @Before
     public void setUp() {
         source = new SourceFixe(6, "011001");
-        modulateur = new ModulateurNRZT(30, -1f, 1f);
+        codeur = new CodeurNRZT(30, -1f, 1f);
         transmetteurParfait = new TransmetteurParfait<Float>();
-        demodulateur = new DemodulateurNRZT(30, -1f, 1f);
+        decodeur = new Decodeur(30, -1f, 1f);
         destinationFinale = new DestinationFinale();
     }
 
@@ -64,48 +64,48 @@ public class ModulateurNRZTTest {
     }
 
     /**
-     * Ici on testes la modulation avec 3 vérifications :
-     * - L'information modulée contient bien 180 échantillons
+     * Ici on testes le codage avec 3 vérifications :
+     * - L'information codée contient bien 180 échantillons
      * - Le 36eme élément est bien à 0.6f
      * - Le 143eme élément est bien à -0.7f
      */
     @Test
-    public void testModulation() {
-        source.connecter(modulateur);
+    public void testCodage() {
+        source.connecter(codeur);
 
         try {
             source.emettre();
         } catch (Exception e) {
             System.out.println(e);
         }
-        collector.checkThat("Vérification de l'information reçue", modulateur.getInformationRecue().nbElements(),
+        collector.checkThat("Vérification de l'information reçue", codeur.getInformationRecue().nbElements(),
                 is(6));
         collector.checkThat("Vérification de l'information modulée",
-                modulateur.getInformationEmise().nbElements(), is(180));
+                codeur.getInformationEmise().nbElements(), is(180));
         collector.checkThat("Vérification d'un premier echantillon spécifique",
-                modulateur.getInformationEmise().iemeElement(36), is(0.6f));
+                codeur.getInformationEmise().iemeElement(36), is(0.6f));
         collector.checkThat("Vérification d'un deuxième echantillon spécifique",
-                modulateur.getInformationEmise().iemeElement(143), is(-0.7f));
+                codeur.getInformationEmise().iemeElement(143), is(-0.7f));
     }
 
     /**
-     * Ici on teste que la démodulation (après modulation et transmission) s'est
+     * Ici on teste que la décodage (après codage et transmission) s'est
      * bien déroulée, avec 2 vérifications :
      * - Le nombre d'élément dans l'information finale est bien de 6 bits
      * - L'information reçue est bien "011001"
      */
     @Test
-    public void testDemodulation() {
-        source.connecter(modulateur);
-        modulateur.connecter(transmetteurParfait);
-        transmetteurParfait.connecter(demodulateur);
-        demodulateur.connecter(destinationFinale);
+    public void testDecodage() {
+        source.connecter(codeur);
+        codeur.connecter(transmetteurParfait);
+        transmetteurParfait.connecter(decodeur);
+        decodeur.connecter(destinationFinale);
 
         try {
             source.emettre();
-            modulateur.emettre();
+            codeur.emettre();
             transmetteurParfait.emettre();
-            demodulateur.emettre();
+            decodeur.emettre();
         } catch (Exception e) {
             System.out.println(e);
         }

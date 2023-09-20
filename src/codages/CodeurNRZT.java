@@ -1,13 +1,13 @@
-package modulateurs;
+package codages;
 
 import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
-public class ModulateurNRZT extends Modulateur<Boolean, Float> {
+public class CodeurNRZT extends Codeur<Boolean, Float> {
 
     /**
-     * Constructeur d'un modulateur NRZT (Non Return to Zero)]
+     * Constructeur d'un codeur NRZT (Non Return to Zero)]
      * Utilisation du constructeur de la classe mère
      *
      * @param nbEch  le nombre d'échantillons par symbole
@@ -15,14 +15,14 @@ public class ModulateurNRZT extends Modulateur<Boolean, Float> {
      * @param ampMax l'amplitude maximale
      *
      */
-    public ModulateurNRZT(int nbEch, float ampMin, float ampMax) {
+    public CodeurNRZT(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
     }
 
     /**
-     * Permet de recevoir une information dans le modulateur NRZT
+     * Permet de recevoir une information dans le codeur NRZT
      *
-     * @param informationGeneree l'information reçue dans le modulateur NRZT
+     * @param informationGeneree l'information reçue dans le codeur NRZT
      *
      */
     public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
@@ -33,25 +33,25 @@ public class ModulateurNRZT extends Modulateur<Boolean, Float> {
     }
 
     /**
-     * Permet d'émettre l'information générée par le modulateur NRZT
-     * après l'avoir modulée
+     * Permet d'émettre l'information générée par le codeur NRZT
+     * après l'avoir codée
      *
      */
     public void emettre() throws InformationNonConformeException {
         if (this.informationRecue == null)
             throw new InformationNonConformeException("Erreur : Information non conforme");
-        moduler();
+        coder();
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationGeneree);
         }
     }
 
     /**
-     * Permet de moduler (transformer un booléen en float) l'information reçue dans
-     * le modulateur NRZT
+     * Permet de coder (transformer un booléen en float) l'information reçue dans
+     * le codeur NRZT
      *
      */
-    protected void moduler() {
+    protected void coder() {
         informationGeneree = new Information<Float>();
         for (int i = 0; i < informationRecue.nbElements(); i++) {
             if (informationRecue.iemeElement(i)) {
@@ -92,14 +92,14 @@ public class ModulateurNRZT extends Modulateur<Boolean, Float> {
     }
 
     /**
-     * geter de l'information reçue dans le modulateur NRZT
+     * geter de l'information reçue dans le codeur NRZT
      */
     public Information<Boolean> getInformationRecue() {
         return informationRecue;
     }
 
     /**
-     * geter de l'information générée et émise par le modulateur NRZT
+     * geter de l'information générée et émise par le codeur NRZT
      */
     public Information<Float> getInformationEmise() {
         return informationGeneree;
