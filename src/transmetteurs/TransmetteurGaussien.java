@@ -15,19 +15,32 @@ import information.InformationNonConformeException;
  */
 public class TransmetteurGaussien extends Transmetteur<Float, Float> {
 
+    /** SNR par bit en db */
     protected float snrdB;
+    /** nombre d'échantillons par symbole */
     protected int nbEch;
+    /** variance du bruit */
     protected float variance;
+    /** puissance moyenne du signal */
     protected float puissanceMoyenneSignal;
-
+    /** linked list contenant le bruit emis pour chaque échantillon */
     protected LinkedList<Float> bruitEmis = new LinkedList<Float>();
 
+    /**
+     * un constructeur factorisant les initialisations communes aux
+     * réalisations de la classe abstraite Transmetteur
+     */
     public TransmetteurGaussien(float snrdB, int nbEch) {
         super();
         this.snrdB = snrdB;
         this.nbEch = nbEch;
     }
 
+    /**
+     * Setter de l'information reçue
+     * 
+     * @param informationRecue
+     */
     public void setInformationRecue(Information<Float> informationRecue) {
         this.informationRecue = informationRecue;
     }
@@ -45,13 +58,21 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         this.emettre();
     }
 
-    private float caclulerPuissanceDeBruitMoyen() {
+    /**
+     * calcule la puissance de bruit moyen à partir de l'information reçue
+     * 
+     * @return puissance de bruit moyen
+     */
+    public float calculerPuissanceDeBruitMoyen() {
         float somme = 0;
         for (float i : this.bruitEmis)
             somme += Math.pow(2, i);
         return (float) somme / this.bruitEmis.size();
     }
 
+    /**
+     * calcule la puissance moyenne du signal à partir de l'information reçue
+     */
     private void calculerPuissanceMoyenneSignal() {
         float somme = 0;
         for (float i : this.informationRecue)
@@ -59,17 +80,27 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         this.puissanceMoyenneSignal = (float) somme / this.informationRecue.nbElements();
     }
 
+    /**
+     * calcule la variance du bruit à partir du SNR par bit en db
+     */
     private void calculerVariance() {
         calculerPuissanceMoyenneSignal();
         this.variance = (this.puissanceMoyenneSignal * nbEch) / (2 * (float) Math.pow(10, snrdB / 10));
     }
 
+    /**
+     * génère le signal bruité à partir du signal reçu
+     */
     private void genererSignalBruite() {
         this.informationEmise = new Information<Float>();
         calculerVariance();
+        double bruit = 0f;
         Random random = new Random();
         for (float i : this.informationRecue) {
-            this.informationEmise.add(i + (float) (random.nextGaussian() * Math.sqrt(variance)));
+            bruit = random.nextGaussian() * Math.sqrt(variance);
+            this.bruitEmis.add((float) (bruit));
+            this.informationEmise.add(i + (float) (bruit));
+            bruit = 0f;
         }
     }
 
