@@ -5,18 +5,20 @@ import sources.Source;
 import sources.SourceAleatoire;
 import sources.SourceFixe;
 import destinations.DestinationFinale;
-import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
+import transmetteurs.TransmetteurGaussien;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
-import modulateurs.Modulateur;
-import modulateurs.ModulateurNRZ;
-import modulateurs.DemodulateurNRZ;
-import modulateurs.ModulateurRZ;
-import modulateurs.DemodulateurRZ;
-import modulateurs.ModulateurNRZT;
-import modulateurs.DemodulateurNRZT;
+
+import java.util.*;
+
+import codages.Codeur;
+import codages.Decodeur;
+import codages.DecodeurNRZ;
+import codages.CodeurRZ;
+import codages.CodeurNRZ;
+import codages.CodeurNRZT;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -65,17 +67,26 @@ public class Simulateur {
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
 
+    /** la forme du signal */
     private String form = "RZ";
 
-    private Modulateur<Boolean, Float> modulateur = null;
+    /** le codeur */
+    private Codeur<Boolean, Float> codeur = null;
 
-    private Modulateur<Float, Boolean> demodulateur = null;
+    /** le decodeur */
+    private Codeur<Float, Boolean> decodeur = null;
 
+    /** l'amplitude minimale */
     private float amplitudeMin = 0.0f;
 
+    /** l'amplitude maximale */
     private float amplitudeMax = 1.0f;
 
+    /** le nombre d'échantillons par bit */
     private int nbEch = 30;
+
+    /** le rapport signal sur bruit par bit <em> Eb/N0 </em> */
+    private float snrpb = -1000;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -110,23 +121,27 @@ public class Simulateur {
         if (form != "") {
             switch (form) {
                 case "NRZT":
-                    modulateur = new ModulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    codeur = new CodeurNRZT(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 case "NRZ":
-                    modulateur = new ModulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    codeur = new CodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new DecodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 default:
-                    modulateur = new ModulateurRZ(nbEch, amplitudeMin, amplitudeMax);
-                    demodulateur = new DemodulateurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    codeur = new CodeurRZ(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
                     break;
             }
-            transmetteurAnalogique = new TransmetteurParfait<Float>();
-            source.connecter(modulateur);
-            modulateur.connecter(transmetteurAnalogique);
-            transmetteurAnalogique.connecter(demodulateur);
-            demodulateur.connecter(destination);
+            // On vérifie que le paramètre snrpb est bien défini
+            if (snrpb != -1000)
+                transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
+            else
+                transmetteurAnalogique = new TransmetteurParfait<Float>();
+            source.connecter(codeur);
+            codeur.connecter(transmetteurAnalogique);
+            transmetteurAnalogique.connecter(decodeur);
+            decodeur.connecter(destination);
         } else {
             transmetteurLogique = new TransmetteurParfait<Boolean>();
             source.connecter(transmetteurLogique);
@@ -147,9 +162,9 @@ public class Simulateur {
                 // (bool)
                 sondeAnaS = new SondeAnalogique("Source analogique");
                 sondeAnaD = new SondeAnalogique("Sortie transmetteur analogique");
-                modulateur.connecter(sondeAnaS);
+                codeur.connecter(sondeAnaS);
                 transmetteurAnalogique.connecter(sondeAnaD);
-                demodulateur.connecter(sondeLogD);
+                decodeur.connecter(sondeLogD);
             } else {
                 // Sinon on connecte uniquement une sonde logique à la sortie du transmetteur
                 // logique
@@ -250,6 +265,13 @@ public class Simulateur {
                 } catch (Exception e) {
                     throw new ArgumentsException("Valeur du parametre -nbEch invalide :" + args[i]);
                 }
+            } else if (args[i].matches("-snrpb")) {
+                i++;
+                try {
+                    snrpb = Float.valueOf(args[i]);
+                } catch (Exception e) {
+                    throw new ArgumentsException("Valeur du parametre -snrpb invalide :" + args[i]);
+                }
             } else
                 throw new ArgumentsException("Option invalide :" + args[i]);
         }
@@ -270,6 +292,15 @@ public class Simulateur {
     }
 
     /**
+     * La méthode qui calcule la puissance de bruit moyenne.
+     *
+     * @return La valeur de la puissance de bruit moyenne.
+     */
+    public float puissanceDeBruitMoyenne() {
+        return transmetteurAnalogique.calculerPuissanceDeBruitMoyen();
+    }
+
+    /**
      * La méthode qui calcule le taux d'erreur binaire en comparant
      * les bits du message émis avec ceux du message reçu.
      *
@@ -277,21 +308,19 @@ public class Simulateur {
      */
     public float calculTauxErreurBinaire() {
 
-        Information<Boolean> srcInformation = source.getInformationEmise();
-        Information<Boolean> destInformation = destination.getInformationRecue();
-
-        int correct = 0;
+        Iterator<Boolean> src = source.getInformationEmise().iterator();
+        Iterator<Boolean> dest = destination.getInformationRecue().iterator();
+        int nbBits = 0;
         int error = 0;
 
-        for (int i = 0; i < srcInformation.nbElements(); i++) {
-            if (srcInformation.iemeElement(i).equals(destInformation.iemeElement(i))) {
-                correct++;
-            } else {
+        while (src.hasNext() && dest.hasNext()) {
+            if (src.next() != dest.next()) {
                 error++;
             }
+            nbBits++;
         }
 
-        return error / correct;
+        return (float) error / nbBits;
     }
 
     /**

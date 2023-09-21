@@ -92,4 +92,6 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
      * émet l'information construite par le transmetteur
      */
     public abstract void emettre() throws InformationNonConformeException;
+
+    public abstract float calculerPuissanceDeBruitMoyen();
 }

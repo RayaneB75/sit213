@@ -41,7 +41,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Generate livrable
         id: gen_deliverable
-        if: steps.compile.outputs.exit_code == 0
         run: ./genDeliverable
       - name: Upload artifact
         uses: actions/upload-artifact@v3

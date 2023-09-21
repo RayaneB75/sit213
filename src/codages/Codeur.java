@@ -1,4 +1,4 @@
-package modulateurs;
+package codages;
 
 import java.util.LinkedList;
 
@@ -6,7 +6,7 @@ import destinations.DestinationInterface;
 import information.*;
 import sources.SourceInterface;
 
-public abstract class Modulateur<R, E> implements DestinationInterface<R>, SourceInterface<E> {
+public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInterface<E> {
     protected Information<R> informationRecue;
     protected Information<E> informationGeneree;
 
@@ -23,7 +23,7 @@ public abstract class Modulateur<R, E> implements DestinationInterface<R>, Sourc
      * @param ampMin l'amplitude minimale
      * @param ampMax l'amplitude maximale
      */
-    public Modulateur(int nbEch, float ampMin, float ampMax) {
+    public Codeur(int nbEch, float ampMin, float ampMax) {
         this.destinationsConnectees = new LinkedList<DestinationInterface<E>>();
         this.informationRecue = null;
         this.informationGeneree = null;
