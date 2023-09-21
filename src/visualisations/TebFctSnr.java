@@ -11,8 +11,6 @@ package visualisations;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import simulateur.Simulateur;
 
@@ -24,9 +22,6 @@ public class TebFctSnr {
      * @param args Les arguments de ligne de commande (non utilisés dans ce script).
      */
     public static void main(String[] args) {
-        List<Integer> snrValues = new ArrayList<>();
-        List<Float> tebValues = new ArrayList<>();
-
         // Créer un fichier CSV pour enregistrer les résultats
         String csvFileName = "teb_fct_snr.csv";
 
@@ -41,10 +36,6 @@ public class TebFctSnr {
             for (int snr = -40; snr <= 15; snr++) {
                 // Effectuer la simulation
                 float teb = runSimulation(snr);
-
-                // Enregistrer les résultats dans les listes
-                snrValues.add(snr);
-                tebValues.add(teb);
 
                 // Écrire les résultats dans le CSV
                 csvWriter.append(String.valueOf(snr));
