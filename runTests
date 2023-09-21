@@ -3,42 +3,118 @@
 export CLASSPATH=$PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin:.
 
 ./simulateur -mess 101001101
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 12
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -seed 1209
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 101001101
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 101001101 -form RZ
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 101001101 -form RZ -nbEch 10000
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 101001101 -form NRZ -ampl -1f 1f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 101001101 -form NRZT -ampl -1f 1f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb -10f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb -5f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb -3f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 0f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 3f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 5f
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 5f -nbEch 100 
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 10f 
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 20f 
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 ./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 20f -nbEch 100 
+if (( $? != 0 )); then
+    echo "Test failed"
+    exit 1
+fi
 
 
 java org.junit.runner.JUnitCore tests.AllTests
