@@ -11,6 +11,9 @@ import transmetteurs.TransmetteurParfait;
 import transmetteurs.TransmetteurGaussien;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
+
+import java.util.*;
+
 import codages.Codeur;
 import codages.Decodeur;
 import codages.DecodeurNRZ;
@@ -306,21 +309,19 @@ public class Simulateur {
      */
     public float calculTauxErreurBinaire() {
 
-        Information<Boolean> srcInformation = source.getInformationEmise();
-        Information<Boolean> destInformation = destination.getInformationRecue();
-        int nbElements = srcInformation.nbElements();
+        Iterator<Boolean> src = source.getInformationEmise().iterator();
+        Iterator<Boolean> dest = destination.getInformationRecue().iterator();
+        int nbBits = 0;
         int error = 0;
-        // if (nbElements != destInformation.nbElements()) {
-        // System.out.println("Erreur : les messages n'ont pas la même longueur");
-
-        // }
-        for (int i = 0; i < nbElements; i++) {
-            if (!(srcInformation.iemeElement(i) == destInformation.iemeElement(i))) {
+ 
+        while (src.hasNext() && dest.hasNext()) {
+            if (src.next() != dest.next()) {
                 error++;
             }
+            nbBits++;
         }
 
-        return (float) error / nbElements;
+        return (float) error / nbBits;
     }
 
     /**
