@@ -5,7 +5,6 @@ import sources.Source;
 import sources.SourceAleatoire;
 import sources.SourceFixe;
 import destinations.DestinationFinale;
-import information.Information;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
 import transmetteurs.TransmetteurGaussien;
@@ -313,7 +312,7 @@ public class Simulateur {
         Iterator<Boolean> dest = destination.getInformationRecue().iterator();
         int nbBits = 0;
         int error = 0;
- 
+
         while (src.hasNext() && dest.hasNext()) {
             if (src.next() != dest.next()) {
                 error++;

@@ -51,7 +51,8 @@ public class TebFctSnr {
     }
 
     /**
-     * Cette méthode effectue une simulation avec le SNR spécifié et retourne le TEB résultant.
+     * Cette méthode effectue une simulation avec le SNR spécifié et retourne le TEB
+     * résultant.
      *
      * @param snr Le rapport signal/bruit (SNR) spécifié en dB.
      * @return Le taux d'erreur binaire (TEB) calculé pour la simulation.
@@ -60,7 +61,7 @@ public class TebFctSnr {
         float teb = 0;
         try {
             Simulateur sim = new Simulateur(
-                    new String[] { "-seed", "1308", "-mess", "100000", "-form", "NRZ", "-ampl", "-1f", "1f", "-snrpb",
+                    new String[] { "-seed", "1308", "-mess", "1000", "-form", "NRZT", "-ampl", "-1f", "1f", "-snrpb",
                             String.valueOf(snr) });
             sim.execute();
             teb = sim.calculTauxErreurBinaire();
