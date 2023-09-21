@@ -1,5 +1,9 @@
 package codages;
 
+import java.util.*;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
@@ -53,41 +57,57 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
      */
     protected void coder() {
         informationGeneree = new Information<Float>();
-        for (int i = 0; i < informationRecue.nbElements(); i++) {
-            if (informationRecue.iemeElement(i)) {
-                for (int j = 0; j < nbEch; j++) {
-                    if (j < nbEch / 3) {
-                        if (i != 0 && informationRecue.iemeElement(i - 1))
-                            informationGeneree.add(ampMax);
-                        else
-                            informationGeneree.add((float) j / (nbEch / 3) * ampMax);
-                    } else if (j < 2 * nbEch / 3) {
+        
+        Iterator<Boolean> it = informationRecue.iterator();
+        Iterator<Boolean> itDecale = informationRecue.iterator();
+        
+        Boolean precedent = null;
+        Boolean current = null;
+        Boolean next = null;
+        
+        int delta = nbEch/3;
+        
+        if (itDecale.hasNext())
+            itDecale.next();
+        
+        while (it.hasNext()) {
+            current = it.next();
+            if (itDecale.hasNext())
+                next = itDecale.next();
+            if (current) {
+                for (int j=0; j < delta; j++) {
+                    if (precedent != null && precedent)
                         informationGeneree.add(ampMax);
-                    } else {
-                        if (i + 1 < informationRecue.nbElements() && informationRecue.iemeElement(i + 1))
-                            informationGeneree.add(ampMax);
-                        else
-                            informationGeneree.add((float) (nbEch - j) / (nbEch / 3) * ampMax);
-                    }
+                    else
+                        informationGeneree.add((float) j / delta * ampMax);
+                }
+                for (int j=0; j < delta; j++) {
+                    informationGeneree.add(ampMax);
+                }
+                for (int j=0; j < delta; j++) {
+                    if (next)
+                        informationGeneree.add(ampMax);
+                    else
+                        informationGeneree.add((float) (delta - j) / delta * ampMax);
                 }
             } else {
-                for (int j = 0; j < nbEch; j++) {
-                    if (j < nbEch / 3) {
-                        if (i != 0 && !informationRecue.iemeElement(i - 1))
-                            informationGeneree.add(ampMin);
-                        else
-                            informationGeneree.add((float) j / (nbEch / 3) * ampMin);
-                    } else if (j < 2 * nbEch / 3) {
+                for (int j=0; j < delta; j++) {
+                    if (precedent != null && precedent)
                         informationGeneree.add(ampMin);
-                    } else {
-                        if (i + 1 < informationRecue.nbElements() && !informationRecue.iemeElement(i + 1))
-                            informationGeneree.add(ampMin);
-                        else
-                            informationGeneree.add((float) (nbEch - j) / (nbEch / 3) * ampMin);
-                    }
+                    else
+                        informationGeneree.add((float) j / delta * ampMin);
+                }
+                for (int j=0; j < delta; j++) {
+                    informationGeneree.add(ampMin);
+                }
+                for (int j=0; j < delta; j++) {
+                    if (!next)
+                        informationGeneree.add(ampMin);
+                    else
+                        informationGeneree.add((float) (delta - j) / delta * ampMin);
                 }
             }
-
+            precedent = current;
         }
     }
 
