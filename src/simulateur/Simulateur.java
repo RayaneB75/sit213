@@ -13,6 +13,7 @@ import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 import codages.Codeur;
 import codages.Decodeur;
+import codages.DecodeurNRZ;
 import codages.CodeurRZ;
 import codages.CodeurNRZ;
 import codages.CodeurNRZT;
@@ -123,7 +124,7 @@ public class Simulateur {
                     break;
                 case "NRZ":
                     codeur = new CodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
-                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new DecodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 default:
                     codeur = new CodeurRZ(nbEch, amplitudeMin, amplitudeMax);
