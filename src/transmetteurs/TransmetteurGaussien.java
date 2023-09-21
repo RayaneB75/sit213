@@ -1,5 +1,6 @@
 package transmetteurs;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 import destinations.*;
@@ -18,6 +19,8 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected int nbEch;
     protected float variance;
     protected float puissanceMoyenneSignal;
+
+    protected LinkedList<Float> bruitEmis = new LinkedList<Float>();
 
     public TransmetteurGaussien(float snrdB, int nbEch) {
         super();
@@ -40,6 +43,13 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
             throw new InformationNonConformeException("Erreur : Information non conforme");
         this.informationRecue = information;
         this.emettre();
+    }
+
+    private float caclulerPuissanceDeBruitMoyen() {
+        float somme = 0;
+        for (float i : this.bruitEmis)
+            somme += Math.pow(2, i);
+        return (float) somme / this.bruitEmis.size();
     }
 
     private void calculerPuissanceMoyenneSignal() {
