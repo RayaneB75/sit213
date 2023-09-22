@@ -20,6 +20,11 @@ public class TransmetteurParfait<T> extends Transmetteur<T, T> {
         super();
     }
 
+    /**
+     * Setter de l'information reçue
+     * 
+     * @param informationRecue
+     */
     public void setInformationRecue(Information<T> informationRecue) {
         this.informationRecue = informationRecue;
     }
@@ -50,5 +55,12 @@ public class TransmetteurParfait<T> extends Transmetteur<T, T> {
                 destinationConnectee.recevoir(informationEmise);
             }
         }
+    }
+
+    /**
+     * retourne la puissance du bruit moyen
+     */
+    public float calculerPuissanceDeBruitMoyen() {
+        return 0f;
     }
 }

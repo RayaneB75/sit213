@@ -1,48 +1,62 @@
 package visualisations;
 
+import destinations.DestinationInterface;
+import codages.CodeurNRZ;
+import information.Information;
+import information.InformationNonConformeException;
+import sources.SourceFixe;
+import transmetteurs.TransmetteurGaussien;
 import java.io.FileWriter;
 import java.io.IOException;
-import simulateur.Simulateur;
+import java.io.PrintWriter;
 
-public class EstGaussienne {
+public class EstGaussienne implements DestinationInterface<Float> {
 
-    public static void main(String[] args) {
+    Information<Float> information;
 
-        // Créer un fichier CSV pour enregistrer les résultats
-        String csvFileName = "histo_bruit.csv";
+    public EstGaussienne() {
+        information = new Information<>();
+    }
 
-        try (FileWriter csvWriter = new FileWriter(csvFileName)) {
-            // Écrire l'en-tête du CSV
-            csvWriter.append("Taux d'erreur binaire (TEB)");
-            csvWriter.append("\n");
+    public Information<Float> getInformationRecue() {
+        return information;
+    }
 
-            // Réaliser 50 simulations en incrémentant le nombre d'échantillons par symbole
-            for (int snr = 0; snr <= 10000; snr++) {
-                // Effectuer la simulation
-                float teb = runSimulation();
+    public void recevoir(Information<Float> information) throws InformationNonConformeException {
+        for (Float i : information) {
+            this.information.add(i);
+        }
+    }
 
-                // Écrire les résultats dans le CSV
-                csvWriter.append(String.valueOf(teb));
-                csvWriter.append("\n");
+    public static void main(String[] args) throws Exception {
+        EstGaussienne graph = new EstGaussienne();
+        SourceFixe src = new SourceFixe(10, "0000000000");
+        CodeurNRZ codeurNRZ = new CodeurNRZ(1000000, -2, 2);
+        TransmetteurGaussien transmetteur = new TransmetteurGaussien(-10, 1000000);
+
+        src.connecter(codeurNRZ);
+        codeurNRZ.connecter(transmetteur);
+
+        transmetteur.connecter(graph);
+
+        src.emettre();
+
+        // Enregistrement dans un fichier CSV
+        String csvFileName = "noise_gaussian.csv";
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFileName))) {
+            // Écriture de l'en-tête du CSV (facultatif)
+            writer.println("Bruit gaussien");
+
+            // Écriture des valeurs dans le fichier CSV
+            for (Float value : graph.getInformationRecue()) {
+                writer.println(value);
             }
 
-            System.out.println("Simulation terminée. Résultats enregistrés dans " + csvFileName);
+            System.out.println("Données enregistrées dans " + csvFileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static float runSimulation() {
-        float teb = 0;
-        try {
-            Simulateur sim = new Simulateur(
-                    new String[] { "-mess", "10000", "-form", "NRZ", "-ampl", "-1f", "1f", "-snrpb", "3f" });
-            sim.execute();
-            teb = sim.calculTauxErreurBinaire();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // Retourner le TEB calculé
-        return teb;
-    }
 }
