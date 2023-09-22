@@ -10,7 +10,8 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-Zone.sav
+**/Zone.sav
+*.csv
 
 # Package Files #
 *.war
