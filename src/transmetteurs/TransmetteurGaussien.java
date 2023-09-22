@@ -18,11 +18,19 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected int nbEch;
     protected float variance;
     protected float puissanceMoyenneSignal;
+    protected int seed = 0;
 
     public TransmetteurGaussien(float snrdB, int nbEch) {
         super();
         this.snrdB = snrdB;
         this.nbEch = nbEch;
+    }
+
+    public TransmetteurGaussien(float snrdB, int nbEch, int seed) {
+        super();
+        this.snrdB = snrdB;
+        this.nbEch = nbEch;
+        this.seed = seed;
     }
 
     public void setInformationRecue(Information<Float> informationRecue) {
@@ -45,7 +53,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     private void calculerPuissanceMoyenneSignal() {
         float somme = 0;
         for (float i : this.informationRecue)
-            somme += Math.pow(2, i);
+            somme += Math.pow(i, 2);
         this.puissanceMoyenneSignal = (float) somme / this.informationRecue.nbElements();
     }
 
@@ -57,7 +65,11 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     private void genererSignalBruite() {
         this.informationEmise = new Information<Float>();
         calculerVariance();
-        Random random = new Random();
+        Random random = null;
+        if (this.seed != 0)
+            random = new Random(this.seed);
+        else
+            random = new Random();
         for (float i : this.informationRecue) {
             this.informationEmise.add(i + (float) (random.nextGaussian() * Math.sqrt(variance)));
         }

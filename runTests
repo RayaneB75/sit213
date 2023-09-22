@@ -1,120 +1,63 @@
 #!/bin/bash
+clear                                   # Efface l'écran.
+RED="\e[31m"
+GREEN="\e[32m"
+ITALICRED="\e[3;${RED}m"
+ENDCOLOR="\e[0m"
 
-export CLASSPATH=$PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin:.
+export CLASSPATH=::$PWD/bin:.
 
-./simulateur -mess 101001101
-if (( $? != 0 )); then
-    echo "Test failed"
+test_cases=(
+    "-mess 101001101"
+    "-mess 12"
+    "-seed 1209"
+    "-mess 101001101"
+    "-mess 101001101 -form RZ"
+    "-mess 101001101 -form RZ -nbEch 10000"
+    "-mess 101001101 -form NRZ -ampl -1f 1f"
+    "-mess 101001101 -form NRZT -ampl -1f 1f"
+    "-mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -1f 1f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -2f 1f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -4f 1f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -6f 1f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -8f 1f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -10f 1f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -10f 2f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -10f 4f -snrpb -3f"
+    "-mess 1000 -seed 1308 -form NRZ -ampl -10f 6f -snrpb -3f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb -10f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb -5f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb -3f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 0f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 3f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 5f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 5f -nbEch 100"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 10f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 20f"
+    "-mess 100 -seed 1308 -form NRZ -ampl -1f 1f -snrpb 20f -nbEch 100"
+    "-mess 1000 -form NRZT -ampl -1f 1f -snrpb -3f -nbEch 100"
+    "-mess 1000 -form RZ -ampl -1f 1f -snrpb -3f -nbEch 100"
+)
+cpt=0
+for cmd in "${test_cases[@]}"; do
+    ./simulateur $cmd
+    if (( $? != 0 )); then
+        echo -e "${RED}Test failed:${ENDCOLOR} ${ITALICRED} $cmd ${ENDCOLOR}"
+        ((cpt++))
+    fi
+done
+if (( $cpt != 0 )); then
+    echo -en "\n"
+    echo -en "${RED}$cpt tests failed${ENDCOLOR}"
     exit 1
 fi
 
-./simulateur -mess 12
-if (( $? != 0 )); then
-    echo "Test failed"
+echo -e "${GREEN}All tests passed${ENDCOLOR}\n"
+java -cp $PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin/ org.junit.runner.JUnitCore tests.AllTests
+
+if (( $cpt != 0 )); then
+    echo -en "\n"
+    echo -en "${RED}Junit tests failed${ENDCOLOR}"
     exit 1
 fi
-
-./simulateur -seed 1209
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 101001101
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 101001101 -form RZ
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 101001101 -form RZ -nbEch 10000
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 101001101 -form NRZ -ampl -1f 1f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 101001101 -form NRZT -ampl -1f 1f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 101001101 -form NRZT -ampl -1f 1f -nbEch 10000
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb -10f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb -5f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb -3f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 0f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 3f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 5f
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 5f -nbEch 100 
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 10f 
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 20f 
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-./simulateur -mess 100 -form NRZ -ampl -1f 1f -snrpb 20f -nbEch 100 
-if (( $? != 0 )); then
-    echo "Test failed"
-    exit 1
-fi
-
-
-java org.junit.runner.JUnitCore tests.AllTests
