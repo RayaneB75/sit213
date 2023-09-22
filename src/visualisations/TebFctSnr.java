@@ -23,30 +23,35 @@ public class TebFctSnr {
      */
     public static void main(String[] args) {
         // Créer un fichier CSV pour enregistrer les résultats
-        String csvFileName = "teb_fct_snr.csv";
 
-        try (FileWriter csvWriter = new FileWriter(csvFileName)) {
-            // Écrire l'en-tête du CSV
-            csvWriter.append("Signal Noise Rate (SNR) par bit");
-            csvWriter.append(",");
-            csvWriter.append("Taux d'erreur binaire (TEB)");
-            csvWriter.append("\n");
-
-            // Réaliser 50 simulations en incrémentant le nombre d'échantillons par symbole
-            for (int snr = -40; snr <= 15; snr++) {
-                // Effectuer la simulation
-                float teb = runSimulation(snr);
-
-                // Écrire les résultats dans le CSV
-                csvWriter.append(String.valueOf(snr));
+        String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
+        String csvFileName = "teb_fct_snr_";
+        System.out.println("Simulation en cours...");
+        for (String form : forms) {
+            System.out.println("Génération des données pour la forme d'onde " + form + "...");
+            try (FileWriter csvWriter = new FileWriter(csvFileName + form + ".csv")) {
+                // Écrire l'en-tête du CSV
+                csvWriter.append("Signal Noise Rate (SNR) par bit");
                 csvWriter.append(",");
-                csvWriter.append(String.valueOf(teb));
+                csvWriter.append("Taux d'erreur binaire (TEB)");
                 csvWriter.append("\n");
-            }
 
-            System.out.println("Simulation terminée. Résultats enregistrés dans " + csvFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
+                // Réaliser 50 simulations en incrémentant le nombre d'échantillons par symbole
+                for (int snr = -20; snr <= 15; snr++) {
+                    // Effectuer la simulation
+                    float teb = runSimulation(snr, form);
+
+                    // Écrire les résultats dans le CSV
+                    csvWriter.append(String.valueOf(snr));
+                    csvWriter.append(",");
+                    csvWriter.append(String.valueOf(teb));
+                    csvWriter.append("\n");
+                }
+
+                System.out.println("Simulation terminée. Résultats enregistrés dans " + csvFileName + form + ".csv");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -57,11 +62,12 @@ public class TebFctSnr {
      * @param snr Le rapport signal/bruit (SNR) spécifié en dB.
      * @return Le taux d'erreur binaire (TEB) calculé pour la simulation.
      */
-    private static float runSimulation(int snr) {
+    private static float runSimulation(int snr, String form) {
         float teb = 0;
         try {
             Simulateur sim = new Simulateur(
-                    new String[] { "-seed", "1308", "-mess", "1000", "-form", "NRZT", "-ampl", "-1f", "1f", "-snrpb",
+                    new String[] { "-seed", "1308", "-mess", "100000", "-form", String.valueOf(form), "-ampl", "-1f",
+                            "1f", "-snrpb",
                             String.valueOf(snr) });
             sim.execute();
             teb = sim.calculTauxErreurBinaire();

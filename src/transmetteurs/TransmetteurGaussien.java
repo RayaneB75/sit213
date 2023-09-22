@@ -25,6 +25,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected float puissanceMoyenneSignal;
     /** linked list contenant le bruit emis pour chaque échantillon */
     protected LinkedList<Float> bruitEmis = new LinkedList<Float>();
+    protected int seed = 0;
 
     /**
      * un constructeur factorisant les initialisations communes aux
@@ -34,6 +35,13 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         super();
         this.snrdB = snrdB;
         this.nbEch = nbEch;
+    }
+
+    public TransmetteurGaussien(float snrdB, int nbEch, int seed) {
+        super();
+        this.snrdB = snrdB;
+        this.nbEch = nbEch;
+        this.seed = seed;
     }
 
     /**
@@ -76,7 +84,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     private void calculerPuissanceMoyenneSignal() {
         float somme = 0;
         for (float i : this.informationRecue)
-            somme += Math.pow(2, i);
+            somme += Math.pow(i, 2);
         this.puissanceMoyenneSignal = (float) somme / this.informationRecue.nbElements();
     }
 
@@ -95,7 +103,11 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         this.informationEmise = new Information<Float>();
         calculerVariance();
         double bruit = 0f;
-        Random random = new Random();
+        Random random = null;
+        if (this.seed != 0)
+            random = new Random(this.seed);
+        else
+            random = new Random();
         for (float i : this.informationRecue) {
             bruit = random.nextGaussian() * Math.sqrt(variance);
             this.bruitEmis.add((float) (bruit));

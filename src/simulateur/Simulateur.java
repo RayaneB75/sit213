@@ -135,7 +135,11 @@ public class Simulateur {
             }
             // On vérifie que le paramètre snrpb est bien défini
             if (snrpb != -1000)
-                transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
+                if (aleatoireAvecGerme)
+                    transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch, seed);
+                else {
+                    transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
+                }
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(codeur);
