@@ -5,10 +5,10 @@ import information.Information;
 import information.InformationNonConformeException;
 
 /**
- * Classe d'un composant ayant le comportement d'un transmetteur parfait
- * d'informations dont les éléments sont de type Boolean.
+ * Classe d'un composant ayant le comportement d'une sonde d'informations
+ * dont les éléments sont de type T.
  *
- * @see Transmetteur
+ * @param <T> Le type d'éléments que cette sonde manipule.
  */
 public class TransmetteurParfait<T> extends Transmetteur<T, T> {
 

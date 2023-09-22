@@ -4,8 +4,10 @@ import information.*;
 import destinations.DestinationInterface;
 
 /**
- * Interface d'un composant ayant le comportement d'une source
- * d'informations dont les éléments sont de type T
+ * Classe Abstraite d'un composant source d'informations dont les
+ * éléments sont de type T.
+ *
+ * @param <T> Le type d'éléments que cette source émet.
  * @author prou
  */
 public interface SourceInterface <T>  {
@@ -25,5 +27,11 @@ public interface SourceInterface <T>  {
     /**
      * pour émettre l'information contenue dans une source
      */
+    /**
+     * pour émettre l'information contenue dans une source
+     *
+     * @throws InformationNonConformeException si l'information émise n'est pas conforme
+     */
     public void emettre() throws InformationNonConformeException;
+
 }

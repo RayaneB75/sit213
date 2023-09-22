@@ -3,7 +3,9 @@ package information;
 import java.util.*;
 
 /**
+ * Classe représentant une information contenant des éléments de type T.
  *
+ * @param <T> Le type d'éléments contenus dans cette information.
  * @author prou
  */
 public class Information<T> implements Iterable<T> {
@@ -11,17 +13,16 @@ public class Information<T> implements Iterable<T> {
     private LinkedList<T> content;
 
     /**
-     * pour construire une information vide
+     * Constructeur par défaut pour créer une information vide.
      */
     public Information() {
         this.content = new LinkedList<T>();
     }
 
     /**
-     * pour construire à partir d'un tableau de T une information
+     * Constructeur pour créer une information à partir d'un tableau de T.
      *
-     * @param content le tableau d'éléments pour initialiser l'information
-     *                construite
+     * @param content le tableau d'éléments pour initialiser l'information.
      */
     public Information(T[] content) {
         this.content = new LinkedList<T>();
@@ -31,45 +32,49 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour connaître le nombre d'éléments d'une information
+     * Retourne le nombre d'éléments dans cette information.
      *
-     * @return le nombre d'éléments de l'information
+     * @return le nombre d'éléments de l'information.
      */
     public int nbElements() {
         return this.content.size();
     }
 
     /**
-     * pour renvoyer un élément d'une information
+     * Renvoie le ième élément de cette information.
      *
-     * @return le ieme élément de l'information
+     * @param i l'indice de l'élément à récupérer.
+     * @return le ième élément de l'information.
      */
     public T iemeElement(int i) {
         return this.content.get(i);
     }
 
     /**
-     * pour modifier le ième élément d'une information
+     * Modifie le ième élément de cette information.
+     *
+     * @param i l'indice de l'élément à modifier.
+     * @param v la nouvelle valeur de l'élément.
      */
     public void setIemeElement(int i, T v) {
         this.content.set(i, v);
     }
 
     /**
-     * pour ajouter un élément à la fin de l'information
+     * Ajoute un élément à la fin de cette information.
      *
-     * @param valeur l'élément à rajouter
+     * @param valeur l'élément à ajouter.
      */
     public void add(T valeur) {
         this.content.add(valeur);
     }
 
     /**
-     * pour comparer l'information courante avec une autre information
+     * Compare cette information avec une autre information.
      *
-     * @param o l'information avec laquelle se comparer
+     * @param o l'information avec laquelle se comparer.
      * @return "true" si les 2 informations contiennent les mêmes
-     *         éléments aux mêmes places; "false" dans les autres cas
+     *         éléments aux mêmes places; "false" dans les autres cas.
      */
     @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
@@ -86,7 +91,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour afficher une information
+     * Renvoie une représentation textuelle de cette information.
      */
     public String toString() {
         String s = "";
@@ -97,7 +102,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour utilisation du "for each"
+     * Permet l'utilisation du "for each" avec cette information.
      */
     public Iterator<T> iterator() {
         return content.iterator();

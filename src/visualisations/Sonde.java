@@ -5,9 +5,10 @@ import destinations.Destination;
 
 /**
  * Classe Abstraite d'un composant destination réalisant un affichage
+ *
+ * @param <T> Le type d'éléments que cette sonde affiche.
  * @author prou
- */
-public  abstract class Sonde <T> extends Destination <T> {
+ */public  abstract class Sonde <T> extends Destination <T> {
 
     /**
      * nom de la fenêtre d'affichage

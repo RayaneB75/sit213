@@ -5,6 +5,7 @@ import information.Information;
 /**
  * Classe réalisant l'affichage (textuel) d'information composée
  * d'éléments de type T
+ * @param <T> Le type d'éléments que cette sonde affiche.
  * @author prou
  */
 public class SondeTextuelle <T> extends Sonde <T> {
