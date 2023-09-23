@@ -23,6 +23,8 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected float variance;
     /** puissance moyenne du signal */
     protected float puissanceMoyenneSignal;
+    /** puissance moyenne du bruit */
+    protected float puissanceBruitMoyen;
     /** linked list contenant le bruit emis pour chaque échantillon */
     protected LinkedList<Float> bruitEmis = new LinkedList<Float>();
     /** seed pour la génération du bruit */
@@ -74,11 +76,11 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
      * 
      * @return puissance de bruit moyen
      */
-    public float calculerPuissanceDeBruitMoyen() {
+    private void calculerPuissanceDeBruitMoyen() {
         float somme = 0;
         for (float i : this.bruitEmis)
             somme += Math.pow(i, 2);
-        return (float) somme / this.bruitEmis.size();
+        this.puissanceBruitMoyen = (float) somme / (float) this.bruitEmis.size();
     }
 
     /**
@@ -124,13 +126,8 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
      * signal et de la puissance du bruit généré (méthode utilisée pour les tests)
      */
     private void calculerSNRreel() {
-        float bruitMoyen = 0f;
-        float somme = 0;
-        for (float b : this.bruitEmis) {
-            somme += Math.pow(b, 2);
-        }
-        bruitMoyen = (float) somme / this.bruitEmis.size();
-        this.snrReel = 10 * (float) Math.log10(this.puissanceMoyenneSignal / bruitMoyen);
+        this.snrReel = 10 * (float) Math.log10(
+                (this.puissanceMoyenneSignal * nbEch) / (2 * this.puissanceBruitMoyen));
     }
 
     /**
@@ -150,7 +147,9 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         if (this.informationRecue == null)
             throw new InformationNonConformeException("Erreur : Information non conforme");
         genererSignalBruite();
+        calculerPuissanceDeBruitMoyen();
         calculerSNRreel();
+        System.out.println("SNR par bit en db réel généré : " + this.snrReel);
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationEmise);
         }

@@ -295,15 +295,6 @@ public class Simulateur {
     }
 
     /**
-     * La méthode qui calcule la puissance de bruit moyenne.
-     *
-     * @return La valeur de la puissance de bruit moyenne.
-     */
-    public float puissanceDeBruitMoyenne() {
-        return transmetteurAnalogique.calculerPuissanceDeBruitMoyen();
-    }
-
-    /**
      * La méthode qui calcule le taux d'erreur binaire en comparant
      * les bits du message émis avec ceux du message reçu.
      *
