@@ -74,7 +74,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     public float calculerPuissanceDeBruitMoyen() {
         float somme = 0;
         for (float i : this.bruitEmis)
-            somme += Math.pow(2, i);
+            somme += Math.pow(i, 2);
         return (float) somme / this.bruitEmis.size();
     }
 

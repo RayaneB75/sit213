@@ -122,7 +122,7 @@ public class Simulateur {
             switch (form) {
                 case "NRZT":
                     codeur = new CodeurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new DecodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 case "NRZ":
                     codeur = new CodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
@@ -233,10 +233,10 @@ public class Simulateur {
                 i++;
                 // traiter la valeur associee
                 messageString = args[i];
-                if (args[i].matches("[0,1]{8,}")) { // au moins 7 digits
+                if (args[i].matches("[0,1]{7,}")) { // au moins 7 digits
                     messageAleatoire = false;
                     nbBitsMess = args[i].length();
-                } else if (args[i].matches("[0-9]{1,7}")) { // de 1 à 6 chiffres
+                } else if (args[i].matches("[0-9]{1,6}")) { // de 1 à 6 chiffres
                     messageAleatoire = true;
                     nbBitsMess = Integer.valueOf(args[i]);
                     if (nbBitsMess < 1)
