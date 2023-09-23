@@ -106,15 +106,14 @@ public class Simulateur {
         // analyser et récupérer les arguments
         analyseArguments(args);
 
-        if (aleatoireAvecGerme) {
-            source = new SourceAleatoire(nbBitsMess, seed);
-        } else {
-            // Déclaration et instanciaction des composants
-            if (messageAleatoire) {
-                source = new SourceAleatoire(nbBitsMess);
+        if (messageAleatoire) {
+            if (aleatoireAvecGerme) {
+                source = new SourceAleatoire(nbBitsMess, seed);
             } else {
-                source = new SourceFixe(nbBitsMess, messageString);
+                source = new SourceAleatoire(nbBitsMess);
             }
+        } else {
+            source = new SourceFixe(nbBitsMess, messageString);
         }
         destination = new DestinationFinale();
 
@@ -225,7 +224,7 @@ public class Simulateur {
                 try {
                     seed = Integer.valueOf(args[i]);
                 } catch (Exception e) {
-                    throw new ArgumentsException("Valeur du parametre -seed  invalide :" + args[i]);
+                    throw new ArgumentsException("Valeur du parametre -seed invalide :" + args[i]);
                 }
             }
 
