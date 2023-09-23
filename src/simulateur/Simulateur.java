@@ -106,15 +106,14 @@ public class Simulateur {
         // analyser et récupérer les arguments
         analyseArguments(args);
 
-        if (aleatoireAvecGerme) {
-            source = new SourceAleatoire(nbBitsMess, seed);
-        } else {
-            // Déclaration et instanciaction des composants
-            if (messageAleatoire) {
-                source = new SourceAleatoire(nbBitsMess);
+        if (messageAleatoire) {
+            if (aleatoireAvecGerme) {
+                source = new SourceAleatoire(nbBitsMess, seed);
             } else {
-                source = new SourceFixe(nbBitsMess, messageString);
+                source = new SourceAleatoire(nbBitsMess);
             }
+        } else {
+            source = new SourceFixe(nbBitsMess, messageString);
         }
         destination = new DestinationFinale();
 
@@ -122,7 +121,7 @@ public class Simulateur {
             switch (form) {
                 case "NRZT":
                     codeur = new CodeurNRZT(nbEch, amplitudeMin, amplitudeMax);
-                    decodeur = new Decodeur(nbEch, amplitudeMin, amplitudeMax);
+                    decodeur = new DecodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
                     break;
                 case "NRZ":
                     codeur = new CodeurNRZ(nbEch, amplitudeMin, amplitudeMax);
@@ -225,7 +224,7 @@ public class Simulateur {
                 try {
                     seed = Integer.valueOf(args[i]);
                 } catch (Exception e) {
-                    throw new ArgumentsException("Valeur du parametre -seed  invalide :" + args[i]);
+                    throw new ArgumentsException("Valeur du parametre -seed invalide :" + args[i]);
                 }
             }
 
@@ -233,10 +232,10 @@ public class Simulateur {
                 i++;
                 // traiter la valeur associee
                 messageString = args[i];
-                if (args[i].matches("[0,1]{8,}")) { // au moins 7 digits
+                if (args[i].matches("[0,1]{7,}")) { // au moins 7 digits
                     messageAleatoire = false;
                     nbBitsMess = args[i].length();
-                } else if (args[i].matches("[0-9]{1,7}")) { // de 1 à 6 chiffres
+                } else if (args[i].matches("[0-9]{1,6}")) { // de 1 à 6 chiffres
                     messageAleatoire = true;
                     nbBitsMess = Integer.valueOf(args[i]);
                     if (nbBitsMess < 1)

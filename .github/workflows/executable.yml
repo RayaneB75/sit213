@@ -19,4 +19,4 @@ jobs:
         run: ./compile
       - name: Exec with script
         if: steps.build.outputs.exit_code == 0
-        run: ./runTests
+        run: ./runCI
