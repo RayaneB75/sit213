@@ -20,10 +20,9 @@ public class CodeurNRZ extends Codeur<Boolean, Float> {
     }
 
     /**
-     * Permet de recevoir une information dans le codeur NRZ
-     * 
-     * @param informationGeneree l'information reçue dans le codeur NRZ
-     * 
+     * Permet de recevoir une information dans le codeur NRZ.
+     *
+     * @param information l'information reçue dans le codeur NRZ.
      */
     public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
         if (information == null)
@@ -31,6 +30,7 @@ public class CodeurNRZ extends Codeur<Boolean, Float> {
         this.informationRecue = information;
         this.emettre();
     }
+
 
     /**
      * Permet d'émettre l'information générée par le codeur NRZ

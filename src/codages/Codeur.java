@@ -7,17 +7,38 @@ import information.*;
 import sources.SourceInterface;
 
 public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInterface<E> {
+    /**
+     * L'information reçue par le codeur.
+     */
     protected Information<R> informationRecue;
+
+    /**
+     * L'information générée par le codeur.
+     */
     protected Information<E> informationGeneree;
 
+    /**
+     * La liste des composants destination connectés au codeur.
+     */
     protected LinkedList<DestinationInterface<E>> destinationsConnectees;
 
+    /**
+     * Le nombre d'échantillons par symbole.
+     */
     protected int nbEch = 30;
+
+    /**
+     * L'amplitude minimale.
+     */
     protected float ampMin = 0.0f;
+
+    /**
+     * L'amplitude maximale.
+     */
     protected float ampMax = 1.0f;
 
     /**
-     * Constructeur d'un modulateur
+     * Constructeur d'un codeur.
      *
      * @param nbEch  le nombre d'échantillons par symbole
      * @param ampMin l'amplitude minimale
@@ -33,7 +54,7 @@ public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInt
     }
 
     /**
-     * connecte une destination au modulateur
+     * Connecte une destination au codeur.
      *
      * @param destination la destination à connecter
      */
@@ -42,7 +63,7 @@ public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInt
     }
 
     /**
-     * déconnecte une destination du modulateur
+     * Déconnecte une destination du codeur.
      *
      * @param destination la destination à déconnecter
      */
@@ -51,13 +72,12 @@ public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInt
     }
 
     /**
-     * permet de recevoir et traiter une information (dans notre cas, la moduler)
+     * Permet de recevoir et traiter une information (dans notre cas, la moduler).
      */
     public abstract void recevoir(Information<R> information) throws InformationNonConformeException;
 
     /**
-     * permet d'émettre l'information générée par le modulateur (l'envoyer aux
-     * destinations connectées)
+     * Permet d'émettre l'information générée par le codeur (l'envoyer aux destinations connectées).
      */
     public abstract void emettre() throws InformationNonConformeException;
 }

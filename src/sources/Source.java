@@ -6,8 +6,9 @@ import java.util.*;
 
 /**
  * Classe Abstraite d'un composant source d'informations dont les
- * éléments sont de type T
+ * éléments sont de type T.
  *
+ * @param <T> Le type d'éléments que cette source génère et émet.
  * @author prou
  */
 public abstract class Source<T> implements SourceInterface<T> {
@@ -56,7 +57,7 @@ public abstract class Source<T> implements SourceInterface<T> {
     }
 
     /**
-     * déconnecte une destination de la source
+     * déconnecte une destination de xla source
      *
      * @param destination la destination à déconnecter
      */
