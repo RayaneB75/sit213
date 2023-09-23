@@ -2,8 +2,6 @@ package codages;
 
 import java.util.*;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
@@ -50,6 +48,79 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
         }
     }
 
+    protected void genererSymbole(Boolean precedent, Boolean current, Boolean next) {
+        int delta = nbEch/3;
+        if (nbEch % 3 != 0) {
+            if (current) {
+                for (int j=0; j < delta; j++) {
+                    if (precedent != null && precedent)
+                        informationGeneree.add(ampMax);
+                    else
+                        informationGeneree.add((float) j / delta * ampMax);
+                }
+                for (int j=0; j <= delta+1; j++) {
+                    informationGeneree.add(ampMax);
+                }
+                for (int j=0; j < delta; j++) {
+                    if (next)
+                        informationGeneree.add(ampMax);
+                    else
+                        informationGeneree.add((float) (delta - j) / delta * ampMax);
+                }
+            } else {
+                for (int j=0; j < delta; j++) {
+                    if (precedent != null && !precedent)
+                        informationGeneree.add(ampMin);
+                    else
+                        informationGeneree.add((float) j / delta * ampMin);
+                }
+                for (int j=0; j <= delta+1; j++) {
+                    informationGeneree.add(ampMin);
+                }
+                for (int j=0; j < delta; j++) {
+                    if (!next)
+                        informationGeneree.add(ampMin);
+                    else
+                        informationGeneree.add((float) (delta - j) / delta * ampMin);
+                }
+            }
+            return;
+        }
+        if (current) {
+            for (int j=0; j < delta; j++) {
+                if (precedent != null && precedent)
+                    informationGeneree.add(ampMax);
+                else
+                    informationGeneree.add((float) j / delta * ampMax);
+            }
+            for (int j=0; j < delta; j++) {
+                informationGeneree.add(ampMax);
+            }
+            for (int j=0; j < delta; j++) {
+                if (next)
+                    informationGeneree.add(ampMax);
+                else
+                    informationGeneree.add((float) (delta - j) / delta * ampMax);
+            }
+        } else {
+            for (int j=0; j < delta; j++) {
+                if (precedent != null && !precedent)
+                    informationGeneree.add(ampMin);
+                else
+                    informationGeneree.add((float) j / delta * ampMin);
+            }
+            for (int j=0; j < delta; j++) {
+                informationGeneree.add(ampMin);
+            }
+            for (int j=0; j < delta; j++) {
+                if (!next)
+                    informationGeneree.add(ampMin);
+                else
+                    informationGeneree.add((float) (delta - j) / delta * ampMin);
+            }
+        }
+    }
+
     /**
      * Permet de coder (transformer un booléen en float) l'information reçue dans
      * le codeur NRZT
@@ -65,8 +136,6 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
         Boolean current = null;
         Boolean next = null;
         
-        int delta = nbEch/3;
-        
         if (itDecale.hasNext())
             itDecale.next();
         
@@ -74,39 +143,7 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
             current = it.next();
             if (itDecale.hasNext())
                 next = itDecale.next();
-            if (current) {
-                for (int j=0; j < delta; j++) {
-                    if (precedent != null && precedent)
-                        informationGeneree.add(ampMax);
-                    else
-                        informationGeneree.add((float) j / delta * ampMax);
-                }
-                for (int j=0; j < delta; j++) {
-                    informationGeneree.add(ampMax);
-                }
-                for (int j=0; j < delta; j++) {
-                    if (next)
-                        informationGeneree.add(ampMax);
-                    else
-                        informationGeneree.add((float) (delta - j) / delta * ampMax);
-                }
-            } else {
-                for (int j=0; j < delta; j++) {
-                    if (precedent != null && precedent)
-                        informationGeneree.add(ampMin);
-                    else
-                        informationGeneree.add((float) j / delta * ampMin);
-                }
-                for (int j=0; j < delta; j++) {
-                    informationGeneree.add(ampMin);
-                }
-                for (int j=0; j < delta; j++) {
-                    if (!next)
-                        informationGeneree.add(ampMin);
-                    else
-                        informationGeneree.add((float) (delta - j) / delta * ampMin);
-                }
-            }
+            genererSymbole(precedent, current, next);
             precedent = current;
         }
     }
