@@ -352,6 +352,11 @@ public class Simulateur {
                 s += args[i] + "  ";
             }
             System.out.println(s + "  =>   TEB : " + simulateur.calculTauxErreurBinaire());
+            if (simulateur.snrpb != -1000) {
+                System.out.println(
+                        "Eb/N0 demandé vs réel : " + simulateur.snrpb + " / "
+                                + simulateur.transmetteurAnalogique.getSNRReel());
+            }
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();

@@ -63,4 +63,11 @@ public class TransmetteurParfait<T> extends Transmetteur<T, T> {
     public float calculerPuissanceDeBruitMoyen() {
         return 0f;
     }
+
+    /**
+     * retourne le rapport signal sur bruit
+     */
+    public float getSNRReel() {
+        return 1000f;
+    }
 }

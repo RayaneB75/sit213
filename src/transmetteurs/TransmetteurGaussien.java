@@ -25,7 +25,10 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected float puissanceMoyenneSignal;
     /** linked list contenant le bruit emis pour chaque échantillon */
     protected LinkedList<Float> bruitEmis = new LinkedList<Float>();
+    /** seed pour la génération du bruit */
     protected int seed = 0;
+    /** SNRpb en db réel généré */
+    protected float snrReel;
 
     /**
      * un constructeur factorisant les initialisations communes aux
@@ -117,6 +120,29 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     }
 
     /**
+     * Cette méthode calcule le SNR par bit en db à partir de la puissance du
+     * signal et de la puissance du bruit généré (méthode utilisée pour les tests)
+     */
+    private void calculerSNRreel() {
+        float bruitMoyen = 0f;
+        float somme = 0;
+        for (float b : this.bruitEmis) {
+            somme += Math.pow(b, 2);
+        }
+        bruitMoyen = (float) somme / this.bruitEmis.size();
+        this.snrReel = 10 * (float) Math.log10(this.puissanceMoyenneSignal / bruitMoyen);
+    }
+
+    /**
+     * retourne le SNR par bit en db réel généré
+     * 
+     * @return snrpbReel SNR par bit en db réel généré
+     */
+    public float getSNRReel() {
+        return this.snrReel;
+    }
+
+    /**
      * émet l'information construite par le transmetteur à l'ensemble
      * des composants connectés à sa sortie.
      */
@@ -124,6 +150,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         if (this.informationRecue == null)
             throw new InformationNonConformeException("Erreur : Information non conforme");
         genererSignalBruite();
+        calculerSNRreel();
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationEmise);
         }
