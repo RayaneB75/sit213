@@ -66,7 +66,7 @@ public class TebFctSnr {
         float teb = 0;
         try {
             Simulateur sim = new Simulateur(
-                    new String[] { "-seed", "1308", "-mess", "1000000", "-form", String.valueOf(form), "-ampl", "-1f",
+                    new String[] { "-seed", "1308", "-mess", "100000", "-form", String.valueOf(form), "-ampl", "-1f",
                             "1f", "-snrpb",
                             String.valueOf(snr) });
             sim.execute();
