@@ -19,8 +19,7 @@ fi
 test_cases=(
     "-mess 101001101"
     "-mess 12"
-    "
-    eed 1209"
+    "-seed 1209"
     "-mess 101001101"
     "-mess 101001101 -form RZ"
     "-mess 101001101 -form RZ -nbEch 10000"
