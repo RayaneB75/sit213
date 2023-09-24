@@ -149,7 +149,6 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         genererSignalBruite();
         calculerPuissanceDeBruitMoyen();
         calculerSNRreel();
-        System.out.println("SNR par bit en db réel généré : " + this.snrReel);
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationEmise);
         }
