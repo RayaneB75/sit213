@@ -1,7 +1,6 @@
 #!/bin/bash
 RED="\e[31m"
 GREEN="\e[32m"
-ITALICRED="\e[3;${RED}m"
 ENDCOLOR="\e[0m"
 
 
@@ -82,7 +81,7 @@ cpt=0
 for cmd in "${test_cases[@]}"; do
     ./simulateur $cmd
     if (( $? != 0 )); then
-        echo -e "${RED}Test failed:${ENDCOLOR} ${ITALICRED} $cmd ${ENDCOLOR}"
+        echo -e "${RED}Test failed:${ENDCOLOR} $cmd ${ENDCOLOR}"
         ((cpt++))
     fi
 done
