@@ -5,11 +5,6 @@ import java.io.IOException;
 
 import simulateur.Simulateur;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
-import simulateur.Simulateur;
-
 public class TebFctSnr {
 
     public static void main(String[] args) {
