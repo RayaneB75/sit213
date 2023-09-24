@@ -12,7 +12,6 @@
 .mtj.tmp/
 **/Zone.sav
 *.csv
-*.xlsx
 
 # Package Files #
 *.war
@@ -29,5 +28,3 @@ replay_pid*
 # Editor project files
 .idea/
 .vscode/
-
-.DS_Store

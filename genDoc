@@ -1,4 +1,5 @@
 #!/bin/bash
 echo "Generating javadoc..."
-javadoc -cp $PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin:. -d docs -quiet src/*/*.java
+export CLASSPATH=$PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin:.
+javadoc -d docs -quiet src/*/*.java
 echo "Done!"

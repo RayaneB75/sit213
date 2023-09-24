@@ -23,14 +23,9 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     protected float variance;
     /** puissance moyenne du signal */
     protected float puissanceMoyenneSignal;
-    /** puissance moyenne du bruit */
-    protected float puissanceBruitMoyen;
     /** linked list contenant le bruit emis pour chaque échantillon */
     protected LinkedList<Float> bruitEmis = new LinkedList<Float>();
-    /** seed pour la génération du bruit */
     protected int seed = 0;
-    /** SNRpb en db réel généré */
-    protected float snrReel;
 
     /**
      * un constructeur factorisant les initialisations communes aux
@@ -76,11 +71,11 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
      * 
      * @return puissance de bruit moyen
      */
-    private void calculerPuissanceDeBruitMoyen() {
+    public float calculerPuissanceDeBruitMoyen() {
         float somme = 0;
         for (float i : this.bruitEmis)
             somme += Math.pow(i, 2);
-        this.puissanceBruitMoyen = (float) somme / (float) this.bruitEmis.size();
+        return (float) somme / this.bruitEmis.size();
     }
 
     /**
@@ -122,24 +117,6 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     }
 
     /**
-     * Cette méthode calcule le SNR par bit en db à partir de la puissance du
-     * signal et de la puissance du bruit généré (méthode utilisée pour les tests)
-     */
-    private void calculerSNRreel() {
-        this.snrReel = 10 * (float) Math.log10(
-                (this.puissanceMoyenneSignal * nbEch) / (2 * this.puissanceBruitMoyen));
-    }
-
-    /**
-     * retourne le SNR par bit en db réel généré
-     * 
-     * @return snrpbReel SNR par bit en db réel généré
-     */
-    public float getSNRReel() {
-        return this.snrReel;
-    }
-
-    /**
      * émet l'information construite par le transmetteur à l'ensemble
      * des composants connectés à sa sortie.
      */
@@ -147,8 +124,6 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         if (this.informationRecue == null)
             throw new InformationNonConformeException("Erreur : Information non conforme");
         genererSignalBruite();
-        calculerPuissanceDeBruitMoyen();
-        calculerSNRreel();
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationEmise);
         }
