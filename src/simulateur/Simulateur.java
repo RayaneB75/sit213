@@ -8,6 +8,7 @@ import destinations.DestinationFinale;
 import transmetteurs.Transmetteur;
 import transmetteurs.TransmetteurParfait;
 import transmetteurs.TransmetteurGaussien;
+import transmetteurs.TransmetteurMultiTrajets;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 
@@ -63,6 +64,7 @@ public class Simulateur {
     /** le composant Transmetteur parfait logique de la chaine de transmission */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
     private Transmetteur<Float, Float> transmetteurAnalogique = null;
+    private Transmetteur<Float, Float> transmetteurMultiTrajets = null;
 
     /** le composant Destination de la chaine de transmission */
     private Destination<Boolean> destination = null;
@@ -87,6 +89,9 @@ public class Simulateur {
 
     /** le rapport signal sur bruit par bit <em> Eb/N0 </em> */
     private float snrpb = -1000;
+
+    /** décalage temporel (en nombre d’échantillons) */
+    private float[][] ti = null;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -136,13 +141,16 @@ public class Simulateur {
             if (snrpb != -1000)
                 if (aleatoireAvecGerme)
                     transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch, seed);
-                else {
+                else
                     transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
-                }
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
             source.connecter(codeur);
-            codeur.connecter(transmetteurAnalogique);
+            if (ti != null) {
+                transmetteurMultiTrajets = new TransmetteurMultiTrajets(ti);
+                codeur.connecter(transmetteurMultiTrajets);
+                transmetteurMultiTrajets.connecter(transmetteurAnalogique);
+            }
             transmetteurAnalogique.connecter(decodeur);
             decodeur.connecter(destination);
         } else {
@@ -274,6 +282,30 @@ public class Simulateur {
                     snrpb = Float.valueOf(args[i]);
                 } catch (Exception e) {
                     throw new ArgumentsException("Valeur du parametre -snrpb invalide :" + args[i]);
+                }
+            } else if (args[i].matches("-ti")) {
+                int cpt = 0;
+                while (args.length > i + 1 && args[i + 1].matches("[0-9]{1,10}") && cpt < 5) {
+                    i += 2;
+                    cpt++;
+                }
+                i = i - (cpt * 2);
+                ti = new float[cpt][2];
+                for (int j = 0; j < cpt; j++) {
+                    i++;
+                    try {
+                        ti[j][0] = Integer.valueOf(args[i]);
+                    } catch (Exception e) {
+                        throw new ArgumentsException("Valeur du parametre -ti invalide :" + args[i]);
+                    }
+                    i++;
+                    try {
+                        if (Float.valueOf(args[i]) < 0 || Float.valueOf(args[i]) > 1)
+                            throw new ArgumentsException("Valeur du parametre -ti invalide :" + args[i]);
+                        ti[j][1] = Float.valueOf(args[i]);
+                    } catch (Exception e) {
+                        throw new ArgumentsException("Valeur du parametre -ti invalide :" + args[i]);
+                    }
                 }
             } else
                 throw new ArgumentsException("Option invalide :" + args[i]);
