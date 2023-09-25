@@ -33,15 +33,6 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
     }
 
     /**
-     * Retourne 0 dans cette classe puisqu'il n'y a pas de bruit
-     * 
-     * @return la puissance de bruit moyen (toujours 0 dans cette classe)
-     */
-    public float calculerPuissanceDeBruitMoyen() {
-        return 0.0f;
-    }
-
-    /**
      * reçoit une information. Cette méthode, en fin d'exécution, appelle la
      * méthode emettre.
      *
@@ -86,6 +77,10 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
             this.informationEmise.add(informationGeneree[i]);
         }
 
+    }
+
+    public float getSNRReel() {
+        return 1000f;
     }
 
     /**
