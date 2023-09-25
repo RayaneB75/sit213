@@ -1,9 +1,20 @@
 #!/bin/bash
 RED="\e[31m"
 GREEN="\e[32m"
-ITALICRED="\e[3;${RED}m"
+BROWN="\e[33m"
 ENDCOLOR="\e[0m"
 
+./compile
+
+java -cp $PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin/ org.junit.runner.JUnitCore tests.AllTests
+
+if (( $? != 0 )); then
+    echo -en "\n"
+    echo -en "${RED}Junit tests failed${ENDCOLOR}"
+    exit 1
+else 
+    echo -e "${GREEN}All JUnit tests passed${ENDCOLOR}\n"
+fi
 
 test_cases=(
     "-mess 101001101"
@@ -88,21 +99,14 @@ cpt=0
 for cmd in "${test_cases[@]}"; do
     ./simulateur $cmd
     if (( $? != 0 )); then
-        echo -e "${RED}Test failed:${ENDCOLOR} ${ITALICRED} $cmd ${ENDCOLOR}"
+        echo -e "${RED}Test failed:${BROWN} $cmd ${ENDCOLOR}"
         ((cpt++))
     fi
 done
 if (( $cpt != 0 )); then
     echo -en "\n"
-    echo -en "${RED}$cpt tests failed${ENDCOLOR}"
+    echo -en "${RED}$cpt tests failed ${BROWN}in ${#test_cases[@]} ${ENDCOLOR}"
     exit 1
 fi
 
 echo -e "${GREEN}All tests passed${ENDCOLOR}\n"
-java -cp $PWD/lib/hamcrest-core-1.3.jar:$PWD/lib/junit-4.13.2.jar:$PWD/bin/ org.junit.runner.JUnitCore tests.AllTests
-
-if (( $cpt != 0 )); then
-    echo -en "\n"
-    echo -en "${RED}Junit tests failed${ENDCOLOR}"
-    exit 1
-fi

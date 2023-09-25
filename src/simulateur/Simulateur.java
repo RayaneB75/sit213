@@ -386,10 +386,10 @@ public class Simulateur {
                 s += args[i] + "  ";
             }
             Float teb = simulateur.calculTauxErreurBinaire();
-            System.out.println(s + "  =>   TEB : " + teb);
             if (teb < 0.0f || teb.isNaN()) {
                 throw new Exception("TEB incorrect (" + teb + ") : TEB < 0 ou NaN");
             }
+            System.out.println(s + "  =>   TEB : " + teb);
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
