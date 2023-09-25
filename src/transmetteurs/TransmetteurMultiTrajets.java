@@ -97,13 +97,6 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
         else {
             genererSignalRetarde();
             genererSignalTransmis();
-            /**
-             * Debug
-             */
-            for (float i : informationEmise) {
-                System.out.println(i);
-            }
-
             for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
                 destinationConnectee.recevoir(this.informationEmise);
             }
