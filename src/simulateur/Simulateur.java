@@ -150,6 +150,8 @@ public class Simulateur {
                 transmetteurMultiTrajets = new TransmetteurMultiTrajets(ti);
                 codeur.connecter(transmetteurMultiTrajets);
                 transmetteurMultiTrajets.connecter(transmetteurAnalogique);
+            } else {
+                codeur.connecter(transmetteurAnalogique);
             }
             transmetteurAnalogique.connecter(decodeur);
             decodeur.connecter(destination);
@@ -383,7 +385,11 @@ public class Simulateur {
             for (int i = 0; i < args.length; i++) { // copier tous les paramètres de simulation
                 s += args[i] + "  ";
             }
-            System.out.println(s + "  =>   TEB : " + simulateur.calculTauxErreurBinaire());
+            Float teb = simulateur.calculTauxErreurBinaire();
+            System.out.println(s + "  =>   TEB : " + teb);
+            if (teb < 0.0f || teb.isNaN()) {
+                throw new Exception("TEB incorrect (" + teb + ") : TEB < 0 ou NaN");
+            }
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
