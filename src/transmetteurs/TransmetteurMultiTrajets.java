@@ -73,7 +73,7 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
         }
 
         this.informationEmise = new Information<Float>();
-        for (int i = 0; i < informationGeneree.length; i++) {
+        for (int i = 0; i < informationRecue.nbElements(); i++) {
             this.informationEmise.add(informationGeneree[i]);
         }
 
