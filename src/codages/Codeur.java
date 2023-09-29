@@ -6,6 +6,25 @@ import destinations.DestinationInterface;
 import information.*;
 import sources.SourceInterface;
 
+/**
+ * Classe abstraite d'un codeur.
+ * Un codeur reçoit une information (de type R) et génère une information (de
+ * type E).
+ * Il est caractérisé par le nombre d'échantillons par symbole, l'amplitude
+ * minimale et l'amplitude maximale.
+ * Il est connecté à des composants destination.
+ * Il possède une information reçue et une information générée.
+ * Il possède une liste de composants destination connectés.
+ * Il possède une méthode pour connecter une destination.
+ * Il possède une méthode pour déconnecter une destination.
+ * Il possède une méthode pour recevoir et traiter une information (dans notre
+ * cas, la moduler).
+ * Il possède une méthode pour émettre l'information générée par le codeur
+ * (l'envoyer aux destinations connectées).
+ * 
+ * @param <R> Le type d'éléments en entrée du codeur.
+ * @param <E> Le type d'éléments en sortie du codeur.
+ */
 public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInterface<E> {
     /**
      * L'information reçue par le codeur.
@@ -77,7 +96,8 @@ public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInt
     public abstract void recevoir(Information<R> information) throws InformationNonConformeException;
 
     /**
-     * Permet d'émettre l'information générée par le codeur (l'envoyer aux destinations connectées).
+     * Permet d'émettre l'information générée par le codeur (l'envoyer aux
+     * destinations connectées).
      */
     public abstract void emettre() throws InformationNonConformeException;
 }

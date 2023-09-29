@@ -4,6 +4,23 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
+/**
+ * Classe d'un codeur NRZ (Non Return to Zero).
+ * Un codeur NRZ reçoit une information (de type booléen) et génère une
+ * information (de type float).
+ * Il est caractérisé par le nombre d'échantillons par symbole, l'amplitude
+ * minimale et l'amplitude maximale.
+ * Il est connecté à des composants destination.
+ * Il possède une information reçue et une information générée.
+ * Il possède une liste de composants destination connectés.
+ * Il possède une méthode pour connecter une destination.
+ * Il possède une méthode pour déconnecter une destination.
+ * Il possède une méthode pour recevoir et traiter une information (dans notre
+ * cas, la moduler).
+ * Il possède une méthode pour émettre l'information générée par le codeur
+ * (l'envoyer aux destinations connectées).
+ * 
+ */
 public class CodeurNRZ extends Codeur<Boolean, Float> {
 
     /**
@@ -30,7 +47,6 @@ public class CodeurNRZ extends Codeur<Boolean, Float> {
         this.informationRecue = information;
         this.emettre();
     }
-
 
     /**
      * Permet d'émettre l'information générée par le codeur NRZ

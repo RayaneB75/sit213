@@ -17,25 +17,72 @@ import codages.Decodeur;
 import sources.SourceFixe;
 import transmetteurs.TransmetteurParfait;
 
+/**
+ * Cette classe représente un ensemble de tests JUnit pour la classe CodeurRZ.
+ * Elle vérifie le comportement de la classe CodeurRZ en générant des symboles
+ * à partir de séquences de bits fixes et en effectuant différentes
+ * vérifications sur la taille de l'information générée et la cohérence entre
+ * deux instances de la classe.
+ * 
+ */
 public class CodeurRZTest {
+    /**
+     * Permet de gérer les erreurs récoltées pendant les tests
+     */
     @Rule
     public ErrorCollector collector = new ErrorCollector();
 
+    /**
+     * Attribut contenant l'information attendue après décodage
+     */
     private static Information<Boolean> content = new Information<>(
             new Boolean[] { false, true, true, false, false, true });
+    /**
+     * Attributs utilisés par les tests
+     */
     private SourceFixe source = null;
+    /**
+     * Codeur RZ utilisé par les tests
+     */
     private CodeurRZ codeur = null;
+    /**
+     * Decodeur utilisé par les tests
+     */
     private Decodeur decodeur = null;
+    /**
+     * Transmetteur parfait utilisé par les tests
+     */
     private TransmetteurParfait<Float> transmetteurParfait = null;
+    /**
+     * Destination finale utilisée par les tests
+     */
     private DestinationFinale destinationFinale = null;
 
+    /**
+     * Constructeur de la classe de test
+     * 
+     */
     public CodeurRZTest() {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * - Une source fixe avec un message de 6 bits "011001"
+     * - Un codeur RZ de 30 échantillons par symboles (180 échantillons en tout)
+     * 
+     * @throws Exception si une erreur survient pendant l'instanciation
+     */
     @BeforeClass
     public static void setUpClass() throws Exception {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * - Une source fixe avec un message de 6 bits "011001"
+     * - Un codeur RZ de 30 échantillons par symboles (180 échantillons en tout)
+     * 
+     * @throws Exception si une erreur survient pendant l'instanciation
+     */
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
@@ -59,6 +106,11 @@ public class CodeurRZTest {
         source.connecter(codeur);
     }
 
+    /**
+     * On ne fait rien ici car on ne fait pas de modifications sur les attributs
+     * instanciés dans setUp()
+     * 
+     */
     @After
     public void tearDown() {
     }

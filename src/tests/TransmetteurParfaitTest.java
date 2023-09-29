@@ -12,6 +12,13 @@ import information.InformationNonConformeException;
 import sources.SourceAleatoire;
 import transmetteurs.TransmetteurParfait;
 
+/**
+ * Cette classe représente un ensemble de tests JUnit pour la classe
+ * TransmetteurParfait.
+ * Elle vérifie le comportement des méthodes emettre et recevoir de la classe
+ * TransmetteurParfait en connectant une source aléatoire à une destination
+ * finale.
+ */
 public class TransmetteurParfaitTest {
 
     /**

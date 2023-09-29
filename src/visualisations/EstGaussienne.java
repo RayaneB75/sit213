@@ -10,24 +10,50 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Classe d'un composant ayant le comportement d'un visualiseur
+ * d'informations dont les éléments sont de type Float.
+ * 
+ */
 public class EstGaussienne implements DestinationInterface<Float> {
 
     Information<Float> information;
 
+    /**
+     * Constructeur de la classe EstGaussienne
+     * (constructeur d'un composant)
+     */
     public EstGaussienne() {
         information = new Information<>();
     }
 
+    /**
+     * getter de l'information reçue
+     * 
+     * @return l'information reçue
+     */
     public Information<Float> getInformationRecue() {
         return information;
     }
 
+    /**
+     * reçoit une information. Cette méthode, en fin d'exécution, appelle la
+     * méthode émettre.
+     *
+     * @param information l'information reçue
+     */
     public void recevoir(Information<Float> information) throws InformationNonConformeException {
         for (Float i : information) {
             this.information.add(i);
         }
     }
 
+    /**
+     * émet l'information construite par le transmetteur
+     * 
+     * @throws InformationNonConformeException si l'information reçue n'est pas
+     * @param args les arguments de la ligne de commande
+     */
     public static void main(String[] args) throws Exception {
         EstGaussienne graph = new EstGaussienne();
         SourceFixe src = new SourceFixe(10, "0000000000");

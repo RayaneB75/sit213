@@ -13,11 +13,20 @@ import information.InformationNonConformeException;
 import destinations.DestinationFinale;
 import sources.SourceAleatoire;
 
+/**
+ * Cette classe représente un ensemble de tests JUnit pour la classe
+ * DestinationFinale.
+ * Elle vérifie si l'information émise par une source aléatoire peut être
+ * correctement reçue par une destination finale, et si elle correspond à
+ * l'information reçue.
+ * 
+ */
 public class DestinationFinaleTest {
 
     /**
      * Test unitaire pour la méthode recevoir de la classe DestinationFinale.
-     * Il vérifie si l'information émise par une source aléatoire peut être correctement reçue
+     * Il vérifie si l'information émise par une source aléatoire peut être
+     * correctement reçue
      * par une destination finale, et si elle correspond à l'information reçue.
      */
     @Test

@@ -6,6 +6,13 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
+/**
+ * Classe d'un codeur NRZ (Non Return to Zero).
+ * 
+ * Un codeur NRZ reçoit une information (de type booléen) et génère une
+ * information (de type float).
+ * 
+ */
 public class CodeurNRZT extends Codeur<Boolean, Float> {
 
     /**
@@ -24,7 +31,7 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
     /**
      * Permet de recevoir une information dans le codeur NRZT
      *
-     * @param informationGeneree l'information reçue dans le codeur NRZT
+     * @param information l'information reçue dans le codeur NRZT
      *
      */
     public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
@@ -48,6 +55,14 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
         }
     }
 
+    /**
+     * Permet de générer un symbole dans le codeur NRZT
+     *
+     * @param precedent le booléen précédent
+     * @param current   le booléen courant
+     * @param next      le booléen suivant
+     *
+     */
     protected void genererSymbole(Boolean precedent, Boolean current, Boolean next) {
         int delta = nbEch / 3;
         if (nbEch % 3 != 0) {

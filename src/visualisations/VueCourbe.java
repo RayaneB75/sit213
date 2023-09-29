@@ -11,20 +11,39 @@ package visualisations;
 import java.awt.*;
 import java.awt.geom.*;
 
+/**
+ * La classe VueCourbe représente une fenêtre pour afficher une courbe.
+ * Cette classe peut être utilisée pour afficher des courbes basées sur des
+ * tableaux de valeurs booléennes ou des tableaux de valeurs flottantes.
+ * 
+ */
 public class VueCourbe extends Vue {
 
+	/**
+	 * Numéro de version de la classe (pour la sérialisation).
+	 */
 	private static final long serialVersionUID = 1917L;
 
+	/**
+	 * Tableau de coordonnées des points à afficher.
+	 */
 	private Point2D.Float[] coordonnees;
+	/**
+	 * Valeur maximale sur l'axe des y.
+	 */
 	private float yMax = 0;
+	/**
+	 * Valeur minimale sur l'axe des y.
+	 */
 	private float yMin = 0;
 
 	/**
 	 * Constructeur pour afficher une courbe basée sur des valeurs booléennes.
 	 *
-	 * @param valeurs   Tableau de valeurs booléennes à afficher sous forme de courbe.
-	 * @param nbPixels  Le nombre de pixels par unité sur l'axe des x.
-	 * @param nom       Le nom de la fenêtre.
+	 * @param valeurs  Tableau de valeurs booléennes à afficher sous forme de
+	 *                 courbe.
+	 * @param nbPixels Le nombre de pixels par unité sur l'axe des x.
+	 * @param nom      Le nom de la fenêtre.
 	 */
 	public VueCourbe(boolean[] valeurs, int nbPixels, String nom) {
 		super(nom);
@@ -93,9 +112,11 @@ public class VueCourbe extends Vue {
 	}
 
 	/**
-	 * Change les données de la courbe basée sur des valeurs booléennes et déclenche un redessin.
+	 * Change les données de la courbe basée sur des valeurs booléennes et déclenche
+	 * un redessin.
 	 *
-	 * @param valeurs Le nouveau tableau de valeurs booléennes à afficher sous forme de courbe.
+	 * @param valeurs Le nouveau tableau de valeurs booléennes à afficher sous forme
+	 *                de courbe.
 	 */
 	public void changer(boolean[] valeurs) {
 		this.coordonnees = new Point2D.Float[(2 * valeurs.length) + 1];
@@ -118,9 +139,11 @@ public class VueCourbe extends Vue {
 	}
 
 	/**
-	 * Change les données de la courbe basée sur des valeurs flottantes et déclenche un redessin.
+	 * Change les données de la courbe basée sur des valeurs flottantes et déclenche
+	 * un redessin.
 	 *
-	 * @param valeurs Le nouveau tableau de valeurs flottantes à afficher sous forme de courbe.
+	 * @param valeurs Le nouveau tableau de valeurs flottantes à afficher sous forme
+	 *                de courbe.
 	 */
 	public void changer(float[] valeurs) {
 		this.coordonnees = new Point2D.Float[valeurs.length];
@@ -174,8 +197,10 @@ public class VueCourbe extends Vue {
 			y0Axe += 0;
 		}
 		getContentPane().getGraphics().drawLine(x0Axe, y0Axe, x0Axe + (int) deltaX + x0Axe, y0Axe);
-		getContentPane().getGraphics().drawLine(x0Axe + (int) deltaX + x0Axe - 5, y0Axe - 5, x0Axe + (int) deltaX + x0Axe, y0Axe);
-		getContentPane().getGraphics().drawLine(x0Axe + (int) deltaX + x0Axe - 5, y0Axe + 5, x0Axe + (int) deltaX + x0Axe, y0Axe);
+		getContentPane().getGraphics().drawLine(x0Axe + (int) deltaX + x0Axe - 5, y0Axe - 5,
+				x0Axe + (int) deltaX + x0Axe, y0Axe);
+		getContentPane().getGraphics().drawLine(x0Axe + (int) deltaX + x0Axe - 5, y0Axe + 5,
+				x0Axe + (int) deltaX + x0Axe, y0Axe);
 
 		getContentPane().getGraphics().drawLine(x0Axe, y0Axe, x0Axe, y0Axe - (int) deltaY - y0Axe);
 		getContentPane().getGraphics().drawLine(x0Axe + 5, 5, x0Axe, 0);
@@ -190,7 +215,7 @@ public class VueCourbe extends Vue {
 		} else if (yMin > 0) {
 			dy = deltaY / yMax;
 		} else if (yMax < 0) {
-			dy = - (deltaY / yMin);
+			dy = -(deltaY / yMin);
 		}
 
 		for (int i = 1; i < coordonnees.length; i++) {
