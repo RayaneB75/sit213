@@ -1,3 +1,10 @@
+![Éxécution](https://github.com/RayaneB75/sit213/actions/workflows/executable.yml/badge.svg)
+
+![Livrable](https://github.com/RayaneB75/sit213/actions/workflows/livrable.yml/badge.svg)
+
+![Validité du livrable](https://github.com/RayaneB75/sit213/actions/workflows/verif_livrable.yml/badge.svg) 
+
+
 
 # TP3 : Transmission bruitée (bruit gaussien)
 
