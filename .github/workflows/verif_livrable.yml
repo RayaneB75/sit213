@@ -1,4 +1,4 @@
-name: '[Java] Test du livrable (logiciel uniquement)'
+name: '[Bash] Test du livrable (logiciel uniquement)'
 
 on:
   pull_request:
