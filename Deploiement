@@ -161,7 +161,7 @@ fi
 echo
 #
 #
-echoMess "Lancement de l'autotest :"; sh runTests
+echoMess "Lancement de l'autotest :"; sh runCI
 #
 /bin/rm $TIMESTAMP	# on n'a plus besoin de ce fichier temporaire
 echoTitre '--- Déploiement terminé ! ---'
