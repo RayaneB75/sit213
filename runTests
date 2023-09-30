@@ -1,7 +1,10 @@
 #!/bin/bash
 
 if [ ! "$BASH_VERSION" ] ; then
-    /bin/bash ./runTests
+    if [ -f /bin/bash ] ; then
+        /bin/bash ./runTests
+        exit 0
+    fi
 fi
 
 RED="\e[31m"
