@@ -21,7 +21,12 @@
 ├── src
 │   ├── destinations                    # classes de destinations finales (récepteurs)
 │   ├── information                     # classes utilitaires pour manipuler les informations
-|   |── modulateurs                     # classes utilitaires pour manipuler les modulateurs
+|   |── codeurs                         # classes utilitaires pour manipuler les codeurs
+|   |   |── CodeurRZ                    # classe de codeur RZ
+|   |   |── CodeurNRZ                   # classe de codeur NRZ
+|   |   |── CodeurNRZT                  # classe de codeur NRZT
+|   |   |── Decodeur                    # classe de décodeur simple
+|   |   |── DecodeurNRZ                 # classe de décodeur NRZ
 │   ├── sources                         # classes de sources (émetteurs)
 │   |── simulateur                      # classes principale pour simuler les échanges
 |   |── tests                           # classes de tests JUnit
