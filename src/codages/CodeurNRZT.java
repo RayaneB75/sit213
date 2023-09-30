@@ -7,10 +7,15 @@ import information.Information;
 import information.InformationNonConformeException;
 
 /**
- * Classe d'un codeur NRZ (Non Return to Zero).
+ * Classe d'un codeur NRZT (Non Return to Zero T).
  * 
  * Un codeur NRZ reçoit une information (de type booléen) et génère une
  * information (de type float).
+ * Cette information de type float correspond à un signal NRZT, c'est-à-dire un
+ * signal dont les valeurs sont comprises entre ampMin et ampMax et dont la
+ * valeur est constante pendant nbEch/3 par symbole et dont la valeur augmente,
+ * se stabilise, puis diminue de nbEch/3 dans les trois cas pour chaque
+ * échantillon.
  * 
  */
 public class CodeurNRZT extends Codeur<Boolean, Float> {
