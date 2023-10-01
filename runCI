@@ -2,7 +2,7 @@
 
 if [ ! "$BASH_VERSION" ] ; then
     if [ -f /bin/bash ] ; then
-        /bin/bash ./runTests
+        /bin/bash ./runCI
         exit 0
     fi
 fi
