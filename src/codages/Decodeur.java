@@ -53,7 +53,7 @@ public class Decodeur extends Codeur<Float, Boolean> {
         int i = 0;
         float moyenne = 0;
         for (float information : informationRecue) {
-            if (i > nbEch / 3 && i < 2 * nbEch / 3) {
+            if (i >= nbEch / 3 && i <= 2 * nbEch / 3) {
                 moyenne += information;
             }
             i++;

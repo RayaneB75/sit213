@@ -53,36 +53,22 @@ public class CodeurRZ extends Codeur<Boolean, Float> {
      */
     protected void coder() {
         informationGeneree = new Information<Float>();
+        int delta = nbEch / 3;
+        int missing = nbEch - delta * 3;
         for (boolean i : informationRecue) {
             if (i) {
-                int ech = 0;
-                for (int j = 0; j < nbEch / 3; j++) {
+                for (int j = 0; j < delta; j++) {
                     informationGeneree.add(ampMin);
-                    ech++;
                 }
-                for (int j = 0; j < nbEch / 3; j++) {
+                for (int j = 0; j < delta + missing; j++) {
                     informationGeneree.add(ampMax);
-                    ech++;
                 }
-                for (int j = 0; j < nbEch / 3; j++) {
+                for (int j = 0; j < delta; j++) {
                     informationGeneree.add(ampMin);
-                    ech++;
-                }
-                if (ech < nbEch) {
-                    int delta = nbEch - ech;
-                    for (int j = 0; j < delta; j++)
-                        informationGeneree.add(ampMin);
                 }
             } else {
-                int ech = 0;
                 for (int j = 0; j < nbEch; j++) {
                     informationGeneree.add(ampMin);
-                    ech++;
-                }
-                if (ech < nbEch) {
-                    int delta = nbEch - ech;
-                    for (int j = 0; j < delta; j++)
-                        informationGeneree.add(ampMin);
                 }
             }
         }
