@@ -92,32 +92,22 @@ On obtient alors la valeur de $\sigma$:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{img/etape3_emission_RZ_bruite.png}
-    \caption{Graphe des sondes de la chaîne de transmission pour un message de 100 bits de forme RZ et pour un SNR de 5 }
+    \caption{Graphe des sondes de la chaîne de transmission pour un message de 100 bits de forme RZ et pour un SNR par bit de 5 dB}
     \label{fig:etape_3_RZ_bruite}
 \end{figure}
 
-On réalise la simulation d'un signal bruité RZ de 100 bits et un SNR de 5. D'après ce que l'on a déjà simulé à l'étape 2, on observe bien au niveau de la sonde pour l'émission analogique, chaque changement de valeur d'un bit logique est suivi d'un passage par l'état 0. Pour ce qui est du transmetteur bruité, on remarque très clairement l'ajout de bruit au signal d'origine. Cela va entraîner des erreurs à la sortie du transmetteur, on voit notre TEB a une valeur de 0.06.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{img/etape3_emission_RZ_bruite.png}
-    \caption{Graphe montrant l'évolution du TEB en fonction du SNR pour un signal RZ }
-    \label{fig:etape_3_RZ_bruite}
-\end{figure}
-
-L'observation que l'on peut faire de ce graphe est que la valeur du TEB va tendre vers 0.5 lorsque l'on a une valeur de SNR augmente dans les négatifs. Au contraire lorsque le SNR augmente dans les positifs, la valeur du TEB diminue, et tend vers 0. Il y a une probabilité assez importante d'avoir une erreur de codage du signal.
-
+On réalise la simulation d'un signal bruité RZ de 100 bits et un SNR de 5. D'après ce que l'on a déjà simulé à l'étape 2, on observe bien au niveau de la sonde pour l'émission analogique, chaque changement de valeur d'un bit logique est suivi d'un passage par l'état 0. Pour ce qui est du transmetteur bruité, on remarque très clairement l'ajout de bruit au signal d'origine. Cela va entraîner des erreurs à la sortie du transmetteur, on voit notre TEB a une valeur de 0,06.
 
 \subsubsection{Émission analogique NRZ d'un signal bruité}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{img/etape3_emission_NRZ_bruite.png}
-    \caption{Graphe des sondes de la chaîne de transmission pour un message de 100 bits de forme NRZ et pour un SNR de 5 db}
+    \caption{Graphe des sondes de la chaîne de transmission pour un message de 100 bits de forme NRZ et pour un SNR de 5 dB}
     \label{fig:etape_3_NRZ_bruite}
 \end{figure}
 
-On réalise la simulation d'un signal bruité NRZ de 100 bits et un SNR de 5. D'après ce que l'on a généré pour l'étape 2, on remarque bien les caractéristique du signal NRZ sur la simulation. En effet, on a bien un signal codé à l'aide de deux états, sans état intermédiaire. Pour ce qui est du transmetteur bruité, on remarque très clairement l'ajout de bruit au signal d'origine. Notamment, aux niveaux des amplitudes du signal, on observe une variation importante après l'ajout du bruit. C'est la cause de l'augmentation du TEB, l'ajout de bruit fait parfois dépasser le seuil de détection du symbole, ce qui peut empêcher la récupération du message côté récepteur. Ce phénomène est visible sur la simulation car on obtient un TEB de 0.19.
+On réalise la simulation d'un signal bruité NRZ de 100 bits et un SNR de 5. D'après ce que l'on a généré pour l'étape 2, on remarque bien les caractéristique du signal NRZ sur la simulation. En effet, on a bien un signal codé à l'aide de deux états, sans état intermédiaire. Pour ce qui est du transmetteur bruité, on remarque très clairement l'ajout de bruit au signal d'origine. Notamment, aux niveaux des amplitudes du signal, on observe une variation importante après l'ajout du bruit. C'est la cause de l'augmentation du TEB, l'ajout de bruit fait parfois dépasser le seuil de détection du symbole, ce qui peut empêcher la récupération du message côté récepteur. Ce phénomène est visible sur la simulation car on obtient un TEB de 0,19.
 
 \begin{figure}[H]
     \centering
@@ -136,14 +126,7 @@ L'analyse de la courbe ci-dessus met en évidence une relation significative ent
     \label{fig:etape_3_NRZT_bruite}
 \end{figure}
 
-On réalise la simulation d'un signal bruité NRZT de 100 bits et un SNR de 5. D'après ce que l'on a déjà simulé à l'étape 2, on observe bien au niveau de la sonde pour l'émission analogique, chaque changement de valeur d'un bit logique est réalisé de manière progressive, on voit bien une pente pour la montée et descente du symbole. Pour ce qui est du transmetteur bruité, on remarque très clairement l'ajout de bruit au signal d'origine. Cela va entraîner des erreurs à la sortie du transmetteur, on voit notre TEB a une valeur de 0.167.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{img/etape3_emission_NRZT_bruite.png}
-    \caption{Tracé du TEB en fonction du SNR par bit (semence constante, message de 100000 symboles, codage TNRZ, 30 échantillons par symbole)}
-    \label{fig:etape_3_NRZT_bruite}
-\end{figure}
+On réalise la simulation d'un signal bruité NRZT de 100 bits et un SNR de 5. D'après ce que l'on a déjà simulé à l'étape 2, on observe bien au niveau de la sonde pour l'émission analogique, chaque changement de valeur d'un bit logique est réalisé de manière progressive, on voit bien une pente pour la montée et descente du symbole. Pour ce qui est du transmetteur bruité, on remarque très clairement l'ajout de bruit au signal d'origine. Cela va entraîner des erreurs à la sortie du transmetteur, on voit notre TEB a une valeur de 0,167.
 
 L'analyse de la courbe ci-dessus met en évidence une relation significative entre le rapport signal sur bruit ($\frac{E_B}{N_0}$) et le taux d'erreur binaire (TEB/BER). En effet, lorsque le rapport signal sur bruit est faible, le TEB augmente considérablement, ce qui reflète la sensibilité du signal à un environnement bruité. À l'inverse, lorsque le SNR est élevé, le bruit a moins d'impact, ce qui se traduit par une réduction du TEB. Il convient d'observer les courbes théoriques de chaque type de modulation et de les comparer aux résultats expérimentaux de notre système.
 
