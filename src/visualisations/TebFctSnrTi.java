@@ -20,7 +20,7 @@ import simulateur.Simulateur;
  * d'erreur binaire (TEB) résultants dans un fichier CSV.
  * 
  */
-public class TebFctSnr {
+public class TebFctSnrTi {
 
     /**
      * La méthode principale qui réalise les simulations de TEB en fonction du SNR.
@@ -30,16 +30,16 @@ public class TebFctSnr {
     public static void main(String[] args) {
         // Créer un fichier CSV pour enregistrer les résultats
 
-        String csvFileName = "teb_fct_snr.csv";
+        String csvFileName = "teb_fct_snr_ti.csv";
         System.out.println("Simulation en cours...");
         try (FileWriter csvWriter = new FileWriter(csvFileName)) {
             csvWriter.append("Signal Noise Rate (SNR) par bit");
             csvWriter.append(",");
-            csvWriter.append("TEB RZ");
+            csvWriter.append("TEB RZ Ti");
             csvWriter.append(",");
-            csvWriter.append("TEB NRZ");
+            csvWriter.append("TEB NRZ Ti");
             csvWriter.append(",");
-            csvWriter.append("TEB NRZT");
+            csvWriter.append("TEB NRZT Ti");
             csvWriter.append("\n");
 
             String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
@@ -72,7 +72,7 @@ public class TebFctSnr {
         try {
             Simulateur sim = new Simulateur(
                     new String[] { "-seed", "1308", "-mess", "100000", "-form", String.valueOf(form), "-ampl", "-1f",
-                            "1f", "-snrpb",
+                            "1f", "-ti", "5", "0.4", "10", "0.25", "15", "0.2", "20", "0.1", "30", "0.05", "-snrpb",
                             String.valueOf(snr) });
             sim.execute();
             teb = sim.calculTauxErreurBinaire();
