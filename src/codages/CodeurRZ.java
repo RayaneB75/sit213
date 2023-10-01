@@ -4,14 +4,20 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
+/**
+ * Classe d'un composant ayant le comportement d'un codeur RZ
+ * Récupère une information de type Boolean et la transforme en une information
+ * de type Float
+ * 
+ */
 public class CodeurRZ extends Codeur<Boolean, Float> {
 
     /**
      * Constructeur du ModulateurRZ avec les paramètres suivants :
      * 
-     * @param nbEch
-     * @param ampMin
-     * @param ampMax
+     * @param nbEch  nombre d'échantillons par symbole
+     * @param ampMin amplitude minimale
+     * @param ampMax amplitude maximale
      */
     public CodeurRZ(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
@@ -20,7 +26,7 @@ public class CodeurRZ extends Codeur<Boolean, Float> {
     /**
      * Méthode qui reçoit une information et la stocke dans informationRecue
      * 
-     * @param information
+     * @param information l'information reçue
      */
     public void recevoir(Information<Boolean> information) throws InformationNonConformeException {
         if (information == null)
@@ -80,9 +86,9 @@ public class CodeurRZ extends Codeur<Boolean, Float> {
                 }
             }
         }
-        //if (nbEch % 3 != 0) {
-        //    informationGeneree.add(ampMin);
-        //}
+        // if (nbEch % 3 != 0) {
+        // informationGeneree.add(ampMin);
+        // }
     }
 
     /**

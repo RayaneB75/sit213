@@ -17,25 +17,62 @@ import codages.Decodeur;
 import sources.SourceFixe;
 import transmetteurs.TransmetteurParfait;
 
+/**
+ * Cette classe représente un ensemble de tests JUnit pour la classe CodeurNRZ.
+ * Elle vérifie le comportement de la classe CodeurNRZ en générant des symboles
+ * à partir de séquences de bits fixes et en effectuant différentes
+ * vérifications sur la taille de l'information générée et la cohérence entre
+ * deux instances de la classe.
+ * 
+ */
 public class CodeurNRZTest {
+
+    /**
+     * Permet de gérer les erreurs récoltées pendant les tests
+     * 
+     */
     @Rule
     public ErrorCollector collector = new ErrorCollector();
 
+    /** Attribut contenant l'information attendue après décodage */
     private static Information<Boolean> content = new Information<>(
             new Boolean[] { false, true, true, false, false, true });
+
+    /** Source utilisée par les tests */
     private SourceFixe source = null;
+
+    /** Codeur NRZ utilisé par les tests */
     private CodeurNRZ codeur = null;
+
+    /** Decodeur utilisé par les tests */
     private Decodeur decodeur = null;
+
+    /** Transmetteur parfait utilisé par les tests */
     private TransmetteurParfait<Float> transmetteurParfait = null;
+
+    /** Destination finale utilisée par les tests */
     private DestinationFinale destinationFinale = null;
 
+    /**
+     * Constructeur de la classe de test
+     */
     public CodeurNRZTest() {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * 
+     * @throws Exception si une erreur survient
+     */
     @BeforeClass
     public static void setUpClass() throws Exception {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * 
+     * @throws Exception si une erreur survient
+     */
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
@@ -60,6 +97,9 @@ public class CodeurNRZTest {
         source.connecter(codeur);
     }
 
+    /**
+     * Suppression des attributs utilisés par les tests
+     */
     @After
     public void tearDown() {
     }

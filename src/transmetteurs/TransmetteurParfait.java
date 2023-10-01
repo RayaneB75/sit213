@@ -23,7 +23,7 @@ public class TransmetteurParfait<T> extends Transmetteur<T, T> {
     /**
      * Setter de l'information reçue
      * 
-     * @param informationRecue
+     * @param informationRecue l'information reçue
      */
     public void setInformationRecue(Information<T> informationRecue) {
         this.informationRecue = informationRecue;

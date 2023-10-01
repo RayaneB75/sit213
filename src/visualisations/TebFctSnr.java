@@ -14,6 +14,12 @@ import java.io.IOException;
 
 import simulateur.Simulateur;
 
+/**
+ * Cette classe Java réalise des simulations de transmission de données à
+ * différents niveaux de rapport signal/bruit (SNR) et enregistre les taux
+ * d'erreur binaire (TEB) résultants dans un fichier CSV.
+ * 
+ */
 public class TebFctSnr {
 
     /**

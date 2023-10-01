@@ -4,6 +4,11 @@ import destinations.*;
 import information.Information;
 import information.InformationNonConformeException;
 
+/**
+ * Classe d'un composant ayant le comportement d'une sonde d'informations
+ * dont les éléments sont de type T.
+ * 
+ */
 public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
 
     private Information<Float> informationRecue;
@@ -18,8 +23,8 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
      * un constructeur factorisant les initialisations communes aux
      * réalisations de la classe abstraite Transmetteur
      * 
-     * @param dt Décalage temporel des trajets multiples
-     * @param ar Amplitude (entre 0 et 1) appliquée aux trajets multiples
+     * @param ti Tableau des décalages temporels et en amplitude des trajets
+     *           multiples
      */
     public TransmetteurMultiTrajets(float[][] ti) {
         super();

@@ -35,6 +35,9 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     /**
      * un constructeur factorisant les initialisations communes aux
      * réalisations de la classe abstraite Transmetteur
+     * 
+     * @param snrdB SNR par bit en db
+     * @param nbEch nombre d'échantillons par symbole
      */
     public TransmetteurGaussien(float snrdB, int nbEch) {
         super();
@@ -42,6 +45,14 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
         this.nbEch = nbEch;
     }
 
+    /**
+     * un constructeur factorisant les initialisations communes aux
+     * réalisations de la classe abstraite Transmetteur
+     * 
+     * @param seed  seed pour la génération du bruit
+     * @param snrdB SNR par bit en db
+     * @param nbEch nombre d'échantillons par symbole
+     */
     public TransmetteurGaussien(float snrdB, int nbEch, int seed) {
         super();
         this.snrdB = snrdB;
@@ -52,7 +63,7 @@ public class TransmetteurGaussien extends Transmetteur<Float, Float> {
     /**
      * Setter de l'information reçue
      * 
-     * @param informationRecue
+     * @param informationRecue l'information reçue
      */
     public void setInformationRecue(Information<Float> informationRecue) {
         this.informationRecue = informationRecue;

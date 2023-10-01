@@ -44,6 +44,11 @@ public class SourceAleatoire extends Source<Boolean> {
         this.informationEmise = this.informationGeneree;
     }
 
+    /**
+     * Permet de récupérer l'information générée par la source
+     * 
+     * @return l'information générée par la source
+     */
     public Information<Boolean> getInformationGeneree() {
         return this.informationGeneree;
     }

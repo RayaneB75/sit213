@@ -95,12 +95,12 @@ public class Simulateur {
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
-     * transmission composée d'une Source <Boolean>, d'une Destination
-     * <Boolean> et de Transmetteur(s) [voir la méthode
+     * transmission composée d'une Source 'Boolean', d'une Destination
+     * 'Boolean' et de Transmetteur(s) [voir la méthode
      * analyseArguments]... <br>
-     * Les différents composants de la
-     * chaîne de transmission (Source, Transmetteur(s), Destination,
-     * Sonde(s) de visualisation) sont créés et connectés.
+     * Les différents composants de la chaîne de transmission (Source,
+     * Transmetteur(s), Destination, Sonde(s) de visualisation) sont créés et
+     * connectés.
      *
      * @param args le tableau des différents arguments.
      *
@@ -213,7 +213,9 @@ public class Simulateur {
      *             <dd>f (String) NRZT, NRZ ou RZ</dd>
      *             <dt>-ampl min max</dt>
      *             <dd>Amplitude maximum et minimum a utiliser</dd>
-     *             <dt>
+     *             <dt>-ti dt ar</dt>
+     *             <dd>dt (int) décalage temporel en nombre d'échantillons, ar
+     *             (float) amplitude relative du trajet</dd>
      *             </dl>
      *
      * @throws ArgumentsException si un des arguments est incorrect.

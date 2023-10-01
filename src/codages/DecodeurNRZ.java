@@ -4,14 +4,19 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
+/**
+ * Classe d'un composant ayant le comportement d'un décodeur NRZ
+ * Récupère une information de type Float et la transforme en une information de
+ * type Boolean
+ */
 public class DecodeurNRZ extends Codeur<Float, Boolean> {
 
     /**
      * Constructeur du Decodeur NRZ avec les paramètres suivants :
      * 
-     * @param nbEch
-     * @param ampMin
-     * @param ampMax
+     * @param nbEch  nombre d'échantillons par symbole
+     * @param ampMin amplitude minimale
+     * @param ampMax amplitude maximale
      */
     public DecodeurNRZ(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
@@ -20,7 +25,7 @@ public class DecodeurNRZ extends Codeur<Float, Boolean> {
     /**
      * Méthode qui reçoit une information et la stocke dans informationRecue
      * 
-     * @param information
+     * @param information l'information reçue
      */
     public void recevoir(Information<Float> information) throws InformationNonConformeException {
         if (information == null)
@@ -48,7 +53,7 @@ public class DecodeurNRZ extends Codeur<Float, Boolean> {
         int i = 0;
         float moyenne = 0;
         for (float information : informationRecue) {
-            if (i < nbEch ) {
+            if (i < nbEch) {
                 moyenne += information;
             }
             i++;

@@ -17,25 +17,73 @@ import codages.Decodeur;
 import sources.SourceFixe;
 import transmetteurs.TransmetteurParfait;
 
+/**
+ * Cette classe représente un ensemble de tests JUnit pour la classe CodeurNRZT.
+ * Elle vérifie le comportement de la classe CodeurNRZT en générant des symboles
+ * à partir de séquences de bits fixes et en effectuant différentes
+ * vérifications sur la taille de l'information générée et la cohérence entre
+ * deux instances de la classe.
+ * 
+ */
 public class CodeurNRZTTest {
+
+    /**
+     * Permet de gérer les erreurs récoltées pendant les tests
+     */
     @Rule
     public ErrorCollector collector = new ErrorCollector();
 
+    /**
+     * Attribut contenant l'information attendue après décodage
+     * 
+     */
     private static Information<Boolean> content = new Information<>(
             new Boolean[] { false, true, true, false, false, true });
+    /**
+     * Source utilisée par les tests
+     * 
+     */
     private SourceFixe source = null;
+    /**
+     * Codeur NRZT utilisé par les tests
+     */
     private CodeurNRZT codeur = null;
+    /**
+     * Decodeur utilisé par les tests
+     */
     private Decodeur decodeur = null;
+    /**
+     * Transmetteur parfait utilisé par les tests
+     */
     private TransmetteurParfait<Float> transmetteurParfait = null;
+    /**
+     * Destination finale utilisée par les tests
+     */
     private DestinationFinale destinationFinale = null;
 
+    /**
+     * Constructeur de la classe de test
+     */
     public CodeurNRZTTest() {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * 
+     * @throws Exception si une exception est levée par l'instanciation des
+     *                   attributs
+     */
     @BeforeClass
     public static void setUpClass() throws Exception {
     }
 
+    /**
+     * Instanciation des attributs utilisés par les tests
+     * - Une source fixe avec un message de 6 bits "011001"
+     * - Un codeur RZ de 30 échantillons par symboles (180 échantillons en tout)
+     * 
+     * @throws Exception si une exception est levée par l'instanciation des
+     */
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
@@ -59,6 +107,9 @@ public class CodeurNRZTTest {
         destinationFinale = new DestinationFinale();
     }
 
+    /**
+     * On remet tous les attributs à null pour éviter les erreurs de tests
+     */
     @After
     public void tearDown() {
     }

@@ -4,14 +4,19 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConformeException;
 
+/**
+ * Classe d'un composant ayant le comportement d'un décodeur
+ * Récupère une information de type Float et la transforme en une information de
+ * type Boolean
+ */
 public class Decodeur extends Codeur<Float, Boolean> {
 
     /**
      * Constructeur du Decodeur avec les paramètres suivants :
      * 
-     * @param nbEch
-     * @param ampMin
-     * @param ampMax
+     * @param nbEch  nombre d'échantillons par symbole
+     * @param ampMin amplitude minimale
+     * @param ampMax amplitude maximale
      */
     public Decodeur(int nbEch, float ampMin, float ampMax) {
         super(nbEch, ampMin, ampMax);
@@ -20,7 +25,7 @@ public class Decodeur extends Codeur<Float, Boolean> {
     /**
      * Méthode qui reçoit une information et la stocke dans informationRecue
      * 
-     * @param information
+     * @param information l'information reçue
      */
     public void recevoir(Information<Float> information) throws InformationNonConformeException {
         if (information == null)
