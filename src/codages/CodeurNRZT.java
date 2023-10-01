@@ -51,6 +51,7 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
     protected void genererSymbole(Boolean precedent, Boolean current, Boolean next) {
         int delta = nbEch / 3;
         if (nbEch % 3 != 0) {
+            int missing = nbEch - delta * 3;
             if (current) {
                 for (int j = 0; j < delta; j++) {
                     if (precedent != null && precedent)
@@ -58,7 +59,7 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
                     else
                         informationGeneree.add((float) j / delta * ampMax);
                 }
-                for (int j = 0; j <= delta + 1; j++) {
+                for (int j = 0; j < delta + missing; j++) {
                     informationGeneree.add(ampMax);
                 }
                 for (int j = 0; j < delta; j++) {
@@ -74,7 +75,7 @@ public class CodeurNRZT extends Codeur<Boolean, Float> {
                     else
                         informationGeneree.add((float) j / delta * ampMin);
                 }
-                for (int j = 0; j <= delta + 1; j++) {
+                for (int j = 0; j < delta + missing; j++) {
                     informationGeneree.add(ampMin);
                 }
                 for (int j = 0; j < delta; j++) {
