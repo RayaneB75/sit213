@@ -56,6 +56,12 @@ public abstract class Codeur<R, E> implements DestinationInterface<R>, SourceInt
      */
     protected float ampMax = 1.0f;
 
+    public Codeur() {
+        this.destinationsConnectees = new LinkedList<DestinationInterface<E>>();
+        this.informationRecue = null;
+        this.informationGeneree = null;
+    }
+
     /**
      * Constructeur d'un codeur.
      *
