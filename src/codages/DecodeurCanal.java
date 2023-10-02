@@ -49,23 +49,29 @@ public class DecodeurCanal extends Codeur<Boolean, Boolean> {
     protected void decoder() {
         informationGeneree = new Information<Boolean>();
         String informationTrame[] = new String[informationRecue.nbElements() / 3];
+        for (int k = 0; k < informationTrame.length; k++) {
+            informationTrame[k] = "";
+        }
         int i = 0;
         int j = 0;
-        for (boolean information : informationGeneree) {
-            if (j < 3) {
-                if (information) {
-                    informationTrame[i] += "1";
-                } else {
-                    informationTrame[i] += "0";
-                }
-                j++;
+        for (boolean information : informationRecue) {
+            if (information) {
+                informationTrame[i] += "1";
             } else {
+                informationTrame[i] += "0";
+
+            }
+            j++;
+            if (j == 3) {
                 i++;
                 j = 0;
             }
         }
-        for (String information : informationTrame) {
-            if (information.equals("000") || information.equals("010") || information.equals("011") || information.equals("110")) {
+        for (
+
+        String information : informationTrame) {
+            if (information.equals("000") || information.equals("010") || information.equals("011")
+                    || information.equals("110")) {
                 informationGeneree.add(false);
             } else {
                 informationGeneree.add(true);
