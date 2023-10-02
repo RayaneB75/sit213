@@ -72,7 +72,7 @@ public class TebFctSnrCodage {
         try {
             Simulateur sim = new Simulateur(
                     new String[] { "-seed", "1308", "-mess", "100000", "-form", String.valueOf(form), "-ampl", "-1f",
-                            "1f", "-codage", "-snrpb",
+                            "1f", "-codeur", "-snrpb",
                             String.valueOf(snr) });
             sim.execute();
             teb = sim.calculTauxErreurBinaire();

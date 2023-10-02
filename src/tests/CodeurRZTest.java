@@ -98,7 +98,7 @@ public class CodeurRZTest {
      */
     @Before
     public void setUp() {
-        source = new SourceFixe(6, "011001");
+        source = new SourceFixe("011001");
         codeur = new CodeurRZ(30, 0f, 1f);
         transmetteurParfait = new TransmetteurParfait<Float>();
         decodeur = new Decodeur(30, 0f, 1f);

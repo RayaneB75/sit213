@@ -56,7 +56,7 @@ public class EstGaussienne implements DestinationInterface<Float> {
      */
     public static void main(String[] args) throws Exception {
         EstGaussienne graph = new EstGaussienne();
-        SourceFixe src = new SourceFixe(10, "0000000000");
+        SourceFixe src = new SourceFixe("0000000000");
         CodeurNRZ codeurNRZ = new CodeurNRZ(1000000, -2, 2);
         TransmetteurGaussien transmetteur = new TransmetteurGaussien(-10, 1000000);
 
