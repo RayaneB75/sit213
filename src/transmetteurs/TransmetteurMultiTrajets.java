@@ -53,8 +53,9 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
      * avec une amplitude (ar) pour simuler l'atténuation du signal
      */
     private void genererSignalRetarde() {
-        this.informationGeneree = new Float[this.informationRecue.nbElements() + maxDT];
-        for (int i = 0; i < maxDT; i++) {
+        int tab_length = this.informationRecue.nbElements() + maxDT;
+        this.informationGeneree = new Float[tab_length];
+        for (int i = 0; i < tab_length; i++) {
             this.informationGeneree[i] = 0.0f;
         }
 
@@ -63,7 +64,7 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
             float ar = trajet[1];
             int cpt = dt;
             for (float i : informationRecue) {
-                this.informationGeneree[cpt] = i * ar;
+                this.informationGeneree[cpt] += i * ar;
                 cpt++;
             }
         }
@@ -78,7 +79,7 @@ public class TransmetteurMultiTrajets extends Transmetteur<Float, Float> {
         }
 
         this.informationEmise = new Information<Float>();
-        for (int i = 0; i < informationRecue.nbElements(); i++) {
+        for (int i = 0; i < this.informationGeneree.length; i++) {
             this.informationEmise.add(informationGeneree[i]);
         }
 
