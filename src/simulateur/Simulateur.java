@@ -127,12 +127,12 @@ public class Simulateur {
                 source = new SourceAleatoire(nbBitsMess);
             }
         } else {
-            source = new SourceFixe(nbBitsMess, messageString);
+            source = new SourceFixe(messageString);
         }
         destination = new DestinationFinale();
         if (codage) {
             codeurCanal = new CodeurCanal();
-            source.connecter(new CodeurCanal());
+            source.connecter(codeurCanal);
             decodeurCanal = new DecodeurCanal();
         }
 
@@ -160,7 +160,6 @@ public class Simulateur {
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
             if (codage) {
-                source.connecter(codeurCanal);
                 codeurCanal.connecter(codeur);
             } else
                 source.connecter(codeur);
@@ -259,6 +258,7 @@ public class Simulateur {
             }
 
             else if (args[i].matches("-seed")) {
+                messageAleatoire = true;
                 aleatoireAvecGerme = true;
                 i++;
                 // traiter la valeur associee
@@ -275,7 +275,6 @@ public class Simulateur {
                 messageString = args[i];
                 if (args[i].matches("[0,1]{7,}")) { // au moins 7 digits
                     messageAleatoire = false;
-                    nbBitsMess = args[i].length();
                 } else if (args[i].matches("[0-9]{1,6}")) { // de 1 à 6 chiffres
                     messageAleatoire = true;
                     nbBitsMess = Integer.valueOf(args[i]);
@@ -340,7 +339,7 @@ public class Simulateur {
                         throw new ArgumentsException("Valeur du parametre -ti invalide :" + args[i]);
                     }
                 }
-            } else if (args[i].matches("-codage")) {
+            } else if (args[i].matches("-codeur")) {
                 this.codage = true;
             } else
                 throw new ArgumentsException("Option invalide :" + args[i]);

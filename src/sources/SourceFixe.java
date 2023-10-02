@@ -14,11 +14,11 @@ public class SourceFixe extends Source<Boolean> {
     /**
      * constructeur permettant de pour construire une source fixe de Booléens
      *
-     * @param nbBitsMess    le nombre de bits du message
      * @param messageString le message à générer
      */
-    public SourceFixe(int nbBitsMess, String messageString) {
+    public SourceFixe(String messageString) {
         super();
+        int nbBitsMess = messageString.length();
         informationGeneree = new Information<Boolean>();
         for (int i = 0; i < nbBitsMess; i++) {
             if (messageString.charAt(i) == '0') {
