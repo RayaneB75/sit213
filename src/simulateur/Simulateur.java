@@ -20,6 +20,8 @@ import codages.DecodeurNRZ;
 import codages.CodeurRZ;
 import codages.CodeurNRZ;
 import codages.CodeurNRZT;
+import codages.CodeurCanal;
+import codages.DecodeurCanal;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -78,6 +80,10 @@ public class Simulateur {
     /** le decodeur */
     private Codeur<Float, Boolean> decodeur = null;
 
+    /** le codeur du canal et son décodeur */
+    private Codeur<Boolean, Boolean> codeurCanal = null;
+    private Codeur<Boolean, Boolean> decodeurCanal = null;
+
     /** l'amplitude minimale */
     private float amplitudeMin = 0.0f;
 
@@ -92,6 +98,9 @@ public class Simulateur {
 
     /** décalage temporel (en nombre d’échantillons) */
     private float[][] ti = null;
+
+    /** activation du codage canal ou non */
+    private boolean codage = false;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de
@@ -118,9 +127,14 @@ public class Simulateur {
                 source = new SourceAleatoire(nbBitsMess);
             }
         } else {
-            source = new SourceFixe(nbBitsMess, messageString);
+            source = new SourceFixe(messageString);
         }
         destination = new DestinationFinale();
+        if (codage) {
+            codeurCanal = new CodeurCanal();
+            source.connecter(codeurCanal);
+            decodeurCanal = new DecodeurCanal();
+        }
 
         if (form != "") {
             switch (form) {
@@ -145,7 +159,10 @@ public class Simulateur {
                     transmetteurAnalogique = new TransmetteurGaussien(snrpb, nbEch);
             else
                 transmetteurAnalogique = new TransmetteurParfait<Float>();
-            source.connecter(codeur);
+            if (codage) {
+                codeurCanal.connecter(codeur);
+            } else
+                source.connecter(codeur);
             if (ti != null) {
                 transmetteurMultiTrajets = new TransmetteurMultiTrajets(ti);
                 codeur.connecter(transmetteurMultiTrajets);
@@ -154,10 +171,18 @@ public class Simulateur {
                 codeur.connecter(transmetteurAnalogique);
             }
             transmetteurAnalogique.connecter(decodeur);
-            decodeur.connecter(destination);
+            if (codage) {
+                decodeur.connecter(decodeurCanal);
+                decodeurCanal.connecter(destination);
+            } else
+                decodeur.connecter(destination);
         } else {
             transmetteurLogique = new TransmetteurParfait<Boolean>();
-            source.connecter(transmetteurLogique);
+            if (codage) {
+                source.connecter(codeurCanal);
+                codeurCanal.connecter(transmetteurLogique);
+            } else
+                source.connecter(transmetteurLogique);
             transmetteurLogique.connecter(destination);
         }
         if (affichage) {
@@ -177,7 +202,10 @@ public class Simulateur {
                 sondeAnaD = new SondeAnalogique("Sortie transmetteur analogique");
                 codeur.connecter(sondeAnaS);
                 transmetteurAnalogique.connecter(sondeAnaD);
-                decodeur.connecter(sondeLogD);
+                if (codage)
+                    decodeurCanal.connecter(sondeLogD);
+                else
+                    decodeur.connecter(sondeLogD);
             } else {
                 // Sinon on connecte uniquement une sonde logique à la sortie du transmetteur
                 // logique
@@ -230,6 +258,7 @@ public class Simulateur {
             }
 
             else if (args[i].matches("-seed")) {
+                messageAleatoire = true;
                 aleatoireAvecGerme = true;
                 i++;
                 // traiter la valeur associee
@@ -246,7 +275,6 @@ public class Simulateur {
                 messageString = args[i];
                 if (args[i].matches("[0,1]{7,}")) { // au moins 7 digits
                     messageAleatoire = false;
-                    nbBitsMess = args[i].length();
                 } else if (args[i].matches("[0-9]{1,6}")) { // de 1 à 6 chiffres
                     messageAleatoire = true;
                     nbBitsMess = Integer.valueOf(args[i]);
@@ -311,6 +339,8 @@ public class Simulateur {
                         throw new ArgumentsException("Valeur du parametre -ti invalide :" + args[i]);
                     }
                 }
+            } else if (args[i].matches("-codeur")) {
+                this.codage = true;
             } else
                 throw new ArgumentsException("Option invalide :" + args[i]);
         }

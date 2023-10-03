@@ -100,13 +100,18 @@ test_cases=(
     "-mess 100 -seed 1308 -form NRZ -snrpb 3f -nbEch 100 -ti 20 0.4"
     "-mess 100 -seed 1308 -form NRZ -snrpb 5f -nbEch 100"
     "-mess 100 -seed 1308 -form NRZ -snrpb 5f -nbEch 100 -ti 20 0.4"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 -s"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 -s"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 40 0.2 -s"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 40 0.2 50 0.1 -s"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 40 0.2 50 0.1 60 0.05 -s"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb 3f -ti 20 0.4 -s"
-    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb 30f -ti 20 0.4 -s"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 40 0.2"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 40 0.2 50 0.1"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -ti 20 0.4 30 0.3 40 0.2 50 0.1 60 0.05"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb 3f -ti 20 0.4"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb 30f -ti 20 0.4"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb 30f -codeur -s"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb 3f -codeur -s"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb -3f -s"
+    "-mess 10 -seed 1308 -form NRZT -nbEch 100 -snrpb -3f -codeur -s"
+    
 )
 cpt=0
 for cmd in "${test_cases[@]}"; do
