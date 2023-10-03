@@ -59,12 +59,14 @@ public class DecodeurCanal extends Codeur<Boolean, Boolean> {
                 informationTrame[i] += "1";
             } else {
                 informationTrame[i] += "0";
-
             }
             j++;
             if (j == 3) {
                 i++;
                 j = 0;
+            }
+            if (i == informationTrame.length) {
+                break;
             }
         }
         for (
