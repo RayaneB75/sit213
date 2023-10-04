@@ -44,7 +44,7 @@ public class TebFctSnrCodage {
 
             String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
 
-            for (int snr = -20; snr <= 15; snr++) {
+            for (int snr = -10; snr <= 15; snr++) {
                 csvWriter.append(String.valueOf(snr));
                 for (String form : forms) {
                     float teb = runSimulation(snr, form);
@@ -52,6 +52,21 @@ public class TebFctSnrCodage {
                     csvWriter.append(String.valueOf(teb));
                 }
                 csvWriter.append("\n");
+
+                // Progress bar
+                int total = 36;
+                int percentage = ((snr + 20) * 100) / total;
+                // Update progress bar
+                System.out.print("\rProgression: [");
+                for (int j = 0; j <= 100; j++) {
+                    if (j <= percentage) {
+                        System.out.print("=");
+                    } else {
+                        System.out.print(" ");
+                    }
+                }
+                System.out.print("] " + percentage + "%");
+
             }
 
             System.out.println("Simulation terminée. Résultats enregistrés dans " + csvFileName);

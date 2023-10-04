@@ -44,7 +44,7 @@ public class TebFctSnr {
 
             String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
 
-            for (int snr = -20; snr <= 15; snr++) {
+            for (int snr = -10; snr <= 15; snr++) {
                 csvWriter.append(String.valueOf(snr));
                 for (String form : forms) {
                     float teb = runSimulation(snr, form);
