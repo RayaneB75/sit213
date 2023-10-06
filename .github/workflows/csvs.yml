@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  compile_and_execute:
+  generate_csv:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Java project
