@@ -1,0 +1,6 @@
+#!/bin/bash
+
+java -cp bin/ visualisations.TebFctSnr 
+java -cp bin/ visualisations.TebFctSnr -codeur
+java -cp bin/ visualisations.TebFctSnr -ti
+java -cp bin/ visualisations.TebFctSnr -codeur -ti

@@ -1,0 +1,23 @@
+name: '[Java] Génération des graphes'
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  compile_and_execute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Java project
+        uses: actions/checkout@v3
+      - name: Set up JDK 20
+        uses: actions/setup-java@v3
+        with:
+          java-version: '20'
+          distribution: oracle
+      - name: Build with script
+        id: build
+        run: ./compile
+      - name: Exec with script
+        if: steps.build.outputs.exit_code == 0
+        run: ./csvs
