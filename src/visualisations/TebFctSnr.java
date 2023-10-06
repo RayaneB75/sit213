@@ -21,14 +21,14 @@ import simulateur.Simulateur;
  * d'erreur binaire (TEB) résultants dans un fichier CSV.
  * 
  */
-public abstract class TebFctSnr {
+public class TebFctSnr {
 
     protected Simulateur simulateur;
 
     protected String form;
 
     protected Boolean codeur;
-    protected boolean ti;
+    protected Boolean ti;
 
     protected String csvFileName;
 
@@ -124,4 +124,21 @@ public abstract class TebFctSnr {
         // Retourner le TEB calculé
         return teb;
     }
+
+    public static void main(String[] args) {
+        Boolean codeur = false;
+        Boolean ti = false;
+        for (int i = 0; i < args.length; i++) { // traiter les arguments 1 par 1
+            if (args[i].matches("-ti")) {
+                ti = true;
+            } else if (args[i].matches("-codeur")) {
+                codeur = true;
+            } else {
+                throw new IllegalArgumentException("Argument " + args[i] + " non reconnu");
+            }
+        }
+        TebFctSnr simu = new TebFctSnr(codeur, ti);
+        simu.loop();
+    }
+
 }
