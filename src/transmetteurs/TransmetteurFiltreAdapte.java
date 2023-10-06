@@ -82,7 +82,7 @@ public class TransmetteurFiltreAdapte extends Transmetteur<Float, Boolean> {
             }
             
             float[] conv0 = convolution(symbole, filtreAdapte0);
-            float[] conv1 = convolution(symbole, filtreAdapte0);
+            float[] conv1 = convolution(symbole, filtreAdapte1);
             
             float max0 = max(conv0);
             float max1 = max(conv1);
