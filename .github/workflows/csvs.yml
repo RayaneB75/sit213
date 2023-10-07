@@ -19,9 +19,11 @@ jobs:
         id: build
         run: ./compile
       - name: Exec with script
+        id: exec
         if: steps.build.outputs.exit_code == 0
-        run: ./genGraphs
+        run: /bin/sh ./genGraphs
       - name: Upload artifact
+        if: steps.exec.outputs.exit_code == 0
         uses: actions/upload-artifact@v3
         with:
           path: ./*.csv
