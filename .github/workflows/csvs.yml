@@ -20,4 +20,9 @@ jobs:
         run: ./compile
       - name: Exec with script
         if: steps.build.outputs.exit_code == 0
-        run: ./genCsv
+        run: ./genGraphs
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Résultats de simulation
+          path: *.csv
