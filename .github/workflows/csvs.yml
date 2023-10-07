@@ -24,5 +24,4 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Résultats de simulation
-          path: *.csv
+          path: ./*.csv

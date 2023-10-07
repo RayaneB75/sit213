@@ -69,7 +69,7 @@ public class TebFctSnr {
     protected void loop() {
         // Créer un fichier CSV pour enregistrer les résultats
 
-        System.out.println("Simulation en cours pour " + this.csvFileName + "...");
+        System.out.println("Simulations en cours pour " + this.csvFileName + "...");
         String endTitle = (this.codeur ? " Codeur" : "" + (this.ti ? " Ti" : ""));
         try (FileWriter csvWriter = new FileWriter(csvFileName)) {
             csvWriter.append("SnrPb");
@@ -82,18 +82,31 @@ public class TebFctSnr {
             csvWriter.append("\n");
 
             String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
-
+            System.out.print("Progression : [");
             for (int snr = -10; snr <= 15; snr++) {
                 csvWriter.append(String.valueOf(snr));
                 for (String form : forms) {
+
                     float teb = runSimulation(form, snr);
                     csvWriter.append(",");
                     csvWriter.append(String.valueOf(teb));
+
                 }
+                // Update progress bar
+                int percentage = ((snr + 10) * 100) / 25;
+                System.out.print("\rProgress: [");
+                for (int j = 0; j <= 100; j++) {
+                    if (j <= percentage) {
+                        System.out.print("=");
+                    } else {
+                        System.out.print(" ");
+                    }
+                }
+                System.out.print("] " + percentage + "%");
                 csvWriter.append("\n");
             }
 
-            System.out.println("Simulation terminée");
+            System.out.println("\nSimulations terminées");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,7 +127,6 @@ public class TebFctSnr {
             loc_args.add(String.valueOf(snr));
             loc_args.add("-form");
             loc_args.add(form);
-            System.out.println(loc_args);
             Simulateur sim = new Simulateur(loc_args.toArray(new String[loc_args.size()]));
             sim.execute();
             teb = sim.calculTauxErreurBinaire();
