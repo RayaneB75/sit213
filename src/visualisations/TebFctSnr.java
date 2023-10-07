@@ -70,7 +70,8 @@ public class TebFctSnr {
         // Créer un fichier CSV pour enregistrer les résultats
 
         System.out.println("Simulations en cours pour " + this.csvFileName + "...");
-        String endTitle = (this.codeur ? " Codeur" : "" + (this.ti ? " Ti" : ""));
+        String endTitle = (this.codeur ? " Codeur" : "");
+        endTitle += (this.ti ? " Ti" : "");
         try (FileWriter csvWriter = new FileWriter(csvFileName)) {
             csvWriter.append("SnrPb");
             csvWriter.append(",");
@@ -94,7 +95,7 @@ public class TebFctSnr {
                 }
                 // Update progress bar
                 int percentage = ((snr + 10) * 100) / 25;
-                System.out.print("\rProgress: [");
+                System.out.print("\rProgression: [");
                 for (int j = 0; j <= 100; j++) {
                     if (j <= percentage) {
                         System.out.print("=");
