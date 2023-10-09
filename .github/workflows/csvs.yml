@@ -1,10 +1,11 @@
-name: '[Java] Tests de vérification exécution'
+name: '[Java] Génération des graphes'
 
 on:
-  push
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  executings_ci_tests:
+  generate_csv:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Java project
@@ -18,5 +19,11 @@ jobs:
         id: build
         run: ./compile
       - name: Exec with script
+        id: exec
         if: steps.build.outputs.exit_code == 0
-        run: ./runCI
+        run: /bin/sh ./genGraphs
+      - name: Upload artifact
+        if: steps.exec.outputs.exit_code == 0
+        uses: actions/upload-artifact@v3
+        with:
+          path: ./*.csv

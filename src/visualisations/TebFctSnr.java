@@ -11,6 +11,7 @@ package visualisations;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import simulateur.Simulateur;
 
@@ -22,39 +23,91 @@ import simulateur.Simulateur;
  */
 public class TebFctSnr {
 
+    protected Simulateur simulateur;
+
+    protected String form;
+
+    protected Boolean codeur;
+    protected Boolean ti;
+
+    protected String csvFileName;
+
+    protected LinkedList<String> args = new LinkedList<String>();
+
+    public TebFctSnr(Boolean codeur, Boolean ti) {
+        addBasicArgs();
+        this.codeur = codeur;
+        this.ti = ti;
+        this.csvFileName = "teb_fct_snr";
+        if (ti) {
+            addSpecificArgs(new String[] { "-ti", "5", "0.4", "10", "0.25", "15", "0.2", "20", "0.1", "30", "0.05" });
+            this.csvFileName += "_ti";
+        }
+        if (codeur) {
+            addSpecificArgs(new String[] { "-codeur" });
+            this.csvFileName += "_codeur";
+        }
+        this.csvFileName += ".csv";
+    }
+
+    private void addBasicArgs() {
+        String[] basic_args = new String[] { "-seed", "1308", "-mess", "100000", "-ampl", "-1f", "1f" };
+
+        addSpecificArgs(basic_args);
+    }
+
+    protected void addSpecificArgs(String[] specific_args) {
+        for (String arg : specific_args) {
+            args.add(arg);
+        }
+    }
+
     /**
      * La méthode principale qui réalise les simulations de TEB en fonction du SNR.
      *
-     * @param args Les arguments de ligne de commande (non utilisés dans ce script).
      */
-    public static void main(String[] args) {
+    protected void loop() {
         // Créer un fichier CSV pour enregistrer les résultats
 
-        String csvFileName = "teb_fct_snr.csv";
-        System.out.println("Simulation en cours...");
+        System.out.println("Simulations en cours pour " + this.csvFileName + "...");
+        String endTitle = (this.codeur ? " Codeur" : "");
+        endTitle += (this.ti ? " Ti" : "");
         try (FileWriter csvWriter = new FileWriter(csvFileName)) {
-            csvWriter.append("Signal Noise Rate (SNR) par bit");
+            csvWriter.append("SnrPb");
             csvWriter.append(",");
-            csvWriter.append("TEB RZ");
+            csvWriter.append("TEB RZ" + endTitle);
             csvWriter.append(",");
-            csvWriter.append("TEB NRZ");
+            csvWriter.append("TEB NRZ" + endTitle);
             csvWriter.append(",");
-            csvWriter.append("TEB NRZT");
+            csvWriter.append("TEB NRZT" + endTitle);
             csvWriter.append("\n");
 
             String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
-
-            for (int snr = -20; snr <= 15; snr++) {
+            System.out.print("Progression : [");
+            for (int snr = -10; snr <= 15; snr++) {
                 csvWriter.append(String.valueOf(snr));
                 for (String form : forms) {
-                    float teb = runSimulation(snr, form);
+
+                    float teb = runSimulation(form, snr);
                     csvWriter.append(",");
                     csvWriter.append(String.valueOf(teb));
+
                 }
+                // Update progress bar
+                int percentage = ((snr + 10) * 100) / 25;
+                System.out.print("\rProgression: [");
+                for (int j = 0; j <= 100; j++) {
+                    if (j <= percentage) {
+                        System.out.print("=");
+                    } else {
+                        System.out.print(" ");
+                    }
+                }
+                System.out.print("] " + percentage + "%");
                 csvWriter.append("\n");
             }
 
-            System.out.println("Simulation terminée. Résultats enregistrés dans " + csvFileName);
+            System.out.println("\nSimulations terminées");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,13 +120,15 @@ public class TebFctSnr {
      * @param snr Le rapport signal/bruit (SNR) spécifié en dB.
      * @return Le taux d'erreur binaire (TEB) calculé pour la simulation.
      */
-    private static float runSimulation(int snr, String form) {
+    private float runSimulation(String form, float snr) {
         float teb = 0;
+        LinkedList<String> loc_args = new LinkedList<String>(this.args);
         try {
-            Simulateur sim = new Simulateur(
-                    new String[] { "-seed", "1308", "-mess", "100000", "-form", String.valueOf(form), "-ampl", "-1f",
-                            "1f", "-snrpb",
-                            String.valueOf(snr) });
+            loc_args.add("-snrpb");
+            loc_args.add(String.valueOf(snr));
+            loc_args.add("-form");
+            loc_args.add(form);
+            Simulateur sim = new Simulateur(loc_args.toArray(new String[loc_args.size()]));
             sim.execute();
             teb = sim.calculTauxErreurBinaire();
         } catch (Exception e) {
@@ -82,4 +137,21 @@ public class TebFctSnr {
         // Retourner le TEB calculé
         return teb;
     }
+
+    public static void main(String[] args) {
+        Boolean codeur = false;
+        Boolean ti = false;
+        for (int i = 0; i < args.length; i++) { // traiter les arguments 1 par 1
+            if (args[i].matches("-ti")) {
+                ti = true;
+            } else if (args[i].matches("-codeur")) {
+                codeur = true;
+            } else {
+                throw new IllegalArgumentException("Argument " + args[i] + " non reconnu");
+            }
+        }
+        TebFctSnr simu = new TebFctSnr(codeur, ti);
+        simu.loop();
+    }
+
 }
