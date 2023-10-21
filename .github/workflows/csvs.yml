@@ -1,8 +1,8 @@
 name: '[Java] Génération des graphes'
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  push:
+    branches: [ "graphs" ]
 
 jobs:
   generate_csv:
