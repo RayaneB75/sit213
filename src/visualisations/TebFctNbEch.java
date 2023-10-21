@@ -29,9 +29,12 @@ public class TebFctNbEch {
 
     protected String csvFileName;
 
+    protected Boolean codeur;
+
     protected LinkedList<String> args = new LinkedList<String>();
 
     public TebFctNbEch(Boolean codeur) {
+        this.codeur = codeur;
         addBasicArgs();
         this.csvFileName = "teb_fct_nbEch";
         if (codeur) {
@@ -42,8 +45,7 @@ public class TebFctNbEch {
     }
 
     private void addBasicArgs() {
-        String[] basic_args = new String[] { "-seed", "1308", "-mess", "100000", "-ti", "10", "0.5", "-ampl", "-1f",
-                "1f" };
+        String[] basic_args = new String[] { "-seed", "1308", "-mess", "1000", "-ti", "500", "0.5", "-snrpb", "7" };
 
         addSpecificArgs(basic_args);
     }
@@ -65,26 +67,26 @@ public class TebFctNbEch {
         try (FileWriter csvWriter = new FileWriter(csvFileName)) {
             csvWriter.append("NbEch");
             csvWriter.append(",");
-            csvWriter.append("TEB SnrPB = 15 dB");
+            csvWriter.append("TEB RZ");
             csvWriter.append(",");
-            csvWriter.append("TEB SnrPB = 10 dB");
+            csvWriter.append("TEB NRZ");
             csvWriter.append(",");
-            csvWriter.append("TEB SnrPB = 5 dB");
+            csvWriter.append("TEB NRZT");
             csvWriter.append("\n");
 
-            String[] SNRs = new String[] { "15", "10", "5" };
+            String[] forms = new String[] { "RZ", "NRZ", "NRZT" };
             System.out.print("Progression : [");
-            for (int nbEch = 100; nbEch >= 1; nbEch--) {
+            for (int nbEch = 3; nbEch <= 1000; nbEch += 10) {
                 csvWriter.append(String.valueOf(nbEch));
-                for (String snr : SNRs) {
+                for (String form : forms) {
 
-                    float teb = runSimulation(snr, nbEch);
+                    float teb = runSimulation(form, nbEch);
                     csvWriter.append(",");
                     csvWriter.append(String.valueOf(teb));
 
                 }
                 // Update progress bar
-                int percentage = (100 - nbEch);
+                int percentage = ((nbEch - 10) / 100) * 100;
                 System.out.print("\rProgression: [");
                 for (int j = 0; j <= 100; j++) {
                     if (j <= percentage) {
@@ -110,14 +112,14 @@ public class TebFctNbEch {
      * @param snr Le rapport signal/bruit (SNR) spécifié en dB.
      * @return Le taux d'erreur binaire (TEB) calculé pour la simulation.
      */
-    private float runSimulation(String snr, int nbEch) {
+    private float runSimulation(String form, int nbEch) {
         float teb = 0;
         LinkedList<String> loc_args = new LinkedList<String>(this.args);
         try {
             loc_args.add("-nbEch");
             loc_args.add(String.valueOf(nbEch));
-            loc_args.add("-snrpb");
-            loc_args.add(snr);
+            loc_args.add("-form");
+            loc_args.add(form);
             String[] finalargs = loc_args.toArray(new String[loc_args.size()]);
             Simulateur sim = new Simulateur(finalargs);
             sim.execute();
